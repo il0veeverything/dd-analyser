@@ -386,12 +386,18 @@
     </button>
   </header>
 
-  <!-- Top Controls (Camera Select) -->
+  <!-- Top Controls (Camera & FPS Select) -->
   <div class="card toolbar-container">
     <div class="select-wrapper">
       <span class="icon" style="color: var(--md-sys-color-primary);">videocam</span>
       <select id="camera-select">
         <option value="">カメラを準備中...</option>
+      </select>
+    </div>
+    <div class="select-wrapper">
+      <span class="icon" style="color: var(--md-sys-color-primary);">speed</span>
+      <select id="fps-select">
+        <option value="30">30 FPS</option>
       </select>
     </div>
   </div>
@@ -495,6 +501,7 @@
     const canvasElement = document.getElementById('output_canvas');
     const canvasCtx = canvasElement.getContext('2d');
     const cameraSelect = document.getElementById('camera-select');
+    const fpsSelect = document.getElementById('fps-select');
     const mediaContainer = document.getElementById('media-container');
     
     const zoomSlider = document.getElementById('zoom-slider');
@@ -515,6 +522,7 @@
     let flipH = flipHCheck.checked;
     let flipV = flipVCheck.checked;
     let rotationAngle = parseInt(rotationSelect.value, 10);
+    let currentFps = 30;
 
     zoomSlider.addEventListener('input', (e) => {
       zoomFactor = parseFloat(e.target.value);
@@ -958,20 +966,96 @@
       animFrameId = requestAnimationFrame(processVideoFrame);
     }
 
-    async function startCamera(deviceId) {
+    async function updateSupportedFpsOptions(deviceId) {
+      const candidateFps = [30, 60, 120, 240];
+      const supportedFps = [];
+
+      // 対象デバイスのストリームを取得して判定
+      try {
+        const tempStream = await navigator.mediaDevices.getUserMedia({
+          video: deviceId ? { deviceId: { exact: deviceId } } : true
+        });
+        const track = tempStream.getVideoTracks()[0];
+        const capabilities = track.getCapabilities ? track.getCapabilities() : {};
+
+        let maxSupported = 30;
+        if (capabilities.frameRate && capabilities.frameRate.max) {
+          maxSupported = capabilities.frameRate.max;
+        } else {
+          // getCapabilities非対応ブラウザの場合はMediaCapabilities APIで確認を試みる
+          for (const fps of candidateFps) {
+            if (navigator.mediaCapabilities) {
+              try {
+                const info = await navigator.mediaCapabilities.decodingInfo({
+                  type: 'file',
+                  video: {
+                    contentType: 'video/mp4; codecs="avc1.42E01E"',
+                    width: 1280,
+                    height: 720,
+                    bitrate: 10000000,
+                    framerate: fps
+                  }
+                });
+                if (info.supported) maxSupported = Math.max(maxSupported, fps);
+              } catch (e) {}
+            }
+          }
+        }
+
+        tempStream.getTracks().forEach(t => t.stop());
+
+        // 最大対応FPSまでの選択肢を抽出
+        candidateFps.forEach(fps => {
+          if (fps <= Math.max(30, maxSupported)) {
+            supportedFps.push(fps);
+          }
+        });
+      } catch (err) {
+        supportedFps.push(30);
+      }
+
+      fpsSelect.innerHTML = '';
+      supportedFps.forEach(fps => {
+        const option = document.createElement('option');
+        option.value = fps;
+        option.text = `${fps} FPS`;
+        if (fps === currentFps) option.selected = true;
+        fpsSelect.appendChild(option);
+      });
+
+      // 現在の選択値が候補にない場合は一番近い値（最大のサポートFPS）に設定
+      if (!supportedFps.includes(currentFps)) {
+        currentFps = supportedFps[supportedFps.length - 1];
+        fpsSelect.value = currentFps;
+      }
+    }
+
+    async function startCamera(deviceId, targetFps = 30) {
       if (animFrameId) cancelAnimationFrame(animFrameId);
       if (currentStream) {
         currentStream.getTracks().forEach(track => track.stop());
       }
 
       const constraints = {
-        video: deviceId ? { deviceId: { exact: deviceId }, width: { ideal: 1280 }, height: { ideal: 720 } } : { width: { ideal: 1280 }, height: { ideal: 720 } }
+        video: {
+          ...(deviceId ? { deviceId: { exact: deviceId } } : {}),
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
+          frameRate: { ideal: targetFps, max: targetFps }
+        }
       };
 
       try {
         currentStream = await navigator.mediaDevices.getUserMedia(constraints);
         videoElement.srcObject = currentStream;
         await videoElement.play();
+
+        // 実際に適用されたFPSを取得・確認
+        const track = currentStream.getVideoTracks()[0];
+        const settings = track.getSettings();
+        if (settings.frameRate) {
+          currentFps = Math.round(settings.frameRate);
+        }
 
         processVideoFrame();
       } catch (err) {
@@ -1000,7 +1084,10 @@
         });
 
         tempStream.getTracks().forEach(track => track.stop());
-        startCamera(videoDevices[0].deviceId);
+
+        const initialDeviceId = videoDevices[0].deviceId;
+        await updateSupportedFpsOptions(initialDeviceId);
+        startCamera(initialDeviceId, parseInt(fpsSelect.value, 10));
 
       } catch (err) {
         console.error("カメラへのアクセス許可が得られませんでした: ", err);
@@ -1008,10 +1095,17 @@
       }
     }
 
-    cameraSelect.addEventListener('change', (e) => {
+    cameraSelect.addEventListener('change', async (e) => {
       if (e.target.value) {
-        startCamera(e.target.value);
+        await updateSupportedFpsOptions(e.target.value);
+        startCamera(e.target.value, parseInt(fpsSelect.value, 10));
       }
+    });
+
+    fpsSelect.addEventListener('change', (e) => {
+      const selectedFps = parseInt(e.target.value, 10);
+      currentFps = selectedFps;
+      startCamera(cameraSelect.value, selectedFps);
     });
 
     setupCameraList();
