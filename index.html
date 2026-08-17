@@ -76,6 +76,11 @@
       gap: 8px;
     }
 
+    .header-btns {
+      display: flex;
+      gap: 8px;
+    }
+
     .icon {
       font-family: 'Material Symbols Outlined';
       font-weight: normal;
@@ -132,7 +137,7 @@
       border-color: var(--md-sys-color-primary);
     }
 
-    /* Top Toolbar Controls */
+    /* Controls Container */
     .toolbar-container {
       display: flex;
       gap: 12px;
@@ -151,7 +156,7 @@
       border: 1px solid var(--md-sys-color-outline);
     }
 
-    select, input[type="file"] {
+    select, input[type="file"], input[type="number"], input[type="text"] {
       background: transparent;
       color: var(--md-sys-color-on-surface);
       border: none;
@@ -166,7 +171,6 @@
       color: var(--md-sys-color-on-surface);
     }
 
-    /* File Input Styling */
     .file-input-label {
       display: flex;
       align-items: center;
@@ -180,12 +184,11 @@
       display: none;
     }
 
-    /* Video Player Controls */
+    /* Video Controls */
     .video-controls {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-top: 10px;
       width: 100%;
       background: var(--md-sys-color-surface-container);
       padding: 8px 14px;
@@ -230,8 +233,20 @@
       transition: opacity 0.2s;
     }
 
-    .btn-filled-error:hover {
-      opacity: 0.85;
+    .btn-filled-error:hover { opacity: 0.85; }
+
+    .btn-secondary {
+      background: var(--md-sys-color-surface-container-high);
+      color: var(--md-sys-color-on-surface);
+      border: 1px solid var(--md-sys-color-outline);
+      padding: 8px 16px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: var(--md-shape-corner-full);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .btn-primary {
@@ -249,9 +264,7 @@
       transition: all 0.2s;
     }
 
-    .btn-primary:hover {
-      opacity: 0.9;
-    }
+    .btn-primary:hover { opacity: 0.9; }
 
     .btn-primary:disabled {
       background: var(--md-sys-color-secondary-container);
@@ -270,28 +283,93 @@
       gap: 4px;
     }
 
-    /* Config Accordion */
-    .config-header {
+    /* Modals Overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      cursor: pointer;
-      user-select: none;
-      font-weight: 500;
-      color: var(--md-sys-color-primary);
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
     }
 
-    .config-content {
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: var(--md-sys-color-surface);
+      width: 90%;
+      max-width: 600px;
+      max-height: 85vh;
+      border-radius: var(--md-shape-corner-large);
+      border: 1px solid var(--md-sys-color-surface-container-high);
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      margin-top: 16px;
-      padding-top: 12px;
-      border-top: 1px solid var(--md-sys-color-surface-container-high);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
     }
 
-    .config-content.hidden {
-      display: none;
+    .modal-header {
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--md-sys-color-surface-container-high);
+    }
+
+    .modal-title {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--md-sys-color-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-body {
+      padding: 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .modal-footer {
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      border-top: 1px solid var(--md-sys-color-surface-container-high);
+      background: var(--md-sys-color-surface-container);
+    }
+
+    .section-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--md-sys-color-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .config-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: var(--md-sys-color-surface-container);
+      padding: 12px;
+      border-radius: var(--md-shape-corner-medium);
     }
 
     .slider-group {
@@ -303,7 +381,7 @@
 
     .slider-group label {
       color: var(--md-sys-color-on-surface-variant);
-      width: 150px;
+      width: 160px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
@@ -349,6 +427,46 @@
       cursor: pointer;
     }
 
+    /* History List Styling */
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .history-item {
+      background: var(--md-sys-color-surface-container);
+      padding: 12px 16px;
+      border-radius: var(--md-shape-corner-medium);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .history-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .history-date {
+      font-size: 0.8rem;
+      color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .history-count {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: var(--md-sys-color-primary);
+      font-family: 'Roboto Mono', monospace;
+    }
+
+    .history-actions {
+      display: flex;
+      gap: 8px;
+    }
+
     /* Media View */
     #media-container {
       position: relative;
@@ -361,14 +479,133 @@
       transition: aspect-ratio 0.2s ease;
     }
 
-    #input_video {
-      display: none;
+    #media-container:fullscreen {
+      max-width: none;
+      width: 100vw;
+      height: 100vh;
+      border-radius: 0;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+
+    #input_video { display: none; }
 
     #output_canvas {
       width: 100%;
       height: 100%;
       display: block;
+      object-fit: contain;
+    }
+
+    /* Circular Overlay Recording Button */
+    .record-circle-btn {
+      position: absolute;
+      z-index: 20;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(8px);
+      border: 3px solid rgba(255, 255, 255, 0.8);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease, transform 0.2s ease, background 0.2s ease;
+      padding: 0;
+      outline: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .record-circle-btn:hover {
+      background: rgba(255, 255, 255, 0.4);
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+
+    .record-circle-inner {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: #ff3b30;
+      transition: all 0.2s ease;
+    }
+
+    .record-circle-btn.recording .record-circle-inner {
+      border-radius: 4px;
+      width: 22px;
+      height: 22px;
+    }
+
+    /* Layout configurations based on preview orientation */
+    #media-container.landscape .record-circle-btn {
+      top: 50%;
+      right: 24px;
+      transform: translateY(-50%);
+    }
+    #media-container.landscape .record-circle-btn:hover {
+      transform: translateY(-50%) scale(1.05);
+    }
+
+    #media-container.portrait .record-circle-btn {
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    #media-container.portrait .record-circle-btn:hover {
+      transform: translateX(-50%) scale(1.05);
+    }
+
+    .record-circle-btn.hidden-fade {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Countdown Overlay Element */
+    .countdown-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 30;
+      font-family: 'Roboto', sans-serif;
+      font-size: 7rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.8), 0 0 10px rgba(0,0,0,0.5);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .countdown-overlay.visible {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    /* Fullscreen Floating Trigger */
+    .fullscreen-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 20;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      transition: background 0.2s;
+    }
+
+    .fullscreen-btn:hover {
+      background: rgba(0, 0, 0, 0.8);
     }
 
     /* Metrics Dashboard Grid */
@@ -403,9 +640,7 @@
       color: var(--md-sys-color-primary);
     }
 
-    .metric-value.count {
-      color: #81c784;
-    }
+    .metric-value.count { color: #81c784; }
 
     .metric-value.time {
       color: #ba68c8;
@@ -496,727 +731,59 @@
   <!-- App Header -->
   <header>
     <h1><span class="icon">analytics</span> Double Dutch Analytics</h1>
-    <button class="btn-filled-error" onclick="resetCounter()">
-      <span class="icon">restart_alt</span> リセット
-    </button>
+    <div class="header-btns">
+      <button class="btn-secondary" onclick="openHistoryModal()">
+        <span class="icon">history</span> 履歴
+      </button>
+      <button class="btn-secondary" onclick="openSettingsModal()">
+        <span class="icon">settings</span> 設定
+      </button>
+      <button class="btn-filled-error" onclick="resetCounter()">
+        <span class="icon">restart_alt</span> リセット
+      </button>
+    </div>
   </header>
 
-  <!-- Top Controls (Source Selection & Camera / File Select) -->
-  <div class="card">
-    <div class="source-tabs">
-      <button id="tab-camera" class="tab-btn active" onclick="switchSourceMode('camera')">
-        <span class="icon">videocam</span> カメラ入力
+  <!-- Video File Custom Player Controls (File Input Mode Only) -->
+  <div id="file-controls-bar" class="card" style="display: none;">
+    <div class="video-controls">
+      <button id="play-pause-btn" class="icon-btn" onclick="toggleVideoPlay()">
+        <span class="icon" id="play-icon">play_arrow</span>
       </button>
-      <button id="tab-file" class="tab-btn" onclick="switchSourceMode('file')">
-        <span class="icon">upload_file</span> 動画ファイル分析
-      </button>
-    </div>
-
-    <!-- Camera Controls -->
-    <div id="camera-controls" class="toolbar-container">
-      <div class="select-wrapper">
-        <span class="icon" style="color: var(--md-sys-color-primary);">videocam</span>
-        <select id="camera-select">
-          <option value="">カメラを準備中...</option>
+      <input type="range" id="seek-slider" class="seek-slider" min="0" max="100" value="0" step="0.1">
+      <span id="video-time-display" style="font-family: 'Roboto Mono', monospace; font-size: 0.75rem; color: var(--md-sys-color-on-surface-variant);">00:00 / 00:00</span>
+      
+      <div class="select-wrapper" style="padding: 2px 8px;">
+        <select id="playback-rate-select">
+          <option value="0.25">0.25x</option>
+          <option value="0.5">0.5x</option>
+          <option value="1.0" selected>1.0x</option>
+          <option value="1.5">1.5x</option>
+          <option value="2.0">2.0x</option>
         </select>
-      </div>
-      <div class="select-wrapper">
-        <span class="icon" style="color: var(--md-sys-color-primary);">speed</span>
-        <select id="fps-select">
-          <option value="30">30 FPS</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Video File Controls -->
-    <div id="file-controls" class="toolbar-container" style="display: none;">
-      <label class="file-input-label select-wrapper">
-        <span class="icon">file_open</span>
-        <span id="file-name-display">動画ファイルを選択 (MP4, WebM...)</span>
-        <input type="file" id="video-file-input" accept="video/*">
-      </label>
-
-      <!-- Custom Video Player Controls -->
-      <div id="video-player-controls" class="video-controls" style="display: none;">
-        <button id="play-pause-btn" class="icon-btn" onclick="toggleVideoPlay()">
-          <span class="icon" id="play-icon">play_arrow</span>
-        </button>
-        <input type="range" id="seek-slider" class="seek-slider" min="0" max="100" value="0" step="0.1">
-        <span id="video-time-display" style="font-family: 'Roboto Mono', monospace; font-size: 0.75rem; color: var(--md-sys-color-on-surface-variant);">00:00 / 00:00</span>
-        
-        <div class="select-wrapper" style="padding: 2px 8px;">
-          <select id="playback-rate-select">
-            <option value="0.25">0.25x</option>
-            <option value="0.5">0.5x</option>
-            <option value="1.0" selected>1.0x</option>
-            <option value="1.5">1.5x</option>
-            <option value="2.0">2.0x</option>
-          </select>
-        </div>
       </div>
     </div>
   </div>
 
-  <!-- CSV Timer & Export Section -->
+  <!-- CSV Timer & Recording Trigger Section -->
   <div class="card toolbar-container">
     <div style="display: flex; align-items: center; gap: 8px;">
-      <div class="select-wrapper">
-        <span class="icon" style="color: var(--md-sys-color-primary);">timer</span>
-        <select id="record-timer-select">
-          <option value="5">5 秒</option>
-          <option value="10">10 秒</option>
-          <option value="20">20 秒</option>
-          <option value="30">30 秒</option>
-          <option value="60">60 秒</option>
-        </select>
-      </div>
       <button id="start-record-btn" class="btn-primary" onclick="startTimerRecording()">
-        <span class="icon">fiber_manual_record</span> 記録開始 (CSV出力)
+        <span class="icon">fiber_manual_record</span> 記録開始
       </button>
     </div>
     <div id="record-status-display" class="timer-display-box"></div>
   </div>
 
-  <!-- Settings Panel -->
-  <div class="card">
-    <div class="config-header" onclick="toggleConfig()">
-      <span style="display: flex; align-items: center; gap: 8px;">
-        <span class="icon">tune</span> 感度・画面調整パラメータ設定
-      </span>
-      <span id="config-toggle-icon" class="icon">expand_less</span>
-    </div>
-    <div id="config-content" class="config-content">
-      <!-- 画面反転 & 回転設定 -->
-      <div class="checkbox-group">
-        <label class="checkbox-label">
-          <input type="checkbox" id="flip-h-check" checked>
-          <span class="icon">flip</span> 左右反転 (鏡像)
-        </label>
-        <label class="checkbox-label">
-          <input type="checkbox" id="flip-v-check">
-          <span class="icon" style="transform: rotate(90deg);">flip</span> 上下反転
-        </label>
-      </div>
-
-      <div class="slider-group">
-        <label for="rotation-select"><span class="icon">screen_rotation</span> 画面回転</label>
-        <div class="select-wrapper" style="padding: 2px 10px;">
-          <select id="rotation-select">
-            <option value="0" selected>0° (標準)</option>
-            <option value="90">90° (時計回り)</option>
-            <option value="180">180° (上下逆)</option>
-            <option value="270">270° (反時計回り)</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="slider-group">
-        <label for="zoom-slider"><span class="icon">zoom_in</span> ズーム</label>
-        <input type="range" id="zoom-slider" min="1.0" max="3.0" step="0.1" value="1.0">
-        <span id="zoom-val-display" class="slider-value">1.0x</span>
-      </div>
-      <div class="slider-group">
-        <label for="threshold-slider"><span class="icon">sensors</span> 動作しきい値</label>
-        <input type="range" id="threshold-slider" min="0.00" max="0.100" step="0.005" value="0.035">
-        <span id="threshold-val-display" class="slider-value">0.035</span>
-      </div>
-      <div class="slider-group">
-        <label for="cooldown-slider"><span class="icon">timer</span> 冷却時間 (連打防止)</label>
-        <input type="range" id="cooldown-slider" min="0.05" max="0.50" step="0.01" value="0.15">
-        <span id="cooldown-val-display" class="slider-value">0.15s</span>
-      </div>
-    </div>
-  </div>
-
   <!-- Video Canvas Area -->
-  <div id="media-container">
-    <video id="input_video" playsinline muted></video>
-    <canvas id="output_canvas"></canvas>
-  </div>
-
-  <!-- Dashboard Metrics -->
-  <div class="card metrics-grid">
-    <div class="metric-card">
-      <span class="metric-label" id="track-target-label"><span class="icon">my_location</span> Pace</span>
-      <span id="speed-val" class="metric-value">0.0</span>
-    </div>
-    <div class="metric-card">
-      <span class="metric-label"><span class="icon">numbers</span> Count</span>
-      <span id="count-val" class="metric-value count">0</span>
-    </div>
-    <div class="metric-card">
-      <span class="metric-label"><span class="icon">schedule</span> 1-Turn Time</span>
-      <span id="time-val" class="metric-value time">0.00s</span>
-    </div>
-  </div>
-
-  <!-- Mode Filter Chips -->
-  <div class="mode-section">
-    <div class="chip-row">
-      <span class="role-badge turner">T</span>
-      <button id="btn1" class="chip active" onclick="setMode(1)"><span class="icon">speed</span> Speed</button>
-      <button id="btn2" class="chip" onclick="setMode(2)"><span class="icon">gesture</span> Orbit</button>
-      <button id="btn3" class="chip" onclick="setMode(3)"><span class="icon">accessibility_new</span> Elbow</button>
-    </div>
-    <div class="chip-row">
-      <span class="role-badge jumper">J</span>
-      <button id="btn4" class="chip" onclick="setMode(4)"><span class="icon">nordic_walking</span> Jump H</button>
-      <button id="btn5" class="chip" onclick="setMode(5)"><span class="icon">graphic_eq</span> Rhythm</button>
-      <button id="btn6" class="chip" onclick="setMode(6)"><span class="icon">directions_run</span> Knee</button>
-    </div>
-  </div>
-
-  <!-- Realtime Graph -->
-  <div id="chart-container">
-    <canvas id="myChart"></canvas>
-  </div>
-
-  <script>
-    const videoElement = document.getElementById('input_video');
-    const canvasElement = document.getElementById('output_canvas');
-    const canvasCtx = canvasElement.getContext('2d');
-    const cameraSelect = document.getElementById('camera-select');
-    const fpsSelect = document.getElementById('fps-select');
-    const mediaContainer =       --md-sys-color-on-surface-variant: #c2c7cf;
-      --md-sys-color-outline: #8c9198;
-      --md-shape-corner-medium: 12px;
-      --md-shape-corner-large: 16px;
-      --md-shape-corner-full: 9999px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      background-color: var(--md-sys-color-background);
-      color: var(--md-sys-color-on-surface);
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-    }
-
-    /* App Header */
-    header {
-      width: 100%;
-      max-width: 680px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    h1 {
-      font-size: 1.25rem;
-      font-weight: 500;
-      margin: 0;
-      color: var(--md-sys-color-on-surface);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .icon {
-      font-family: 'Material Symbols Outlined';
-      font-weight: normal;
-      font-style: normal;
-      font-size: 24px;
-      line-height: 1;
-      letter-spacing: normal;
-      text-transform: none;
-      display: inline-block;
-      white-space: nowrap;
-      word-wrap: normal;
-      direction: ltr;
-    }
-
-    /* Cards */
-    .card {
-      width: 100%;
-      max-width: 680px;
-      background: var(--md-sys-color-surface);
-      border-radius: var(--md-shape-corner-large);
-      padding: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Source Selector Tabs */
-    .source-tabs {
-      display: flex;
-      gap: 8px;
-      width: 100%;
-      margin-bottom: 12px;
-    }
-
-    .tab-btn {
-      flex: 1;
-      padding: 10px;
-      background: var(--md-sys-color-surface-container);
-      color: var(--md-sys-color-on-surface-variant);
-      border: 1px solid var(--md-sys-color-outline);
-      border-radius: var(--md-shape-corner-medium);
-      font-size: 0.875rem;
-      font-weight: 500;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all 0.2s;
-    }
-
-    .tab-btn.active {
-      background: var(--md-sys-color-primary-container);
-      color: var(--md-sys-color-on-primary-container);
-      border-color: var(--md-sys-color-primary);
-    }
-
-    /* Top Toolbar Controls */
-    .toolbar-container {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    .select-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--md-sys-color-surface-container);
-      padding: 6px 14px;
-      border-radius: var(--md-shape-corner-full);
-      border: 1px solid var(--md-sys-color-outline);
-    }
-
-    select, input[type="file"] {
-      background: transparent;
-      color: var(--md-sys-color-on-surface);
-      border: none;
-      font-size: 0.875rem;
-      outline: none;
-      cursor: pointer;
-      font-family: inherit;
-    }
-
-    select option {
-      background: var(--md-sys-color-surface-container);
-      color: var(--md-sys-color-on-surface);
-    }
-
-    /* File Input Styling */
-    .file-input-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      font-size: 0.875rem;
-      color: var(--md-sys-color-primary);
-    }
-
-    .file-input-label input[type="file"] {
-      display: none;
-    }
-
-    /* Video Player Controls */
-    .video-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 10px;
-      width: 100%;
-      background: var(--md-sys-color-surface-container);
-      padding: 8px 14px;
-      border-radius: var(--md-shape-corner-medium);
-    }
-
-    .icon-btn {
-      background: transparent;
-      border: none;
-      color: var(--md-sys-color-primary);
-      cursor: pointer;
-      padding: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-    }
-
-    .icon-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .seek-slider {
-      flex-grow: 1;
-      accent-color: var(--md-sys-color-primary);
-      cursor: pointer;
-    }
-
-    /* Buttons */
-    .btn-filled-error {
-      background: var(--md-sys-color-error-container);
-      color: var(--md-sys-color-error);
-      border: none;
-      padding: 8px 16px;
-      font-size: 0.875rem;
-      font-weight: 500;
-      border-radius: var(--md-shape-corner-full);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: opacity 0.2s;
-    }
-
-    .btn-filled-error:hover {
-      opacity: 0.85;
-    }
-
-    /* Config Accordion */
-    .config-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-      user-select: none;
-      font-weight: 500;
-      color: var(--md-sys-color-primary);
-    }
-
-    .config-content {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-top: 16px;
-      padding-top: 12px;
-      border-top: 1px solid var(--md-sys-color-surface-container-high);
-    }
-
-    .config-content.hidden {
-      display: none;
-    }
-
-    .slider-group {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 0.875rem;
-    }
-
-    .slider-group label {
-      color: var(--md-sys-color-on-surface-variant);
-      width: 150px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .slider-group input[type="range"] {
-      flex-grow: 1;
-      height: 6px;
-      border-radius: 3px;
-      accent-color: var(--md-sys-color-primary);
-      cursor: pointer;
-    }
-
-    .slider-value {
-      width: 55px;
-      text-align: right;
-      color: var(--md-sys-color-primary);
-      font-family: 'Roboto Mono', monospace;
-      font-weight: 700;
-    }
-
-    .checkbox-group {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      font-size: 0.875rem;
-      color: var(--md-sys-color-on-surface-variant);
-      flex-wrap: wrap;
-    }
-
-    .checkbox-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-    }
-
-    .checkbox-label input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--md-sys-color-primary);
-      cursor: pointer;
-    }
-
-    /* Media View */
-    #media-container {
-      position: relative;
-      width: 100%;
-      max-width: 680px;
-      background: #000;
-      border-radius: var(--md-shape-corner-large);
-      overflow: hidden;
-      border: 1px solid var(--md-sys-color-surface-container-high);
-      transition: aspect-ratio 0.2s ease;
-    }
-
-    #input_video {
-      display: none;
-    }
-
-    #output_canvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-
-    /* Metrics Dashboard Grid */
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 12px;
-    }
-
-    .metric-card {
-      background: var(--md-sys-color-surface-container);
-      border-radius: var(--md-shape-corner-medium);
-      padding: 12px 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .metric-label {
-      font-size: 0.75rem;
-      color: var(--md-sys-color-on-surface-variant);
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .metric-value {
-      font-family: 'Roboto Mono', monospace;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--md-sys-color-primary);
-    }
-
-    .metric-value.count {
-      color: #81c784;
-    }
-
-    .metric-value.time {
-      color: #ba68c8;
-      font-size: 1.4rem;
-    }
-
-    /* Mode Filter Chips Container */
-    .mode-section {
-      width: 100%;
-      max-width: 680px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .chip-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 2px;
-    }
-
-    .role-badge {
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 6px 10px;
-      border-radius: var(--md-shape-corner-medium);
-      min-width: 36px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    .role-badge.turner {
-      background: var(--md-sys-color-primary-container);
-      color: var(--md-sys-color-on-primary-container);
-      border: 1px solid var(--md-sys-color-primary);
-    }
-
-    .role-badge.jumper {
-      background: #4a2800;
-      color: #ffcc80;
-      border: 1px solid #ffb74d;
-    }
-
-    .chip {
-      background: var(--md-sys-color-surface-container);
-      color: var(--md-sys-color-on-surface-variant);
-      border: 1px solid var(--md-sys-color-outline);
-      padding: 8px 14px;
-      border-radius: var(--md-shape-corner-medium);
-      font-size: 0.8125rem;
-      font-weight: 500;
-      white-space: nowrap;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-      flex-shrink: 0;
-    }
-
-    .chip.active {
-      background: var(--md-sys-color-primary-container);
-      color: var(--md-sys-color-on-primary-container);
-      border-color: var(--md-sys-color-primary);
-    }
-
-    /* Chart Card */
-    #chart-container {
-      width: 100%;
-      max-width: 680px;
-      background: var(--md-sys-color-surface);
-      border-radius: var(--md-shape-corner-large);
-      padding: 16px;
-      box-sizing: border-box;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    #chart-container canvas {
-      width: 100% !important;
-      height: auto !important;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- App Header -->
-  <header>
-    <h1><span class="icon">analytics</span> Double Dutch Analytics</h1>
-    <button class="btn-filled-error" onclick="resetCounter()">
-      <span class="icon">restart_alt</span> リセット
+  <div id="media-container" class="landscape">
+    <button class="fullscreen-btn" onclick="toggleFullScreen()" title="全画面表示/解除">
+      <span class="icon" id="fullscreen-icon">fullscreen</span>
     </button>
-  </header>
-
-  <!-- Top Controls (Source Selection & Camera / File Select) -->
-  <div class="card">
-    <div class="source-tabs">
-      <button id="tab-camera" class="tab-btn active" onclick="switchSourceMode('camera')">
-        <span class="icon">videocam</span> カメラ入力
-      </button>
-      <button id="tab-file" class="tab-btn" onclick="switchSourceMode('file')">
-        <span class="icon">upload_file</span> 動画ファイル分析
-      </button>
-    </div>
-
-    <!-- Camera Controls -->
-    <div id="camera-controls" class="toolbar-container">
-      <div class="select-wrapper">
-        <span class="icon" style="color: var(--md-sys-color-primary);">videocam</span>
-        <select id="camera-select">
-          <option value="">カメラを準備中...</option>
-        </select>
-      </div>
-      <div class="select-wrapper">
-        <span class="icon" style="color: var(--md-sys-color-primary);">speed</span>
-        <select id="fps-select">
-          <option value="30">30 FPS</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Video File Controls -->
-    <div id="file-controls" class="toolbar-container" style="display: none;">
-      <label class="file-input-label select-wrapper">
-        <span class="icon">file_open</span>
-        <span id="file-name-display">動画ファイルを選択 (MP4, WebM...)</span>
-        <input type="file" id="video-file-input" accept="video/*">
-      </label>
-
-      <!-- Custom Video Player Controls -->
-      <div id="video-player-controls" class="video-controls" style="display: none;">
-        <button id="play-pause-btn" class="icon-btn" onclick="toggleVideoPlay()">
-          <span class="icon" id="play-icon">play_arrow</span>
-        </button>
-        <input type="range" id="seek-slider" class="seek-slider" min="0" max="100" value="0" step="0.1">
-        <span id="video-time-display" style="font-family: 'Roboto Mono', monospace; font-size: 0.75rem; color: var(--md-sys-color-on-surface-variant);">00:00 / 00:00</span>
-        
-        <div class="select-wrapper" style="padding: 2px 8px;">
-          <select id="playback-rate-select">
-            <option value="0.25">0.25x</option>
-            <option value="0.5">0.5x</option>
-            <option value="1.0" selected>1.0x</option>
-            <option value="1.5">1.5x</option>
-            <option value="2.0">2.0x</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Settings Panel -->
-  <div class="card">
-    <div class="config-header" onclick="toggleConfig()">
-      <span style="display: flex; align-items: center; gap: 8px;">
-        <span class="icon">tune</span> 感度・画面調整パラメータ設定
-      </span>
-      <span id="config-toggle-icon" class="icon">expand_less</span>
-    </div>
-    <div id="config-content" class="config-content">
-      <!-- 画面反転 & 回転設定 -->
-      <div class="checkbox-group">
-        <label class="checkbox-label">
-          <input type="checkbox" id="flip-h-check" checked>
-          <span class="icon">flip</span> 左右反転 (鏡像)
-        </label>
-        <label class="checkbox-label">
-          <input type="checkbox" id="flip-v-check">
-          <span class="icon" style="transform: rotate(90deg);">flip</span> 上下反転
-        </label>
-      </div>
-
-      <div class="slider-group">
-        <label for="rotation-select"><span class="icon">screen_rotation</span> 画面回転</label>
-        <div class="select-wrapper" style="padding: 2px 10px;">
-          <select id="rotation-select">
-            <option value="0" selected>0° (標準)</option>
-            <option value="90">90° (時計回り)</option>
-            <option value="180">180° (上下逆)</option>
-            <option value="270">270° (反時計回り)</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="slider-group">
-        <label for="zoom-slider"><span class="icon">zoom_in</span> ズーム</label>
-        <input type="range" id="zoom-slider" min="1.0" max="3.0" step="0.1" value="1.0">
-        <span id="zoom-val-display" class="slider-value">1.0x</span>
-      </div>
-      <div class="slider-group">
-        <label for="threshold-slider"><span class="icon">sensors</span> 動作しきい値</label>
-        <input type="range" id="threshold-slider" min="0.00" max="0.100" step="0.005" value="0.035">
-        <span id="threshold-val-display" class="slider-value">0.035</span>
-      </div>
-      <div class="slider-group">
-        <label for="cooldown-slider"><span class="icon">timer</span> 冷却時間 (連打防止)</label>
-        <input type="range" id="cooldown-slider" min="0.05" max="0.50" step="0.01" value="0.15">
-        <span id="cooldown-val-display" class="slider-value">0.15s</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Video Canvas Area -->
-  <div id="media-container">
+    <button id="camera-record-circle-btn" class="record-circle-btn" onclick="startTimerRecording()" title="記録開始">
+      <div class="record-circle-inner"></div>
+    </button>
+    <div id="countdown-overlay-text" class="countdown-overlay">3</div>
     <video id="input_video" playsinline muted></video>
     <canvas id="output_canvas"></canvas>
   </div>
@@ -1224,7 +791,7 @@
   <!-- Dashboard Metrics -->
   <div class="card metrics-grid">
     <div class="metric-card">
-      <span class="metric-label" id="track-target-label"><span class="icon">my_location</span> Pace</span>
+      <span class="metric-label" id="track-target-label"><span class="icon">my_location</span> Speed</span>
       <span id="speed-val" class="metric-value">0.0</span>
     </div>
     <div class="metric-card">
@@ -1237,25 +804,269 @@
     </div>
   </div>
 
-  <!-- Mode Filter Chips -->
-  <div class="mode-section">
-    <div class="chip-row">
-      <span class="role-badge turner">T</span>
-      <button id="btn1" class="chip active" onclick="setMode(1)"><span class="icon">speed</span> Speed</button>
-      <button id="btn2" class="chip" onclick="setMode(2)"><span class="icon">gesture</span> Orbit</button>
-      <button id="btn3" class="chip" onclick="setMode(3)"><span class="icon">accessibility_new</span> Elbow</button>
-    </div>
-    <div class="chip-row">
-      <span class="role-badge jumper">J</span>
-      <button id="btn4" class="chip" onclick="setMode(4)"><span class="icon">nordic_walking</span> Jump H</button>
-      <button id="btn5" class="chip" onclick="setMode(5)"><span class="icon">graphic_eq</span> Rhythm</button>
-      <button id="btn6" class="chip" onclick="setMode(6)"><span class="icon">directions_run</span> Knee</button>
-    </div>
-  </div>
-
   <!-- Realtime Graph -->
   <div id="chart-container">
     <canvas id="myChart"></canvas>
+  </div>
+
+  <!-- History Modal Overlay -->
+  <div id="history-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title"><span class="icon">history</span> 計測履歴</div>
+        <button class="icon-btn" onclick="closeHistoryModal()"><span class="icon">close</span></button>
+      </div>
+      <div class="modal-body">
+        <div id="history-list-container" class="history-list">
+          <!-- 履歴アイテムがここに動的に追加されます -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeHistoryModal()">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal Overlay -->
+  <div id="settings-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title"><span class="icon">settings</span> アプリ詳細設定</div>
+        <button class="icon-btn" onclick="closeSettingsModal()"><span class="icon">close</span></button>
+      </div>
+      <div class="modal-body">
+        
+        <!-- Input Source Settings -->
+        <div class="section-title">1. 入力ソース選択</div>
+        <div class="config-group">
+          <div class="source-tabs">
+            <button id="tab-camera" class="tab-btn active" onclick="switchSourceMode('camera')">
+              <span class="icon">videocam</span> カメラ入力
+            </button>
+            <button id="tab-file" class="tab-btn" onclick="switchSourceMode('file')">
+              <span class="icon">upload_file</span> 動画ファイル分析
+            </button>
+          </div>
+
+          <div id="camera-settings" class="toolbar-container">
+            <div class="select-wrapper">
+              <span class="icon" style="color: var(--md-sys-color-primary);">videocam</span>
+              <select id="camera-select"><option value="">カメラを準備中...</option></select>
+            </div>
+            <div class="select-wrapper">
+              <span class="icon" style="color: var(--md-sys-color-primary);">speed</span>
+              <select id="fps-select"><option value="30">30 FPS</option></select>
+            </div>
+          </div>
+
+          <div id="file-settings" class="toolbar-container" style="display: none;">
+            <label class="file-input-label select-wrapper">
+              <span class="icon">file_open</span>
+              <span id="file-name-display">動画ファイルを選択 (MP4, WebM...)</span>
+              <input type="file" id="video-file-input" accept="video/*">
+            </label>
+          </div>
+        </div>
+
+        <!-- Mode Filter Settings -->
+        <div class="section-title">2. 分析・グラフ表示モード</div>
+        <div class="config-group">
+          <div class="chip-row">
+            <span class="role-badge jumper">Jumper</span>
+            <button id="btn-jumper-speed" class="chip active" onclick="setMode('jumper-speed')"><span class="icon">speed</span> Speed</button>
+            <button id="btn-jumper-axis" class="chip" onclick="setMode('jumper-axis')"><span class="icon">show_chart</span> Axis Value</button>
+          </div>
+          <div class="chip-row">
+            <span class="role-badge turner">Turner</span>
+            <button id="btn-turner-speed" class="chip" onclick="setMode('turner-speed')"><span class="icon">speed</span> Speed</button>
+            <button id="btn-turner-axis" class="chip" onclick="setMode('turner-axis')"><span class="icon">show_chart</span> Axis Value</button>
+            <button id="btn-turner-orbit" class="chip" onclick="setMode('turner-orbit')"><span class="icon">gesture</span> Orbit</button>
+          </div>
+        </div>
+
+        <!-- Detection Landmark & Method Settings -->
+        <div class="section-title">3. 検知対象ランドマーク・検知軸設定</div>
+        <div class="config-group">
+          <div class="slider-group">
+            <label for="detect-lm-select"><span class="icon">my_location</span> 対象ランドマーク</label>
+            <div class="select-wrapper" style="padding: 2px 10px; flex-grow:1;">
+              <select id="detect-lm-select" style="width:100%;">
+                <option value="15">Left Wrist (15: 左手首)</option>
+                <option value="16">Right Wrist (16: 右手首)</option>
+                <option value="27">Left Ankle (27: 左足首)</option>
+                <option value="28" selected>Right Ankle (28: 右足首)</option>
+                <option value="0">Nose (0: 鼻)</option>
+                <option value="13">Left Elbow (13: 左肘)</option>
+                <option value="14">Right Elbow (14: 右肘)</option>
+                <option value="25">Left Knee (25: 左膝)</option>
+                <option value="26">Right Knee (26: 右膝)</option>
+              </select>
+            </div>
+          </div>
+          <div class="slider-group">
+            <label for="detect-method-select"><span class="icon">query_stats</span> 計測・表示軸</label>
+            <div class="select-wrapper" style="padding: 2px 10px; flex-grow:1;">
+              <select id="detect-method-select" style="width:100%;">
+                <option value="y_pos" selected>Y軸 (高さ・上下振幅)</option>
+                <option value="x_pos">X軸 (左右振幅)</option>
+                <option value="z_pos">Z軸 (奥行き)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timer & Recording Settings -->
+        <div class="section-title">4. 記録・タイマー設定</div>
+        <div class="config-group">
+          <div class="slider-group">
+            <label for="countdown-sec-input"><span class="icon">hourglass_top</span> カウントダウン秒数</label>
+            <div class="select-wrapper" style="padding: 2px 10px; width: 100px;">
+              <input type="number" id="countdown-sec-input" min="0" max="10" value="0" style="width: 100%;">
+            </div>
+            <span>秒</span>
+          </div>
+          <div class="slider-group">
+            <label for="record-timer-select"><span class="icon">timer</span> 記録時間</label>
+            <div class="select-wrapper" style="padding: 2px 10px;">
+              <select id="record-timer-select">
+                <option value="5">5 秒</option>
+                <option value="10">10 秒</option>
+                <option value="20">20 秒</option>
+                <option value="30">30 秒</option>
+                <option value="60">60 秒</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Camera & Screen Parameters -->
+        <div class="section-title">5. 感度・画面調整</div>
+        <div class="config-group">
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="flip-h-check" checked>
+              <span class="icon">flip</span> 左右反転
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="flip-v-check">
+              <span class="icon" style="transform: rotate(90deg);">flip</span> 上下反転
+            </label>
+          </div>
+
+          <div class="slider-group">
+            <label for="rotation-select"><span class="icon">screen_rotation</span> 画面回転</label>
+            <div class="select-wrapper" style="padding: 2px 10px;">
+              <select id="rotation-select">
+                <option value="0" selected>0° (標準)</option>
+                <option value="90">90° (時計回り)</option>
+                <option value="180">180° (上下逆)</option>
+                <option value="270">270° (反時計回り)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="slider-group">
+            <label for="zoom-slider"><span class="icon">zoom_in</span> ズーム</label>
+            <input type="range" id="zoom-slider" min="1.0" max="3.0" step="0.1" value="1.0">
+            <span id="zoom-val-display" class="slider-value">1.0x</span>
+          </div>
+          <div class="slider-group">
+            <label for="threshold-slider"><span class="icon">sensors</span> 動作しきい値</label>
+            <input type="range" id="threshold-slider" min="0.00" max="0.100" step="0.005" value="0.010">
+            <span id="threshold-val-display" class="slider-value">0.010</span>
+          </div>
+          <div class="slider-group">
+            <label for="cooldown-slider"><span class="icon">timer</span> 冷却時間 (連打防止)</label>
+            <input type="range" id="cooldown-slider" min="0.05" max="0.50" step="0.01" value="0.10">
+            <span id="cooldown-val-display" class="slider-value">0.10s</span>
+          </div>
+        </div>
+
+        <!-- Overlay Customization Settings -->
+        <div class="section-title">6. 画面オーバーレイ設定</div>
+        <div class="config-group">
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="overlay-show-text-check" checked>
+              <span>カウント・時間</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="overlay-show-graph-check" checked>
+              <span>リアルタイムペースグラフ</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="overlay-show-pace-check" checked>
+              <span>推計ペース (トレンド線終点)</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="overlay-show-drop-check" checked>
+              <span>ペース落ち率 (%)</span>
+            </label>
+          </div>
+          <div class="slider-group">
+            <label for="overlay-position-select"><span class="icon">place</span> 表示位置</label>
+            <div class="select-wrapper" style="padding: 2px 10px;">
+              <select id="overlay-position-select">
+                <option value="top-left" selected>左上</option>
+                <option value="top-right">右上</option>
+                <option value="bottom-left">左下</option>
+                <option value="bottom-right">右下</option>
+              </select>
+            </div>
+          </div>
+          <div class="slider-group">
+            <label for="overlay-scale-slider"><span class="icon">aspect_ratio</span> 表示サイズ</label>
+            <input type="range" id="overlay-scale-slider" min="0" max="3" step="0.1" value="1.0">
+            <span id="overlay-scale-display" class="slider-value">1.0x</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Pace Analysis Specification Modal Overlay -->
+  <div id="pace-analysis-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title"><span class="icon">analytics</span> ペース分析画像出力設定</div>
+        <button class="icon-btn" onclick="closePaceModal()"><span class="icon">close</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="config-group">
+          <div class="slider-group">
+            <label for="analysis-title-input"><span class="icon">title</span> タイトル</label>
+            <div class="select-wrapper" style="padding: 4px 10px; flex-grow: 1;">
+              <input type="text" id="analysis-title-input" value="ペース分析" style="width: 100%;">
+            </div>
+          </div>
+          <div class="slider-group">
+            <label for="analysis-start-tag"><span class="icon">first_page</span> 開始 tag (ID)</label>
+            <div class="select-wrapper" style="padding: 4px 10px; width: 120px;">
+              <input type="number" id="analysis-start-tag" min="1" value="3" style="width: 100%;">
+            </div>
+          </div>
+          <div class="slider-group">
+            <label for="analysis-end-tag"><span class="icon">last_page</span> 終了 tag (ID)</label>
+            <div class="select-wrapper" style="padding: 4px 10px; width: 120px;">
+              <input type="number" id="analysis-end-tag" min="1" value="3" style="width: 100%;">
+            </div>
+          </div>
+          <div class="checkbox-group" style="margin-top: 4px;">
+            <label class="checkbox-label">
+              <input type="checkbox" id="analysis-iqr-toggle" checked>
+              <span>外れ値を除く (IQR法フィルタリング)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closePaceModal()">キャンセル</button>
+        <button class="btn-primary" onclick="executePaceAnalysisExport()">
+          <span class="icon">download</span> 出力
+        </button>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -1268,12 +1079,22 @@
 
     const videoFileInput = document.getElementById('video-file-input');
     const fileNameDisplay = document.getElementById('file-name-display');
-    const videoPlayerControls = document.getElementById('video-player-controls');
+    const fileControlsBar = document.getElementById('file-controls-bar');
     const playPauseBtn = document.getElementById('play-pause-btn');
     const playIcon = document.getElementById('play-icon');
     const seekSlider = document.getElementById('seek-slider');
     const videoTimeDisplay = document.getElementById('video-time-display');
     const playbackRateSelect = document.getElementById('playback-rate-select');
+
+    const recordTimerSelect = document.getElementById('record-timer-select');
+    const countdownSecInput = document.getElementById('countdown-sec-input');
+    const startRecordBtn = document.getElementById('start-record-btn');
+    const recordStatusDisplay = document.getElementById('record-status-display');
+    const cameraRecordCircleBtn = document.getElementById('camera-record-circle-btn');
+    const countdownOverlayText = document.getElementById('countdown-overlay-text');
+
+    const detectLmSelect = document.getElementById('detect-lm-select');
+    const detectMethodSelect = document.getElementById('detect-method-select');
 
     const zoomSlider = document.getElementById('zoom-slider');
     const zoomDisplay = document.getElementById('zoom-val-display');
@@ -1286,6 +1107,15 @@
     const flipVCheck = document.getElementById('flip-v-check');
     const rotationSelect = document.getElementById('rotation-select');
 
+    /* Overlay Control Elements */
+    const overlayShowTextCheck = document.getElementById('overlay-show-text-check');
+    const overlayShowGraphCheck = document.getElementById('overlay-show-graph-check');
+    const overlayShowPaceCheck = document.getElementById('overlay-show-pace-check');
+    const overlayShowDropCheck = document.getElementById('overlay-show-drop-check');
+    const overlayPositionSelect = document.getElementById('overlay-position-select');
+    const overlayScaleSlider = document.getElementById('overlay-scale-slider');
+    const overlayScaleDisplay = document.getElementById('overlay-scale-display');
+
     let zoomFactor = parseFloat(zoomSlider.value);
     let threshold = parseFloat(thresholdSlider.value);
     let cooldownSec = parseFloat(cooldownSlider.value);
@@ -1296,6 +1126,19 @@
     let currentFps = 30;
 
     let sourceMode = 'camera'; // 'camera' or 'file'
+
+    // Timer & Recording Variables
+    let isRecording = false;
+    let recordedData = [];
+    let countTimestamps = [];
+    let recordStartTime = 0;
+    let recordDurationSec = 5;
+    let countdownInterval = null;
+    let timerCheckInterval = null;
+
+    // Measurement History Management
+    let measurementHistory = [];
+    let currentActiveRecordData = null;
 
     zoomSlider.addEventListener('input', (e) => {
       zoomFactor = parseFloat(e.target.value);
@@ -1312,35 +1155,130 @@
       cooldownDisplay.innerText = cooldownSec.toFixed(2) + 's';
     });
 
+    overlayScaleSlider.addEventListener('input', (e) => {
+      overlayScaleDisplay.innerText = parseFloat(e.target.value).toFixed(1) + 'x';
+    });
+
     flipHCheck.addEventListener('change', (e) => { flipH = e.target.checked; });
     flipVCheck.addEventListener('change', (e) => { flipV = e.target.checked; });
     rotationSelect.addEventListener('change', (e) => { rotationAngle = parseInt(e.target.value, 10); });
 
-    function toggleConfig() {
-      const content = document.getElementById('config-content');
-      const icon = document.getElementById('config-toggle-icon');
-      content.classList.toggle('hidden');
-      icon.innerText = content.classList.contains('hidden') ? 'expand_more' : 'expand_less';
+    function openSettingsModal() {
+      document.getElementById('settings-modal').classList.add('open');
     }
+
+    function closeSettingsModal() {
+      document.getElementById('settings-modal').classList.remove('open');
+    }
+
+    /* History Modal Control Functions */
+    function openHistoryModal() {
+      renderHistoryList();
+      document.getElementById('history-modal').classList.add('open');
+    }
+
+    function closeHistoryModal() {
+      document.getElementById('history-modal').classList.remove('open');
+    }
+
+    function renderHistoryList() {
+      const container = document.getElementById('history-list-container');
+      container.innerHTML = '';
+
+      if (measurementHistory.length === 0) {
+        container.innerHTML = '<div style="text-align: center; color: var(--md-sys-color-on-surface-variant); padding: 24px 0;">計測履歴がありません</div>';
+        return;
+      }
+
+      measurementHistory.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'history-item';
+        div.innerHTML = `
+          <div class="history-info">
+            <span class="history-date">${item.timestampStr}</span>
+            <span class="history-count">${item.count} 回 (${item.duration}s)</span>
+          </div>
+          <div class="history-actions">
+            <button class="btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="exportHistoryCsv(${index})">
+              <span class="icon" style="font-size: 18px;">csv</span> CSV
+            </button>
+            <button class="btn-primary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="openPaceModalFromHistory(${index})">
+              <span class="icon" style="font-size: 18px;">image</span> グラフ
+            </button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function exportHistoryCsv(index) {
+      const item = measurementHistory[index];
+      if (!item || !item.countTimestamps || item.countTimestamps.length === 0) {
+        alert("出力できるタイムスタンプデータがありません。");
+        return;
+      }
+
+      let csvContent = "data:text/csv;charset=utf-8,Count,Elapsed_Time_Sec,Speed_RPM,Turn_Time_Sec\n";
+      item.countTimestamps.forEach(row => {
+        csvContent += `${row.count},${row.elapsedSec.toFixed(3)},${row.speed ? row.speed.toFixed(2) : ''},${row.turnTime ? row.turnTime.toFixed(3) : ''}\n`;
+      });
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `double_dutch_count_${item.timestampStr.replace(/[: /]/g, '_')}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function openPaceModalFromHistory(index) {
+      const item = measurementHistory[index];
+      if (!item || !item.recordedData) return;
+      
+      currentActiveRecordData = item.recordedData;
+      closeHistoryModal();
+      openPaceModal(currentActiveRecordData);
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        mediaContainer.requestFullscreen().catch(err => {
+          console.error(`Error attempting to enable fullscreen: ${err.message}`);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    document.addEventListener('fullscreenchange', () => {
+      const fsIcon = document.getElementById('fullscreen-icon');
+      if (document.fullscreenElement) {
+        fsIcon.innerText = 'fullscreen_exit';
+      } else {
+        fsIcon.innerText = 'fullscreen';
+      }
+    });
 
     let currentStream = null;
     let animFrameId = null;
     let isProcessing = false;
-    let currentMode = 1;
+    let currentMode = 'jumper-speed';
     const BUFFER_SIZE = 60;
 
-    const buffer = {
-      rw_x: Array(BUFFER_SIZE).fill(0.5),
-      rw_y: Array(BUFFER_SIZE).fill(0.5),
-      lw_x: Array(BUFFER_SIZE).fill(0.5),
-      lw_y: Array(BUFFER_SIZE).fill(0.5),
-      ra_y: Array(BUFFER_SIZE).fill(0),
-      l_elbow: Array(BUFFER_SIZE).fill(0),
-      r_elbow: Array(BUFFER_SIZE).fill(0),
-      l_knee: Array(BUFFER_SIZE).fill(0),
-      raw_speed: Array(BUFFER_SIZE).fill(0),
-      smoothed_speed: Array(BUFFER_SIZE).fill(0)
-    };
+    function resetBuffer() {
+      return {
+        rw_x: Array(BUFFER_SIZE).fill(0.5),
+        rw_y: Array(BUFFER_SIZE).fill(0.5),
+        lw_x: Array(BUFFER_SIZE).fill(0.5),
+        lw_y: Array(BUFFER_SIZE).fill(0.5),
+        target_val: Array(BUFFER_SIZE).fill(0),
+        raw_speed: Array(BUFFER_SIZE).fill(0),
+        smoothed_speed: Array(BUFFER_SIZE).fill(0)
+      };
+    }
+
+    let buffer = resetBuffer();
 
     let lastTurnTime = 0;
     let lastStateTime = 0;
@@ -1355,12 +1293,372 @@
     const speedHistory = [];
 
     function resetCounter() {
+      if (isRecording || countdownInterval) {
+        stopRecordingData(false);
+      }
       totalCount = 0;
       lastTurnTime = 0;
       state = 'DOWN';
+      buffer = resetBuffer();
+      speedHistory.length = 0;
+      countTimestamps = [];
       document.getElementById('count-val').innerText = '0';
       document.getElementById('speed-val').innerText = '0.0';
       document.getElementById('time-val').innerText = '0.00s';
+    }
+
+    /* タイマー＆記録処理 */
+    function startTimerRecording() {
+      if (isRecording) return;
+
+      resetCounter();
+      recordedData = [];
+      countTimestamps = [];
+      recordDurationSec = parseInt(recordTimerSelect.value, 10);
+
+      startRecordBtn.disabled = true;
+      cameraRecordCircleBtn.classList.add('hidden-fade');
+
+      let countdown = parseInt(countdownSecInput.value, 10) || 0;
+
+      if (videoElement.paused && videoElement.src) {
+        videoElement.play();
+        if (typeof playIcon !== 'undefined' && playIcon) playIcon.innerText = 'pause';
+        processVideoFrame();
+      }
+
+      if (countdown <= 0) {
+        startRecordingData();
+        return;
+      }
+
+      recordStatusDisplay.innerText = `開始まで: ${countdown}s`;
+      countdownOverlayText.innerText = countdown;
+      countdownOverlayText.classList.add('visible');
+
+      if (countdownInterval) clearInterval(countdownInterval);
+      countdownInterval = setInterval(() => {
+        countdown--;
+        if (countdown > 0) {
+          recordStatusDisplay.innerText = `開始まで: ${countdown}s`;
+          countdownOverlayText.innerText = countdown;
+        } else {
+          clearInterval(countdownInterval);
+          countdownInterval = null;
+          countdownOverlayText.classList.remove('visible');
+          startRecordingData();
+        }
+      }, 1000);
+    }
+
+    function startRecordingData() {
+      isRecording = true;
+      recordStartTime = performance.now();
+      recordStatusDisplay.innerText = `REC: ${recordDurationSec.toFixed(1)}s`;
+
+      if (timerCheckInterval) clearInterval(timerCheckInterval);
+      timerCheckInterval = setInterval(() => {
+        if (!isRecording) {
+          clearInterval(timerCheckInterval);
+          return;
+        }
+        
+        const elapsed = (performance.now() - recordStartTime) / 1000.0;
+        const remain = Math.max(0, recordDurationSec - elapsed);
+        recordStatusDisplay.innerText = `REC: ${remain.toFixed(1)}s`;
+
+        if (elapsed >= recordDurationSec) {
+          clearInterval(timerCheckInterval);
+          stopRecordingData(true);
+        }
+      }, 100);
+    }
+
+    function stopRecordingData(exportData = true) {
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+      }
+      if (timerCheckInterval) {
+        clearInterval(timerCheckInterval);
+        timerCheckInterval = null;
+      }
+      countdownOverlayText.classList.remove('visible');
+
+      const wereRecording = isRecording;
+      isRecording = false;
+      startRecordBtn.disabled = false;
+      cameraRecordCircleBtn.classList.remove('hidden-fade');
+
+      if (wereRecording && exportData) {
+        recordStatusDisplay.innerText = "完了";
+        setTimeout(() => { recordStatusDisplay.innerText = ""; }, 3000);
+
+        // Save history item
+        const now = new Date();
+        const timestampStr = `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
+        
+        const historyItem = {
+          timestampStr: timestampStr,
+          count: totalCount,
+          duration: recordDurationSec,
+          recordedData: [...recordedData],
+          countTimestamps: [...countTimestamps]
+        };
+
+        measurementHistory.unshift(historyItem);
+        currentActiveRecordData = recordedData;
+
+        openPaceModal(recordedData);
+      } else {
+        recordStatusDisplay.innerText = "";
+      }
+    }
+
+    /* モーダルダイアログ・画像ダウンロード処理 */
+    function openPaceModal(dataToUse) {
+      const targetData = dataToUse || recordedData;
+      const validLogs = targetData.filter(d => d.id >= 3 && d.calculatedValue !== null);
+      if (validLogs.length < 3) {
+        alert("分析可能なデータ件数が不足しています（ID 3以上のデータが3件以上必要です）。");
+        return;
+      }
+
+      const latestId = targetData[targetData.length - 1].id;
+      document.getElementById('analysis-start-tag').value = 3;
+      document.getElementById('analysis-end-tag').value = latestId;
+      document.getElementById('analysis-title-input').value = "ペース分析";
+      document.getElementById('analysis-iqr-toggle').checked = true;
+
+      document.getElementById('pace-analysis-modal').classList.add('open');
+    }
+
+    function closePaceModal() {
+      document.getElementById('pace-analysis-modal').classList.remove('open');
+    }
+
+    function calculatePercentile(sortedArr, p) {
+      if (sortedArr.length === 0) return 0;
+      if (sortedArr.length === 1) return sortedArr[0];
+      const index = (sortedArr.length - 1) * p;
+      const lower = Math.floor(index);
+      const upper = Math.ceil(index);
+      const weight = index - lower;
+      return sortedArr[lower] * (1 - weight) + sortedArr[upper] * weight;
+    }
+
+    function executePaceAnalysisExport() {
+      const dataToUse = currentActiveRecordData || recordedData;
+      const title = document.getElementById('analysis-title-input').value.trim() || "ペース分析";
+      const startTagId = parseInt(document.getElementById('analysis-start-tag').value, 10);
+      const endTagId = parseInt(document.getElementById('analysis-end-tag').value, 10);
+      const removeOutliers = document.getElementById('analysis-iqr-toggle').checked;
+
+      const extracted = dataToUse.filter(d => d.id >= startTagId && d.id <= endTagId && d.calculatedValue !== null);
+      if (extracted.length < 2) {
+        alert("指定された範囲内の有効なデータ件数が足りません（2件以上必要です）。");
+        return;
+      }
+
+      const unixMs0 = dataToUse[0].unixMs;
+      const P = extracted.map(d => ({
+        x: (d.unixMs - unixMs0) / 1000.0,
+        y: d.calculatedValue,
+        id: d.id
+      }));
+
+      let P_valid = [];
+      let P_outlier = [];
+
+      if (removeOutliers) {
+        const yVals = P.map(p => p.y).sort((a, b) => a - b);
+        const q1 = calculatePercentile(yVals, 0.25);
+        const q3 = calculatePercentile(yVals, 0.75);
+        const iqr = q3 - q1;
+        const lowBound = q1 - 1.5 * iqr;
+        const highBound = q3 + 1.5 * iqr;
+
+        P.forEach(p => {
+          if (p.y >= lowBound && p.y <= highBound) {
+            P_valid.push(p);
+          } else {
+            P_outlier.push(p);
+          }
+        });
+
+        if (P_valid.length < 2) {
+          P_valid = [...P];
+          P_outlier = [];
+        }
+      } else {
+        P_valid = [...P];
+      }
+
+      const n = P_valid.length;
+      let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+      P_valid.forEach(p => {
+        sumX += p.x;
+        sumY += p.y;
+        sumXY += p.x * p.y;
+        sumX2 += p.x * p.x;
+      });
+
+      const denom = n * sumX2 - sumX * sumX;
+      let a = 0, b = 0;
+      if (Math.abs(denom) > 1e-9) {
+        a = (n * sumXY - sumX * sumY) / denom;
+        b = (sumY - a * sumX) / n;
+      } else {
+        b = sumY / n;
+      }
+
+      const xValid0 = P_valid[0].x;
+      const xValidN1 = P_valid[P_valid.length - 1].x;
+      const yStart = a * xValid0 + b;
+      const yEnd = a * xValidN1 + b;
+      const ratio = yStart !== 0 ? (yEnd / yStart) * 100 : 0;
+
+      const signStr = b >= 0 ? '+' : '-';
+      const formulaStr = `y = ${a.toFixed(4)}x ${signStr} ${Math.abs(b).toFixed(2)} (${yStart.toFixed(2)} → ${yEnd.toFixed(2)}) ${ratio.toFixed(1)}%`;
+
+      const exportCanvas = document.createElement('canvas');
+      exportCanvas.width = 1200;
+      exportCanvas.height = 700;
+      const ctx = exportCanvas.getContext('2d');
+
+      // 背景
+      ctx.fillStyle = '#18181b';
+      ctx.fillRect(0, 0, 1200, 700);
+
+      const margin = { top: 80, right: 60, bottom: 80, left: 100 };
+      const graphW = 1040;
+      const graphH = 540;
+
+      // タイトル
+      ctx.fillStyle = '#f4f4f5';
+      ctx.font = 'bold 28px Roboto, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(title, 600, 48);
+
+      const allX = P.map(p => p.x);
+      const allY = P.map(p => p.y);
+      let minX = Math.min(...allX);
+      let maxX = Math.max(...allX);
+      let minY = Math.min(...allY);
+      let maxY = Math.max(...allY);
+
+      if (minX === maxX) { minX -= 1; maxX += 1; }
+      if (minY === maxY) { minY -= 10; maxY += 10; }
+
+      const paddingX = (maxX - minX) * 0.05 || 1;
+      const paddingY = (maxY - minY) * 0.1 || 5;
+
+      const plotMinX = minX - paddingX;
+      const plotMaxX = maxX + paddingX;
+      const plotMinY = Math.max(0, minY - paddingY);
+      const plotMaxY = maxY + paddingY;
+
+      const mapX = (x) => margin.left + ((x - plotMinX) / (plotMaxX - plotMinX)) * graphW;
+      const mapY = (y) => (margin.top + graphH) - ((y - plotMinY) / (plotMaxY - plotMinY)) * graphH;
+
+      // グリッド・目盛線
+      ctx.strokeStyle = '#3f3f46';
+      ctx.lineWidth = 1;
+      ctx.fillStyle = '#71717a';
+      ctx.font = '14px "Roboto Mono", monospace';
+
+      for (let i = 0; i <= 5; i++) {
+        const gx = margin.left + (graphW / 5) * i;
+        ctx.beginPath();
+        ctx.moveTo(gx, margin.top);
+        ctx.lineTo(gx, margin.top + graphH);
+        ctx.stroke();
+
+        const valX = plotMinX + ((plotMaxX - plotMinX) / 5) * i;
+        ctx.textAlign = 'center';
+        ctx.fillText(valX.toFixed(1), gx, margin.top + graphH + 24);
+
+        const gy = margin.top + (graphH / 5) * i;
+        ctx.beginPath();
+        ctx.moveTo(margin.left, gy);
+        ctx.lineTo(margin.left + graphW, gy);
+        ctx.stroke();
+
+        const valY = plotMaxY - ((plotMaxY - plotMinY) / 5) * i;
+        ctx.textAlign = 'right';
+        ctx.fillText(valY.toFixed(1), margin.left - 12, gy + 5);
+      }
+
+      ctx.strokeRect(margin.left, margin.top, graphW, graphH);
+
+      // 軸ラベル
+      ctx.fillStyle = '#f4f4f5';
+      ctx.font = '16px Roboto, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('時間 (s)', margin.left + graphW / 2, margin.top + graphH + 60);
+
+      ctx.save();
+      ctx.translate(32, margin.top + graphH / 2);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillText('ペース', 0, 0);
+      ctx.restore();
+
+      // 回帰直線（トレンドライン）
+      const regY1 = a * plotMinX + b;
+      const regY2 = a * plotMaxX + b;
+
+      ctx.save();
+      ctx.strokeStyle = '#ff3b30';
+      ctx.lineWidth = 2.5;
+      ctx.setLineDash([8, 6]);
+      ctx.beginPath();
+      ctx.moveTo(mapX(plotMinX), mapY(regY1));
+      ctx.lineTo(mapX(plotMaxX), mapY(regY2));
+      ctx.stroke();
+      ctx.restore();
+
+      // 有効データ接続線（青色折れ線・プロット丸は無し）
+      if (P_valid.length > 1) {
+        ctx.strokeStyle = '#007aff';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        P_valid.forEach((p, idx) => {
+          const cx = mapX(p.x);
+          const cy = mapY(p.y);
+          if (idx === 0) ctx.moveTo(cx, cy);
+          else ctx.lineTo(cx, cy);
+        });
+        ctx.stroke();
+      }
+
+      // 数式ボックス
+      const boxX = margin.left + 20;
+      const boxY = margin.top + 20;
+      ctx.font = 'bold 18px "Roboto Mono", monospace';
+      const textMetrics = ctx.measureText(formulaStr);
+      const boxW = textMetrics.width + 30;
+      const boxH = 44;
+
+      ctx.fillStyle = 'rgba(24, 24, 27, 0.9)';
+      ctx.fillRect(boxX, boxY, boxW, boxH);
+      ctx.strokeStyle = '#3f3f46';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(boxX, boxY, boxW, boxH);
+
+      ctx.fillStyle = '#ff3b30';
+      ctx.textAlign = 'left';
+      ctx.fillText(formulaStr, boxX + 15, boxY + 28);
+
+      // 画像自動ダウンロード
+      const dataURL = exportCanvas.toDataURL('image/png');
+      const downloadLink = document.createElement('a');
+      downloadLink.download = `${title}.png`;
+      downloadLink.href = dataURL;
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+
+      closePaceModal();
     }
 
     const CONNECTIONS = [
@@ -1384,7 +1682,7 @@
             showLine: true
           },
           {
-            label: 'Smoothed Speed (S)',
+            label: 'Smoothed Speed',
             data: [],
             borderColor: '#80d5ff',
             borderWidth: 3,
@@ -1420,15 +1718,19 @@
     function setMode(mode) {
       currentMode = mode;
       document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
-      document.getElementById(`btn${mode}`).classList.add('active');
-    }
+      
+      const btnId = `btn-${mode}`;
+      const targetBtn = document.getElementById(btnId);
+      if (targetBtn) targetBtn.classList.add('active');
 
-    function calculateAngle(a, b, c) {
-      if (!a || !b || !c) return 0;
-      const radians = Math.atan2(c.y - b.y, c.x - b.x) - Math.atan2(a.y - b.y, a.x - b.x);
-      let angle = Math.abs((radians * 180.0) / Math.PI);
-      if (angle > 180.0) angle = 360.0 - angle;
-      return angle;
+      if (mode.startsWith('jumper')) {
+        detectLmSelect.value = "27";
+        detectMethodSelect.value = "y_pos";
+      } else if (mode.startsWith('turner')) {
+        detectLmSelect.value = "15";
+        detectMethodSelect.value = "y_pos";
+      }
+      resetCounter();
     }
 
     const pose = new Pose({
@@ -1462,7 +1764,7 @@
         ry = 1.0 - x;
       }
 
-      return { x: rx, y: ry };
+      return { x: rx, y: ry, z: p.z || 0 };
     }
 
     pose.onResults((results) => {
@@ -1474,6 +1776,15 @@
       if (rotationAngle === 90 || rotationAngle === 270) {
         nativeW = vHeight;
         nativeH = vWidth;
+      }
+
+      // プレビューの縦横方向判定を更新（縦: portrait, 横: landscape）
+      if (nativeH > nativeW) {
+        mediaContainer.classList.remove('landscape');
+        mediaContainer.classList.add('portrait');
+      } else {
+        mediaContainer.classList.remove('portrait');
+        mediaContainer.classList.add('landscape');
       }
 
       canvasElement.width = nativeW;
@@ -1502,43 +1813,42 @@
         };
       };
 
+      let elapsedTimeSec = 0;
+      const now = performance.now();
+
       if (results.poseLandmarks) {
         const lm = results.poseLandmarks;
 
-        const lElbowAngle = calculateAngle(lm[11], lm[13], lm[15]);
-        const rElbowAngle = calculateAngle(lm[12], lm[14], lm[16]);
-        const lKneeAngle  = calculateAngle(lm[23], lm[25], lm[27]);
+        const selectedLmIdx = parseInt(detectLmSelect.value, 10);
+        const targetLm = lm[selectedLmIdx];
+        document.getElementById('track-target-label').innerHTML = `<span class="icon">my_location</span> LM ${selectedLmIdx}`;
 
         const lwEff = getEffectivePoint(lm[15], flipH, flipV, rotationAngle);
         const rwEff = getEffectivePoint(lm[16], flipH, flipV, rotationAngle);
-        const raEff = getEffectivePoint(lm[28], flipH, flipV, rotationAngle);
 
         buffer.lw_x.shift(); buffer.lw_x.push(lwEff.x);
         buffer.lw_y.shift(); buffer.lw_y.push(lwEff.y);
         buffer.rw_x.shift(); buffer.rw_x.push(rwEff.x);
         buffer.rw_y.shift(); buffer.rw_y.push(rwEff.y);
-        buffer.ra_y.shift(); buffer.ra_y.push(raEff.y);
-        buffer.l_elbow.shift(); buffer.l_elbow.push(lElbowAngle);
-        buffer.r_elbow.shift(); buffer.r_elbow.push(rElbowAngle);
-        buffer.l_knee.shift(); buffer.l_knee.push(lKneeAngle);
 
-        let targetLm;
-        let targetYHistory;
+        let targetAxisVal = 0;
+        if (targetLm) {
+          const effPt = getEffectivePoint(targetLm, flipH, flipV, rotationAngle);
+          const method = detectMethodSelect.value;
+          if (method === 'y_pos') targetAxisVal = 1.0 - effPt.y;
+          else if (method === 'x_pos') targetAxisVal = effPt.x;
+          else if (method === 'z_pos') targetAxisVal = effPt.z;
+        }
+        buffer.target_val.shift(); buffer.target_val.push(targetAxisVal);
 
-        if (currentMode >= 4) {
-          targetLm = lm[28];
-          targetYHistory = buffer.ra_y;
-          document.getElementById('track-target-label').innerHTML = `<span class="icon">my_location</span> Right Ankle`;
-        } else {
-          targetLm = lm[15];
-          targetYHistory = buffer.lw_y;
-          document.getElementById('track-target-label').innerHTML = `<span class="icon">my_location</span> Left Wrist`;
+        let currentY = 0;
+        if (targetLm) {
+          const effPt = getEffectivePoint(targetLm, flipH, flipV, rotationAngle);
+          currentY = effPt.y;
         }
 
-        const recent3 = targetYHistory.slice(-3);
-        const currentY = recent3.reduce((a, b) => a + b, 0) / recent3.length;
-        const now = performance.now();
         const timeSinceLastState = (now - lastStateTime) / 1000.0;
+        let turnTime = 0;
 
         if (state === 'DOWN') {
           if (currentY > valleyY) valleyY = currentY;
@@ -1559,15 +1869,17 @@
             flashFrames = 5;
 
             if (lastTurnTime > 0) {
-              const t = (now - lastTurnTime) / 1000.0;
-              if (t >= 0.12 && t <= 4.0) {
-                currentS = 30.0 / t;
+              turnTime = (now - lastTurnTime) / 1000.0;
+              if (turnTime >= 0.12 && turnTime <= 4.0) {
+                const currentPlaybackRate = (sourceMode === 'file') ? parseFloat(playbackRateSelect.value) : 1.0;
+                currentS = (60.0 / turnTime) / currentPlaybackRate;
+                
                 speedHistory.push(currentS);
                 if (speedHistory.length > 3) speedHistory.shift();
                 smoothedS = speedHistory.reduce((a, b) => a + b, 0) / speedHistory.length;
 
                 document.getElementById('speed-val').innerText = smoothedS.toFixed(1);
-                document.getElementById('time-val').innerText = t.toFixed(2) + 's';
+                document.getElementById('time-val').innerText = turnTime.toFixed(2) + 's';
               }
             } else {
               document.getElementById('time-val').innerText = "--";
@@ -1575,14 +1887,36 @@
 
             document.getElementById('count-val').innerText = totalCount;
             lastTurnTime = now;
+
+            if (isRecording) {
+              countTimestamps.push({
+                count: totalCount,
+                elapsedSec: (now - recordStartTime) / 1000.0,
+                speed: smoothedS,
+                turnTime: turnTime
+              });
+            }
           }
         }
 
         buffer.raw_speed.shift(); buffer.raw_speed.push(currentS);
         buffer.smoothed_speed.shift(); buffer.smoothed_speed.push(smoothedS);
 
+        if (isRecording) {
+          recordedData.push({
+            unixMs: Date.now(),
+            id: totalCount,
+            calculatedValue: smoothedS > 0 ? smoothedS : null
+          });
+        }
+
+        updateChart();
+
+        /* 薄型の骨格描画 */
+        canvasCtx.save();
+        canvasCtx.globalAlpha = 0.08;
         canvasCtx.strokeStyle = '#80d5ff';
-        canvasCtx.lineWidth = 3 / zoomFactor;
+        canvasCtx.lineWidth = 1 / zoomFactor;
         CONNECTIONS.forEach(([s, e]) => {
           if (lm[s] && lm[e]) {
             const p1 = lmToCanvasPx(lm[s]);
@@ -1594,22 +1928,14 @@
           }
         });
 
-        canvasCtx.fillStyle = '#81c784';
+        canvasCtx.fillStyle = 'rgba(129, 199, 132, 0.2)';
         lm.forEach((p) => {
           const pt = lmToCanvasPx(p);
           canvasCtx.beginPath();
-          canvasCtx.arc(pt.x, pt.y, 5 / zoomFactor, 0, 2 * Math.PI);
+          canvasCtx.arc(pt.x, pt.y, 2 / zoomFactor, 0, 2 * Math.PI);
           canvasCtx.fill();
         });
-
-        if (targetLm) {
-          const targetPt = lmToCanvasPx(targetLm);
-          canvasCtx.strokeStyle = '#f48fb1';
-          canvasCtx.lineWidth = 4 / zoomFactor;
-          canvasCtx.beginPath();
-          canvasCtx.arc(targetPt.x, targetPt.y, 16 / zoomFactor, 0, 2 * Math.PI);
-          canvasCtx.stroke();
-        }
+        canvasCtx.restore();
 
         if (flashFrames > 0) {
           canvasCtx.strokeStyle = '#81c784';
@@ -1620,15 +1946,174 @@
 
         canvasCtx.restore();
 
-        canvasCtx.fillStyle = '#80d5ff';
-        canvasCtx.font = '500 14px Roboto Mono';
-        canvasCtx.fillText(`STATE: ${state}`, 12, 28);
-        canvasCtx.fillText(`Y: ${currentY.toFixed(3)} | TH: ${threshold.toFixed(3)} | Rot: ${rotationAngle}°`, 12, 48);
-
-        updateChart();
       } else {
         canvasCtx.restore();
       }
+
+      /* カスタマイズ可能な画面オーバーレイ描画 */
+      if (isRecording) {
+        elapsedTimeSec = (now - recordStartTime) / 1000.0;
+      }
+
+      const showText = overlayShowTextCheck.checked;
+      const showGraph = overlayShowGraphCheck.checked;
+      const showPace = overlayShowPaceCheck.checked;
+      const showDrop = overlayShowDropCheck ? overlayShowDropCheck.checked : true;
+      const scale = parseFloat(overlayScaleSlider.value);
+      const position = overlayPositionSelect.value;
+
+      const validPoints = recordedData.filter(d => d.calculatedValue !== null);
+
+      // トレンドラインの終点推計ペース（ペース値）およびペース落ち率の算出
+      let currentTrendPace = null;
+      let paceDropRate = null;
+
+      if (validPoints.length >= 2) {
+        const u0 = recordedData[0].unixMs;
+        const P = validPoints.map(d => ({
+          x: (d.unixMs - u0) / 1000.0,
+          y: d.calculatedValue
+        }));
+
+        const n = P.length;
+        let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+        P.forEach(p => {
+          sumX += p.x;
+          sumY += p.y;
+          sumXY += p.x * p.y;
+          sumX2 += p.x * p.x;
+        });
+
+        const denom = n * sumX2 - sumX * sumX;
+        if (Math.abs(denom) > 1e-9) {
+          const a = (n * sumXY - sumX * sumY) / denom;
+          const b = (sumY - a * sumX) / n;
+          const firstX = P[0].x;
+          const latestX = P[P.length - 1].x;
+          
+          const yStart = a * firstX + b;
+          const yEnd = a * latestX + b;
+
+          currentTrendPace = yEnd;
+          if (yStart > 0) {
+            paceDropRate = ((yEnd - yStart) / yStart) * 100;
+          }
+        } else {
+          currentTrendPace = sumY / n;
+          paceDropRate = 0.0;
+        }
+      }
+
+      canvasCtx.save();
+
+      const padding = 16;
+      let anchorX = padding;
+      let anchorY = padding;
+
+      // 表示幅・高さの推計
+      const boxW = 220 * scale;
+      const boxH = (showGraph ? 90 : 40) * scale;
+
+      if (position === 'top-right') {
+        anchorX = nativeW - boxW - padding;
+        anchorY = padding;
+      } else if (position === 'bottom-left') {
+        anchorX = padding;
+        anchorY = nativeH - boxH - padding - 40 * scale;
+      } else if (position === 'bottom-right') {
+        anchorX = nativeW - boxW - padding;
+        anchorY = nativeH - boxH - padding - 40 * scale;
+      }
+
+      let currY = anchorY;
+
+      // 1. カウント・経過時間 テキスト表示
+      if (showText) {
+        canvasCtx.fillStyle = '#ffffff';
+        canvasCtx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+        canvasCtx.shadowBlur = 4;
+        canvasCtx.font = `700 ${Math.round(20 * scale)}px "Roboto Mono", monospace`;
+        canvasCtx.fillText(`COUNT: ${totalCount}`, anchorX, currY + 20 * scale);
+        canvasCtx.font = `500 ${Math.round(15 * scale)}px "Roboto Mono", monospace`;
+        canvasCtx.fillText(`TIME : ${elapsedTimeSec.toFixed(2)}s`, anchorX, currY + 42 * scale);
+        currY += 50 * scale;
+      }
+
+      // 2. トレンド線終点推計ペースの表示
+      if (showPace) {
+        canvasCtx.fillStyle = '#ff3b30';
+        canvasCtx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+        canvasCtx.shadowBlur = 4;
+        canvasCtx.font = `700 ${Math.round(16 * scale)}px "Roboto Mono", monospace`;
+        const paceStr = currentTrendPace !== null ? `${currentTrendPace.toFixed(1)}` : '--';
+        canvasCtx.fillText(`PACE : ${paceStr}`, anchorX, currY + 18 * scale);
+        currY += 28 * scale;
+      }
+
+      // 3. ペース落ち率 (%) の表示
+      if (showDrop) {
+        canvasCtx.fillStyle = paceDropRate !== null && paceDropRate < 0 ? '#ffb4ab' : '#80d5ff';
+        canvasCtx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+        canvasCtx.shadowBlur = 4;
+        canvasCtx.font = `700 ${Math.round(15 * scale)}px "Roboto Mono", monospace`;
+        const dropStr = paceDropRate !== null ? `${paceDropRate >= 0 ? '+' : ''}${paceDropRate.toFixed(1)}%` : '--%';
+        canvasCtx.fillText(`DROP : ${dropStr}`, anchorX, currY + 16 * scale);
+        currY += 26 * scale;
+      }
+
+      // 4. リアルタイムペース遷移グラフ表示
+      if (showGraph && validPoints.length > 1) {
+        const graphW = 200 * scale;
+        const graphH = 80 * scale;
+        const gx = anchorX;
+        const gy = currY;
+
+        const maxDuration = recordDurationSec || parseInt(recordTimerSelect.value, 10) || 5;
+
+        const speeds = validPoints.map(d => d.calculatedValue);
+        let minS = Math.min(...speeds);
+        let maxS = Math.max(...speeds);
+
+        if (minS === maxS) {
+          minS = Math.max(0, minS - 10);
+          maxS = maxS + 10;
+        }
+        
+        const sRange = maxS - minS;
+        const marginLow = sRange * 0.15;
+        const marginHigh = sRange * 0.15;
+        
+        const yMin = Math.max(0, minS - marginLow);
+        const yMax = maxS + marginHigh;
+
+        canvasCtx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+        canvasCtx.lineWidth = 1 * scale;
+        canvasCtx.beginPath();
+        canvasCtx.moveTo(gx, gy);
+        canvasCtx.lineTo(gx, gy + graphH);
+        canvasCtx.lineTo(gx + graphW, gy + graphH);
+        canvasCtx.stroke();
+
+        canvasCtx.strokeStyle = '#80d5ff';
+        canvasCtx.lineWidth = 2 * scale;
+        canvasCtx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+        canvasCtx.shadowBlur = 3;
+        canvasCtx.beginPath();
+
+        const u0 = recordedData[0].unixMs;
+        validPoints.forEach((d, idx) => {
+          const tSec = (d.unixMs - u0) / 1000.0;
+          const px = gx + Math.min(1.0, tSec / maxDuration) * graphW;
+          const normalizedY = (d.calculatedValue - yMin) / (yMax - yMin);
+          const py = gy + graphH - Math.max(0, Math.min(1, normalizedY)) * graphH;
+
+          if (idx === 0) canvasCtx.moveTo(px, py);
+          else canvasCtx.lineTo(px, py);
+        });
+        canvasCtx.stroke();
+      }
+
+      canvasCtx.restore();
     });
 
     function toTimeSeriesData(arr) {
@@ -1636,7 +2121,7 @@
     }
 
     function updateChart() {
-      if (currentMode === 2) {
+      if (currentMode === 'turner-orbit') {
         chart.options.aspectRatio = 1;
         const lOrbitData = buffer.lw_x.map((x, i) => ({ x: x, y: 1.0 - buffer.lw_y[i] }));
         const rOrbitData = buffer.rw_x.map((x, i) => ({ x: x, y: 1.0 - buffer.rw_y[i] }));
@@ -1680,34 +2165,21 @@
 
         chart.data.datasets[1].data = [];
 
-        if (currentMode === 1) {
-          chart.data.datasets[0].label = 'Raw Speed (30/t)';
+        if (currentMode === 'jumper-speed' || currentMode === 'turner-speed') {
+          chart.data.datasets[0].label = 'Raw Speed';
           chart.data.datasets[0].borderColor = 'rgba(128, 213, 255, 0.3)';
           chart.data.datasets[0].data = toTimeSeriesData(buffer.raw_speed);
 
-          chart.data.datasets[1].label = 'Smoothed Speed S';
+          chart.data.datasets[1].label = 'Smoothed Speed';
           chart.data.datasets[1].borderColor = '#80d5ff';
           chart.data.datasets[1].data = toTimeSeriesData(buffer.smoothed_speed);
 
-        } else if (currentMode === 3) {
-          chart.data.datasets[0].label = 'Left Elbow (deg)';
-          chart.data.datasets[0].borderColor = '#81c784';
-          chart.data.datasets[0].data = toTimeSeriesData(buffer.l_elbow);
-
-        } else if (currentMode === 4) {
-          chart.data.datasets[0].label = 'Right Ankle Height';
+        } else if (currentMode === 'jumper-axis' || currentMode === 'turner-axis') {
+          const lmIdx = detectLmSelect.value;
+          const axisName = detectMethodSelect.value.split('_')[0].toUpperCase();
+          chart.data.datasets[0].label = `LM ${lmIdx} (${axisName}-Axis Value)`;
           chart.data.datasets[0].borderColor = '#ffb74d';
-          chart.data.datasets[0].data = toTimeSeriesData(buffer.ra_y.map(y => 1.0 - y));
-
-        } else if (currentMode === 5) {
-          chart.data.datasets[0].label = 'Flight Rhythm (Right Ankle)';
-          chart.data.datasets[0].borderColor = '#aed581';
-          chart.data.datasets[0].data = toTimeSeriesData(buffer.ra_y.map(y => 1.0 - y));
-
-        } else if (currentMode === 6) {
-          chart.data.datasets[0].label = 'Left Knee Angle (deg)';
-          chart.data.datasets[0].borderColor = '#e57373';
-          chart.data.datasets[0].data = toTimeSeriesData(buffer.l_knee);
+          chart.data.datasets[0].data = toTimeSeriesData(buffer.target_val);
         }
       }
 
@@ -1730,8 +2202,9 @@
       document.getElementById('tab-camera').classList.toggle('active', mode === 'camera');
       document.getElementById('tab-file').classList.toggle('active', mode === 'file');
 
-      document.getElementById('camera-controls').style.display = mode === 'camera' ? 'flex' : 'none';
-      document.getElementById('file-controls').style.display = mode === 'file' ? 'flex' : 'none';
+      document.getElementById('camera-settings').style.display = mode === 'camera' ? 'flex' : 'none';
+      document.getElementById('file-settings').style.display = mode === 'file' ? 'flex' : 'none';
+      fileControlsBar.style.display = mode === 'file' ? 'block' : 'none';
 
       if (animFrameId) cancelAnimationFrame(animFrameId);
 
@@ -1747,7 +2220,6 @@
       if (mode === 'camera') {
         setupCameraList();
       } else {
-        videoPlayerControls.style.display = 'none';
         canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
       }
     }
@@ -1865,7 +2337,6 @@
       videoElement.load();
 
       videoElement.onloadedmetadata = () => {
-        videoPlayerControls.style.display = 'flex';
         seekSlider.max = videoElement.duration;
         updateTimeDisplay();
         resetCounter();
