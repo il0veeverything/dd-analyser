@@ -553,7 +553,7 @@
     .processing-overlay {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(18, 19, 24, 0.85);
+      background: rgba(18, 19, 24, 0.88);
       backdrop-filter: blur(6px);
       display: flex;
       flex-direction: column;
@@ -681,7 +681,7 @@
 
   <!-- App Header -->
   <header>
-    <h1><span class="icon">analytics</span> Analytics</h1>
+    <h1><span class="icon">analytics</span> モーション解析 (Double Dutch)</h1>
     <div class="header-btns">
       <button class="btn-icon-only" onclick="openHistoryModal()" title="履歴">
         <span class="icon">history</span>
@@ -724,9 +724,9 @@
         <span>期間:</span>
         <div class="select-wrapper" style="padding: 2px 6px;">
           <select id="file-duration-select">
-            <option value="10">10s</option>
-            <option value="30" selected>30s</option>
-            <option value="60">60s</option>
+            <option value="10">10秒</option>
+            <option value="30" selected>30秒</option>
+            <option value="60">60秒</option>
             <option value="0">エンドレス</option>
           </select>
         </div>
@@ -750,7 +750,7 @@
         </button>
         <button id="timer-toggle-btn" class="timer-toggle-btn" onclick="cycleMeasurementTimer()">
           <span class="icon" style="font-size: 16px;">timer</span>
-          <span id="timer-toggle-label">10s</span>
+          <span id="timer-toggle-label">30秒</span>
         </button>
       </div>
 
@@ -773,13 +773,16 @@
     <!-- バックグラウンド解析処理プログレスUI -->
     <div id="processing-overlay" class="processing-overlay">
       <span class="icon" style="font-size: 40px; color: var(--md-sys-color-primary);">analytics</span>
-      <div style="font-size: 0.9rem; font-weight: 500;">動画バックグラウンド解析中...</div>
+      <div style="font-size: 0.95rem; font-weight: 500;">動画バックグラウンド解析中...</div>
       <div class="progress-bar-box">
         <div id="progress-bar-fill" class="progress-bar-fill"></div>
       </div>
-      <div style="display: flex; gap: 16px; font-size: 0.8rem; font-family: 'Roboto Mono', monospace;">
-        <span id="progress-percent">0%</span>
-        <span id="progress-eta">ETA: --s</span>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 0.8rem; font-family: 'Roboto Mono', monospace;">
+        <div style="display: flex; gap: 16px;">
+          <span id="progress-percent">0.0%</span>
+          <span id="progress-frames">0 / 0 frames</span>
+        </div>
+        <span id="progress-eta" style="color: var(--md-sys-color-on-surface-variant);">ETA: --m --s</span>
       </div>
     </div>
   </div>
@@ -787,15 +790,15 @@
   <!-- Metrics -->
   <div class="card metrics-grid">
     <div class="metric-card">
-      <span class="metric-label" id="track-target-label"><span class="icon">my_location</span> Speed</span>
+      <span class="metric-label" id="track-target-label"><span class="icon">my_location</span> ペース (Speed)</span>
       <span id="speed-val" class="metric-value">0.0</span>
     </div>
     <div class="metric-card">
-      <span class="metric-label"><span class="icon">numbers</span> Count</span>
+      <span class="metric-label"><span class="icon">numbers</span> 回数 (Count)</span>
       <span id="count-val" class="metric-value count">0</span>
     </div>
     <div class="metric-card">
-      <span class="metric-label"><span class="icon">schedule</span> Turn</span>
+      <span class="metric-label"><span class="icon">schedule</span> 1回時間 (Turn)</span>
       <span id="time-val" class="metric-value time">0.00s</span>
     </div>
   </div>
@@ -805,24 +808,24 @@
     <div class="mode-group-row">
       <div class="segmented-button-group">
         <button id="role-turner-btn" class="segmented-btn" onclick="setRoleMode('turner')">
-          <span class="icon">autorenew</span> Turner
+          <span class="icon">autorenew</span> ターナー
         </button>
         <button id="role-jumper-btn" class="segmented-btn active" onclick="setRoleMode('jumper')">
-          <span class="icon">directions_run</span> Jumper
+          <span class="icon">directions_run</span> ジャンパー
         </button>
       </div>
       <div class="segmented-button-group">
         <button id="graph-none-btn" class="segmented-btn" onclick="setGraphMode('none')">
-          <span class="icon">visibility_off</span>
+          <span class="icon">visibility_off</span> 非表示
         </button>
         <button id="graph-speed-btn" class="segmented-btn active" onclick="setGraphMode('speed')">
-          <span class="icon">speed</span>
+          <span class="icon">speed</span> ペース
         </button>
         <button id="graph-axis-btn" class="segmented-btn" onclick="setGraphMode('axis')">
-          <span class="icon">show_chart</span>
+          <span class="icon">show_chart</span> 軸変位
         </button>
         <button id="graph-orbit-btn" class="segmented-btn" onclick="setGraphMode('orbit')">
-          <span class="icon">gesture</span>
+          <span class="icon">gesture</span> 軌跡
         </button>
       </div>
     </div>
@@ -837,7 +840,7 @@
   <div id="history-modal" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
-        <div class="modal-title"><span class="icon">history</span> 履歴</div>
+        <div class="modal-title"><span class="icon">history</span> 測定履歴</div>
         <button class="icon-btn" onclick="closeHistoryModal()"><span class="icon">close</span></button>
       </div>
       <div class="modal-body">
@@ -858,14 +861,14 @@
       </div>
       <div class="modal-body">
         
-        <div class="section-title">1. Source</div>
+        <div class="section-title">1. 入力ソース選択</div>
         <div class="config-group">
           <div class="source-tabs">
             <button id="tab-camera" class="tab-btn active" onclick="switchSourceMode('camera')">
-              <span class="icon">videocam</span> Camera
+              <span class="icon">videocam</span> カメラ入力
             </button>
             <button id="tab-file" class="tab-btn" onclick="switchSourceMode('file')">
-              <span class="icon">upload_file</span> Video File
+              <span class="icon">upload_file</span> 動画ファイル
             </button>
           </div>
 
@@ -880,75 +883,75 @@
             </div>
           </div>
 
-          <!-- File selector input container (Visible only in Video File mode) -->
+          <!-- File selector input container -->
           <div id="file-settings" class="toolbar-container" style="display: none;">
             <label class="file-input-label select-wrapper">
               <span class="icon">file_open</span>
-              <span id="file-name-display">ファイルを選択</span>
+              <span id="file-name-display">動画ファイルを選択</span>
               <input type="file" id="video-file-input" accept="video/*">
             </label>
           </div>
         </div>
 
-        <div class="section-title">2. Target</div>
+        <div class="section-title">2. 検出ターゲット</div>
         <div class="config-group">
           <div class="slider-group">
-            <label for="detect-lm-select"><span class="icon">my_location</span> Landmark</label>
+            <label for="detect-lm-select"><span class="icon">my_location</span> 特徴点 (部位)</label>
             <div class="select-wrapper" style="padding: 2px 8px; flex-grow:1;">
               <select id="detect-lm-select" style="width:100%;">
-                <option value="15">Left Wrist (15)</option>
-                <option value="16">Right Wrist (16)</option>
-                <option value="27">Left Ankle (27)</option>
-                <option value="28" selected>Right Ankle (28)</option>
-                <option value="0">Nose (0)</option>
+                <option value="15">左手首 (15)</option>
+                <option value="16">右手首 (16)</option>
+                <option value="27">左足首 (27)</option>
+                <option value="28" selected>右足首 (28)</option>
+                <option value="0">鼻先 (0)</option>
               </select>
             </div>
           </div>
           <div class="slider-group">
-            <label for="detect-method-select"><span class="icon">query_stats</span> Axis</label>
+            <label for="detect-method-select"><span class="icon">query_stats</span> 検出軸</label>
             <div class="select-wrapper" style="padding: 2px 8px; flex-grow:1;">
               <select id="detect-method-select" style="width:100%;">
-                <option value="y_pos" selected>Y-Axis</option>
-                <option value="x_pos">X-Axis</option>
-                <option value="z_pos">Z-Axis</option>
+                <option value="y_pos" selected>Y軸 (上下運動)</option>
+                <option value="x_pos">X軸 (左右運動)</option>
+                <option value="z_pos">Z軸 (前後深度)</option>
               </select>
             </div>
           </div>
         </div>
 
-        <div class="section-title">3. Timer</div>
+        <div class="section-title">3. タイマー設定</div>
         <div class="config-group">
           <div class="slider-group">
-            <label for="countdown-sec-input"><span class="icon">hourglass_top</span> Delay</label>
+            <label for="countdown-sec-input"><span class="icon">hourglass_top</span> 開始ディレイ</label>
             <div class="select-wrapper" style="padding: 2px 8px; width: 80px;">
               <input type="number" id="countdown-sec-input" min="0" max="10" value="0" style="width: 100%;">
             </div>
-            <span>sec</span>
+            <span>秒</span>
           </div>
           <div class="slider-group">
-            <label for="custom-timer-sec-input"><span class="icon">timer</span> Duration</label>
+            <label for="custom-timer-sec-input"><span class="icon">timer</span> 計測時間</label>
             <div class="select-wrapper" style="padding: 2px 8px; width: 80px;">
-              <input type="number" id="custom-timer-sec-input" min="0" max="3600" value="10" style="width: 100%;">
+              <input type="number" id="custom-timer-sec-input" min="0" max="3600" value="30" style="width: 100%;">
             </div>
-            <span>sec</span>
+            <span>秒</span>
           </div>
         </div>
 
-        <div class="section-title">4. Sensitivity</div>
+        <div class="section-title">4. 検出感度・映像変換</div>
         <div class="config-group">
           <div class="checkbox-group">
             <label class="checkbox-label">
               <input type="checkbox" id="flip-h-check">
-              <span class="icon">flip</span> Flip-H
+              <span class="icon">flip</span> 左右反転
             </label>
             <label class="checkbox-label">
               <input type="checkbox" id="flip-v-check">
-              <span class="icon" style="transform: rotate(90deg);">flip</span> Flip-V
+              <span class="icon" style="transform: rotate(90deg);">flip</span> 上下反転
             </label>
           </div>
 
           <div class="slider-group">
-            <label for="rotation-select"><span class="icon">screen_rotation</span> Rotate</label>
+            <label for="rotation-select"><span class="icon">screen_rotation</span> 回転角度</label>
             <div class="select-wrapper" style="padding: 2px 8px;">
               <select id="rotation-select">
                 <option value="0" selected>0°</option>
@@ -960,66 +963,66 @@
           </div>
 
           <div class="slider-group">
-            <label for="zoom-slider"><span class="icon">zoom_in</span> Zoom</label>
+            <label for="zoom-slider"><span class="icon">zoom_in</span> ズーム</label>
             <input type="range" id="zoom-slider" min="1.0" max="3.0" step="0.1" value="1.0">
             <span id="zoom-val-display" class="slider-value">1.0x</span>
           </div>
           <div class="slider-group">
-            <label for="threshold-slider"><span class="icon">sensors</span> Threshold</label>
+            <label for="threshold-slider"><span class="icon">sensors</span> 判定しきい値</label>
             <input type="range" id="threshold-slider" min="0.00" max="0.100" step="0.005" value="0.010">
             <span id="threshold-val-display" class="slider-value">0.010</span>
           </div>
           <div class="slider-group">
-            <label for="cooldown-slider"><span class="icon">timer</span> Cooldown</label>
+            <label for="cooldown-slider"><span class="icon">timer</span> クールダウン</label>
             <input type="range" id="cooldown-slider" min="0.05" max="0.50" step="0.01" value="0.10">
             <span id="cooldown-val-display" class="slider-value">0.10s</span>
           </div>
         </div>
 
-        <div class="section-title">5. Overlay</div>
+        <div class="section-title">5. 画面表示（オーバーレイ）</div>
         <div class="config-group">
           <div class="checkbox-group">
             <label class="checkbox-label">
               <input type="checkbox" id="overlay-show-text-check" checked>
-              <span>Info</span>
+              <span>Info (回数/時間)</span>
             </label>
             <label class="checkbox-label" id="label-overlay-show-skel">
               <input type="checkbox" id="overlay-show-skel-check" checked>
-              <span>Skeleton</span>
+              <span>骨格ライン</span>
             </label>
             <label class="checkbox-label">
               <input type="checkbox" id="overlay-show-graph-check" checked>
-              <span>Graph</span>
+              <span>Graph (推移)</span>
             </label>
             <label class="checkbox-label">
               <input type="checkbox" id="overlay-show-pace-check" checked>
-              <span>Pace</span>
+              <span>Pace (平均)</span>
             </label>
             <label class="checkbox-label">
               <input type="checkbox" id="overlay-show-drop-check" checked>
-              <span>Drop</span>
+              <span>Drop (落ち率)</span>
             </label>
           </div>
 
           <div class="slider-group">
-            <label for="overlay-text-color-input"><span class="icon">palette</span> Text Color</label>
+            <label for="overlay-text-color-input"><span class="icon">palette</span> 文字色</label>
             <input type="color" id="overlay-text-color-input" value="#ffffff" style="cursor:pointer; width:36px; height:24px; border:none; background:transparent;">
           </div>
 
           <div class="slider-group">
-            <label for="overlay-position-select"><span class="icon">place</span> Position</label>
+            <label for="overlay-position-select"><span class="icon">place</span> 表示位置</label>
             <div class="select-wrapper" style="padding: 2px 8px;">
               <select id="overlay-position-select">
-                <option value="top-left" selected>Top-L</option>
-                <option value="top-right">Top-R</option>
-                <option value="bottom-left">Bot-L</option>
-                <option value="bottom-right">Bot-R</option>
+                <option value="top-left" selected>左上</option>
+                <option value="top-right">右上</option>
+                <option value="bottom-left">左下</option>
+                <option value="bottom-right">右下</option>
               </select>
             </div>
           </div>
           <div class="slider-group">
-            <label for="overlay-scale-slider"><span class="icon">aspect_ratio</span> Scale</label>
-            <input type="range" id="overlay-scale-slider" min="0" max="3" step="0.1" value="1.0">
+            <label for="overlay-scale-slider"><span class="icon">aspect_ratio</span> 表示サイズ</label>
+            <input type="range" id="overlay-scale-slider" min="0.5" max="2.0" step="0.1" value="1.0">
             <span id="overlay-scale-display" class="slider-value">1.0x</span>
           </div>
         </div>
@@ -1032,25 +1035,25 @@
   <div id="pace-analysis-modal" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
-        <div class="modal-title"><span class="icon">analytics</span> Pace Export</div>
+        <div class="modal-title"><span class="icon">analytics</span> ペース分析・画像出力</div>
         <button class="icon-btn" onclick="closePaceModal()"><span class="icon">close</span></button>
       </div>
       <div class="modal-body">
         <div class="config-group">
           <div class="slider-group">
-            <label for="analysis-title-input"><span class="icon">title</span> Title</label>
+            <label for="analysis-title-input"><span class="icon">title</span> タイトル</label>
             <div class="select-wrapper" style="padding: 2px 8px; flex-grow: 1;">
               <input type="text" id="analysis-title-input" value="ペース分析" style="width: 100%;">
             </div>
           </div>
           <div class="slider-group">
-            <label for="analysis-start-tag"><span class="icon">first_page</span> Start Tag</label>
+            <label for="analysis-start-tag"><span class="icon">first_page</span> 開始 tag (ID)</label>
             <div class="select-wrapper" style="padding: 2px 8px; width: 80px;">
               <input type="number" id="analysis-start-tag" min="1" value="3" style="width: 100%;">
             </div>
           </div>
           <div class="slider-group">
-            <label for="analysis-end-tag"><span class="icon">last_page</span> End Tag</label>
+            <label for="analysis-end-tag"><span class="icon">last_page</span> 終了 tag (ID)</label>
             <div class="select-wrapper" style="padding: 2px 8px; width: 80px;">
               <input type="number" id="analysis-end-tag" min="1" value="3" style="width: 100%;">
             </div>
@@ -1058,15 +1061,15 @@
           <div class="checkbox-group">
             <label class="checkbox-label">
               <input type="checkbox" id="analysis-iqr-toggle" checked>
-              <span>Filter Outliers (IQR)</span>
+              <span>外れ値を除く (IQR法)</span>
             </label>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn-secondary" onclick="closePaceModal()">Cancel</button>
+        <button class="btn-secondary" onclick="closePaceModal()">キャンセル</button>
         <button class="btn-primary" onclick="executePaceAnalysisExport()">
-          <span class="icon">download</span> Export
+          <span class="icon">download</span> 画像出力
         </button>
       </div>
     </div>
@@ -1126,6 +1129,7 @@
     const processingOverlay = document.getElementById('processing-overlay');
     const progressBarFill = document.getElementById('progress-bar-fill');
     const progressPercent = document.getElementById('progress-percent');
+    const progressFrames = document.getElementById('progress-frames');
     const progressEta = document.getElementById('progress-eta');
 
     let zoomFactor = parseFloat(zoomSlider.value);
@@ -1195,6 +1199,15 @@
       updateTimerLabel();
     });
 
+    // モーダル外タップ閉鎖処理の適用
+    document.querySelectorAll('.modal-overlay').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('open');
+        }
+      });
+    });
+
     function openSettingsModal() {
       document.getElementById('settings-modal').classList.add('open');
     }
@@ -1217,22 +1230,22 @@
       container.innerHTML = '';
 
       if (measurementHistory.length === 0) {
-        container.innerHTML = '<div style="text-align: center; color: var(--md-sys-color-on-surface-variant); padding: 16px 0; font-size: 0.8rem;">履歴なし</div>';
+        container.innerHTML = '<div style="text-align: center; color: var(--md-sys-color-on-surface-variant); padding: 16px 0; font-size: 0.8rem;">測定履歴はありません</div>';
         return;
       }
 
       measurementHistory.forEach((item, index) => {
         const div = document.createElement('div');
         div.className = 'history-item';
-        const durLabel = item.duration > 0 ? `${item.duration}s` : 'Endless';
+        const durLabel = item.duration > 0 ? `${item.duration}秒` : 'エンドレス';
         div.innerHTML = `
           <div style="display:flex; flex-direction:column;">
             <span class="history-date">${item.timestampStr}</span>
-            <span class="history-count">${item.count} cnt (${durLabel})</span>
+            <span class="history-count">${item.count} 回 (${durLabel})</span>
           </div>
           <div style="display:flex; gap: 4px;">
             <button class="btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;" onclick="exportHistoryCsv(${index})">CSV</button>
-            <button class="btn-primary" style="padding: 4px 8px; font-size: 0.75rem;" onclick="openPaceModalFromHistory(${index})">Graph</button>
+            <button class="btn-primary" style="padding: 4px 8px; font-size: 0.75rem;" onclick="openPaceModalFromHistory(${index})">グラフ</button>
           </div>
         `;
         container.appendChild(div);
@@ -1287,7 +1300,7 @@
     }
 
     function updateTimerLabel() {
-      timerToggleLabel.innerText = selectedTimerSec === 0 ? "Endless" : `${selectedTimerSec}s`;
+      timerToggleLabel.innerText = selectedTimerSec === 0 ? "エンドレス" : `${selectedTimerSec}秒`;
     }
 
     async function switchNextCamera() {
@@ -1499,7 +1512,10 @@
     function openPaceModal(dataToUse) {
       const targetData = dataToUse || recordedData;
       const validLogs = targetData.filter(d => d.id >= 3 && d.calculatedValue !== null);
-      if (validLogs.length < 3) return;
+      if (validLogs.length < 3) {
+        alert("分析対象のデータ件数が不足しています（ID 3以上の有効データが3件以上必要です）");
+        return;
+      }
 
       const latestId = targetData[targetData.length - 1].id;
       document.getElementById('analysis-start-tag').value = 3;
@@ -1520,31 +1536,54 @@
       return sortedArr[lower] * (1 - (index - lower)) + sortedArr[upper] * (index - lower);
     }
 
+    // 仕様書に完全準拠したグラフ画像出力プログラム
     function executePaceAnalysisExport() {
       const dataToUse = currentActiveRecordData || recordedData;
-      const title = document.getElementById('analysis-title-input').value.trim() || "Pace Analysis";
+      const title = document.getElementById('analysis-title-input').value.trim() || "ペース分析";
       const startTagId = parseInt(document.getElementById('analysis-start-tag').value, 10);
       const endTagId = parseInt(document.getElementById('analysis-end-tag').value, 10);
       const removeOutliers = document.getElementById('analysis-iqr-toggle').checked;
 
+      // 3.1 データ抽出・前処理 (id >= startTagId かつ id <= endTagId かつ calculatedValue != null)
       const extracted = dataToUse.filter(d => d.id >= startTagId && d.id <= endTagId && d.calculatedValue !== null);
-      if (extracted.length < 2) return;
+      if (extracted.length < 2) {
+        alert("選択範囲内に十分なデータが存在しません");
+        return;
+      }
 
       const unixMs0 = dataToUse[0].unixMs;
       const P = extracted.map(d => ({ x: (d.unixMs - unixMs0) / 1000.0, y: d.calculatedValue, id: d.id }));
 
+      // 3.2 外れ値判定・分離（IQR法）
       let P_valid = [];
+      let P_outlier = [];
+
       if (removeOutliers) {
         const yVals = P.map(p => p.y).sort((a, b) => a - b);
         const q1 = calculatePercentile(yVals, 0.25);
         const q3 = calculatePercentile(yVals, 0.75);
         const iqr = q3 - q1;
-        P_valid = P.filter(p => p.y >= q1 - 1.5 * iqr && p.y <= q3 + 1.5 * iqr);
-        if (P_valid.length < 2) P_valid = [...P];
+        const minAccept = q1 - 1.5 * iqr;
+        const maxAccept = q3 + 1.5 * iqr;
+
+        P.forEach(p => {
+          if (p.y >= minAccept && p.y <= maxAccept) {
+            P_valid.push(p);
+          } else {
+            P_outlier.push(p);
+          }
+        });
+
+        // 最小2件以上確保できない場合は外れ値除去をスキップ
+        if (P_valid.length < 2) {
+          P_valid = [...P];
+          P_outlier = [];
+        }
       } else {
         P_valid = [...P];
       }
 
+      // 3.3 最小二乗法による線形回帰計算
       const n = P_valid.length;
       let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
       P_valid.forEach(p => { sumX += p.x; sumY += p.y; sumXY += p.x * p.y; sumX2 += p.x * p.x; });
@@ -1559,25 +1598,158 @@
       const yEnd = a * xValidN1 + b;
       const ratio = yStart !== 0 ? (yEnd / yStart) * 100 : 0;
 
-      const formulaStr = `y = ${a.toFixed(4)}x ${b >= 0 ? '+' : '-'} ${Math.abs(b).toFixed(2)} (${yStart.toFixed(2)} -> ${yEnd.toFixed(2)}) ${ratio.toFixed(1)}%`;
+      const signStr = b >= 0 ? '+' : '-';
+      const formulaStr = `y = ${a.toFixed(4)}x ${signStr} ${Math.abs(b).toFixed(2)} (${yStart.toFixed(2)} → ${yEnd.toFixed(2)}) ${ratio.toFixed(1)}%`;
 
+      // 4. Canvas描画 (1200px × 700px)
       const exportCanvas = document.createElement('canvas');
-      exportCanvas.width = 1000;
-      exportCanvas.height = 500;
+      exportCanvas.width = 1200;
+      exportCanvas.height = 700;
       const ctx = exportCanvas.getContext('2d');
 
-      ctx.fillStyle = '#121318';
-      ctx.fillRect(0, 0, 1000, 500);
+      // 4.1 レイアウト・背景 (#18181b)
+      ctx.fillStyle = '#18181b';
+      ctx.fillRect(0, 0, 1200, 700);
 
-      ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 20px Roboto, sans-serif';
+      const margin = { top: 80, right: 60, bottom: 80, left: 100 };
+      const plotW = 1200 - margin.left - margin.right; // 1040px
+      const plotH = 700 - margin.top - margin.bottom;  // 540px
+
+      // タイトル描画 (#f4f4f5)
+      ctx.fillStyle = '#f4f4f5';
+      ctx.font = 'bold 28px "Roboto", sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText(title, 500, 36);
+      ctx.fillText(title, 1200 / 2, 48);
 
-      ctx.fillStyle = '#80d5ff';
+      // X/Y 描画スケール算出
+      const allX = P.map(p => p.x);
+      const allY = P.map(p => p.y);
+      let minX = Math.min(...allX);
+      let maxX = Math.max(...allX);
+      let minY = Math.min(...allY);
+      let maxY = Math.max(...allY);
+
+      if (minX === maxX) { minX -= 1; maxX += 1; }
+      if (minY === maxY) { minY -= 5; maxY += 5; }
+
+      // 軸マージン設定
+      const xPadding = (maxX - minX) * 0.05 || 1;
+      const yPadding = (maxY - minY) * 0.1 || 2;
+      const plotMinX = minX - xPadding;
+      const plotMaxX = maxX + xPadding;
+      const plotMinY = Math.max(0, minY - yPadding);
+      const plotMaxY = maxY + yPadding;
+
+      const getCanvasX = (x) => margin.left + ((x - plotMinX) / (plotMaxX - plotMinX)) * plotW;
+      const getCanvasY = (y) => margin.top + plotH - ((y - plotMinY) / (plotMaxY - plotMinY)) * plotH;
+
+      // 4.1 グリッド・目盛 (5分割)
+      ctx.strokeStyle = '#3f3f46';
+      ctx.lineWidth = 1;
+      ctx.fillStyle = '#a1a1aa';
       ctx.font = '14px "Roboto Mono", monospace';
-      ctx.fillText(formulaStr, 500, 64);
 
+      for (let i = 0; i <= 5; i++) {
+        // Y軸グリッド
+        const gridYVal = plotMinY + (plotMaxY - plotMinY) * (i / 5);
+        const cy = getCanvasY(gridYVal);
+        ctx.beginPath();
+        ctx.moveTo(margin.left, cy);
+        ctx.lineTo(margin.left + plotW, cy);
+        ctx.stroke();
+
+        ctx.textAlign = 'right';
+        ctx.fillText(gridYVal.toFixed(1), margin.left - 12, cy + 5);
+
+        // X軸グリッド
+        const gridXVal = plotMinX + (plotMaxX - plotMinX) * (i / 5);
+        const cx = getCanvasX(gridXVal);
+        ctx.beginPath();
+        ctx.moveTo(cx, margin.top);
+        ctx.lineTo(cx, margin.top + plotH);
+        ctx.stroke();
+
+        ctx.textAlign = 'center';
+        ctx.fillText(gridXVal.toFixed(1), cx, margin.top + plotH + 24);
+      }
+
+      // 主軸枠線
+      ctx.strokeStyle = '#3f3f46';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(margin.left, margin.top, plotW, plotH);
+
+      // 軸ラベル
+      ctx.fillStyle = '#f4f4f5';
+      ctx.font = 'bold 16px "Roboto", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText("時間 (s)", margin.left + plotW / 2, margin.top + plotH + 60);
+
+      ctx.save();
+      ctx.translate(32, margin.top + plotH / 2);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillText("ペース", 0, 0);
+      ctx.restore();
+
+      // 4.2 トレンドライン（回帰直線） 赤破線 (#ff3b30, 線幅 2.5px, [8, 6])
+      ctx.save();
+      ctx.strokeStyle = '#ff3b30';
+      ctx.lineWidth = 2.5;
+      ctx.setLineDash([8, 6]);
+      ctx.beginPath();
+      const lineY1 = a * plotMinX + b;
+      const lineY2 = a * plotMaxX + b;
+      ctx.moveTo(getCanvasX(plotMinX), getCanvasY(lineY1));
+      ctx.lineTo(getCanvasX(plotMaxX), getCanvasY(lineY2));
+      ctx.stroke();
+      ctx.restore();
+
+      // 4.2 有効データ接続線 青色折れ線 (#007aff, 線幅 2.5px)
+      if (P_valid.length > 1) {
+        ctx.strokeStyle = '#007aff';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        P_valid.forEach((p, idx) => {
+          const cx = getCanvasX(p.x);
+          const cy = getCanvasY(p.y);
+          if (idx === 0) ctx.moveTo(cx, cy);
+          else ctx.lineTo(cx, cy);
+        });
+        ctx.stroke();
+      }
+
+      // 4.2 有効データ点プロット 青丸 (#5AC8FA, 半径 5px)
+      P_valid.forEach(p => {
+        ctx.fillStyle = '#5AC8FA';
+        ctx.beginPath();
+        ctx.arc(getCanvasX(p.x), getCanvasY(p.y), 5, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // 4.2 外れ値データ点プロット グレー丸 (#71717a, 半径 4.5px)
+      P_outlier.forEach(p => {
+        ctx.fillStyle = '#71717a';
+        ctx.beginPath();
+        ctx.arc(getCanvasX(p.x), getCanvasY(p.y), 4.5, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // 4.2 数式ボックス（左上に透過黒背景枠付きで数式文字列表示）
+      const boxX = margin.left + 20;
+      const boxY = margin.top + 20;
+      ctx.font = 'bold 16px "Roboto Mono", monospace';
+      const textWidth = ctx.measureText(formulaStr).width;
+
+      ctx.fillStyle = 'rgba(24, 24, 27, 0.9)';
+      ctx.fillRect(boxX, boxY, textWidth + 24, 40);
+      ctx.strokeStyle = '#3f3f46';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(boxX, boxY, textWidth + 24, 40);
+
+      ctx.fillStyle = '#ff3b30';
+      ctx.textAlign = 'left';
+      ctx.fillText(formulaStr, boxX + 12, boxY + 26);
+
+      // 5. 自動ダウンロード処理
       const dataURL = exportCanvas.toDataURL('image/png');
       const downloadLink = document.createElement('a');
       downloadLink.download = `${title}.png`;
@@ -1675,7 +1847,7 @@
 
     // カメラリアルタイム時のMediapipe結果処理
     pose.onResults((results) => {
-      if (sourceMode === 'file') return; // 動画モード時は専用ループで描画
+      if (sourceMode === 'file') return;
 
       const vWidth = videoElement.videoWidth || 640;
       const vHeight = videoElement.videoHeight || 480;
@@ -1748,7 +1920,6 @@
             if (lastTurnTime > 0) {
               turnTime = (now - lastTurnTime) / 1000.0;
               if (turnTime >= 0.12 && turnTime <= 4.0) {
-                // 【変更】 Speedの計算結果を2で割る
                 currentS = (60.0 / turnTime) / 2.0;
                 speedHistory.push(currentS);
                 if (speedHistory.length > 3) speedHistory.shift();
@@ -1840,7 +2011,6 @@
       const startTime = parseFloat(document.getElementById('file-start-sec').value) || 0;
       const selectedDur = parseFloat(document.getElementById('file-duration-select').value);
       
-      // 0（エンドレス）の場合は動画の末尾まで
       const duration = (selectedDur === 0) ? (videoElement.duration - startTime) : selectedDur;
       const endTime = Math.min(startTime + duration, videoElement.duration);
 
@@ -1849,8 +2019,9 @@
       videoElement.pause();
       processingOverlay.classList.add('open');
       progressBarFill.style.width = '0%';
-      progressPercent.innerText = '0%';
-      progressEta.innerText = 'ETA: --s';
+      progressPercent.innerText = '0.0%';
+      progressFrames.innerText = '0 / 0 frames';
+      progressEta.innerText = 'ETA: --m --s';
 
       let localState = 'DOWN';
       let localValleyY = 0.5;
@@ -1914,13 +2085,13 @@
                 if (localLastTurnTime > 0) {
                   turnTime = currentSeek - localLastTurnTime;
                   if (turnTime >= 0.12 && turnTime <= 4.0) {
-                    // 【変更】 Speedの計算結果を2で割る
                     currentS = (60.0 / turnTime) / 2.0;
                     localSpeedHist.push(currentS);
                     if (localSpeedHist.length > 3) localSpeedHist.shift();
                     smoothedS = localSpeedHist.reduce((a, b) => a + b, 0) / localSpeedHist.length;
                   }
                 }
+                const prevTs = localLastTurnTime;
                 localLastTurnTime = currentSeek;
 
                 const relTime = currentSeek - startTime;
@@ -1929,7 +2100,8 @@
                   videoTime: currentSeek,
                   elapsedSec: relTime,
                   speed: smoothedS,
-                  turnTime: turnTime
+                  turnTime: turnTime,
+                  prevVideoTime: prevTs
                 });
 
                 analysisRecData.push({
@@ -1946,14 +2118,18 @@
         currentSeek += step;
 
         const progressRatio = Math.min(stepCount / totalSteps, 1.0);
-        progressBarFill.style.width = `${Math.round(progressRatio * 100)}%`;
-        progressPercent.innerText = `${Math.round(progressRatio * 100)}%`;
+        const percentVal = (progressRatio * 100).toFixed(1);
+        progressBarFill.style.width = `${percentVal}%`;
+        progressPercent.innerText = `${percentVal}%`;
+        progressFrames.innerText = `${stepCount} / ${totalSteps} frames`;
 
         const elapsedProc = (performance.now() - processStartTime) / 1000;
         if (progressRatio > 0) {
           const estimatedTotal = elapsedProc / progressRatio;
-          const eta = Math.max(0, Math.ceil(estimatedTotal - elapsedProc));
-          progressEta.innerText = `ETA: ${eta}s`;
+          const etaTotalSec = Math.max(0, Math.ceil(estimatedTotal - elapsedProc));
+          const etaM = Math.floor(etaTotalSec / 60);
+          const etaS = etaTotalSec % 60;
+          progressEta.innerText = `ETA: ${etaM}m ${etaS}s`;
         }
       }
 
@@ -1968,7 +2144,7 @@
 
       // 履歴に自動登録
       const now = new Date();
-      const timestampStr = `[File] ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
+      const timestampStr = `[動画] ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
       measurementHistory.unshift({
         timestampStr: timestampStr,
         count: localCount,
@@ -1983,7 +2159,7 @@
       renderVideoFileFrame();
     }
 
-    // 動画ファイルの同期描画ループ（再生中にタイムスタンプからオーバーレイを描画）
+    // 動画ファイルの同期描画ループ（再生中にタイムスタンプからオーバーレイ描画）
     function renderVideoFileFrame() {
       if (sourceMode !== 'file') return;
 
@@ -2010,15 +2186,19 @@
       canvasCtx.drawImage(videoElement, -vWidth / 2, -vHeight / 2, vWidth, vHeight);
       canvasCtx.restore();
 
-      // 動画解析結果に基づくオーバーレイ情報の検索
+      // 動画解析結果に基づくオーバーレイ情報の検索・算出
       let curCount = 0;
       let curSpeed = 0.0;
       let curTurnTime = 0.0;
       let curElapsed = 0.0;
+      let curPaceAvg = 0.0;
+      let curDropRate = 0.0;
+      let recentPaces = [];
 
       if (fileAnalysisResult) {
         const vTime = videoElement.currentTime;
         const startT = fileAnalysisResult.startTime;
+        const playbackRate = parseFloat(playbackRateSelect.value) || 1.0;
 
         if (vTime >= startT) {
           curElapsed = Math.min(vTime - startT, fileAnalysisResult.duration);
@@ -2027,8 +2207,45 @@
           if (pastItems.length > 0) {
             const lastItem = pastItems[pastItems.length - 1];
             curCount = lastItem.count;
-            curSpeed = lastItem.speed || 0;
             curTurnTime = lastItem.turnTime || 0;
+
+            // 式: 30 / {前回のタイムスタンプ(s) - 直近のタイムスタンプ(s)} / {動画の再生速度}
+            if (lastItem.prevVideoTime && lastItem.videoTime > lastItem.prevVideoTime) {
+              const diffSec = lastItem.videoTime - lastItem.prevVideoTime;
+              curSpeed = (30.0 / diffSec) / playbackRate;
+            } else {
+              curSpeed = lastItem.speed || 0;
+            }
+
+            // 直近5回の平均 Pace
+            const recent5 = pastItems.slice(-5);
+            const paceSum = recent5.reduce((sum, item) => {
+              let pVal = item.speed || 0;
+              if (item.prevVideoTime && item.videoTime > item.prevVideoTime) {
+                pVal = (30.0 / (item.videoTime - item.prevVideoTime)) / playbackRate;
+              }
+              return sum + pVal;
+            }, 0);
+            curPaceAvg = paceSum / recent5.length;
+
+            // Drop (落ち率%: 初めのペースからの割合変化)
+            let initialPace = pastItems[0].speed || 0;
+            if (pastItems[0].prevVideoTime && pastItems[0].videoTime > pastItems[0].prevVideoTime) {
+              initialPace = (30.0 / (pastItems[0].videoTime - pastItems[0].prevVideoTime)) / playbackRate;
+            }
+            if (initialPace > 0) {
+              curDropRate = ((curSpeed - initialPace) / initialPace) * 100;
+            }
+
+            // 直近5秒間のペース推移データ（Graph用）
+            const fiveSecAgo = vTime - 5.0;
+            recentPaces = pastItems.filter(t => t.videoTime >= fiveSecAgo).map(t => {
+              let pVal = t.speed || 0;
+              if (t.prevVideoTime && t.videoTime > t.prevVideoTime) {
+                pVal = (30.0 / (t.videoTime - t.prevVideoTime)) / playbackRate;
+              }
+              return { x: (t.videoTime - startT), y: pVal };
+            });
           }
         }
       }
@@ -2037,7 +2254,7 @@
       document.getElementById('speed-val').innerText = curSpeed > 0 ? curSpeed.toFixed(1) : '0.0';
       document.getElementById('time-val').innerText = curTurnTime > 0 ? curTurnTime.toFixed(2) + 's' : '0.00s';
 
-      // グラフ更新（動画解析時）
+      // リアルタイムグラフの更新
       if (currentGraph === 'speed' && fileAnalysisResult) {
         const pastItems = fileAnalysisResult.timestamps.filter(t => t.videoTime <= videoElement.currentTime);
         chart.data.datasets[0].data = pastItems.map((item, idx) => ({ x: idx, y: item.speed }));
@@ -2045,18 +2262,75 @@
         chart.update();
       }
 
-      const showText = overlayShowTextCheck.checked;
+      // Canvas上の各種オーバーレイ描画
       const scale = parseFloat(overlayScaleSlider.value);
       const textColor = overlayTextColorInput.value || '#ffffff';
+      const pos = overlayPositionSelect.value;
 
       canvasCtx.save();
-      if (showText) {
-        canvasCtx.fillStyle = textColor;
-        canvasCtx.font = `700 ${Math.round(16 * scale)}px "Roboto Mono", monospace`;
-        canvasCtx.fillText(`C: ${curCount} | T: ${curElapsed.toFixed(1)}s`, 12, 24 * scale);
-      }
-      canvasCtx.restore();
+      canvasCtx.fillStyle = textColor;
+      canvasCtx.font = `700 ${Math.round(14 * scale)}px "Roboto Mono", monospace`;
 
+      let startX = 16 * scale;
+      let startY = 28 * scale;
+      if (pos === 'top-right') { startX = nativeW - 180 * scale; }
+      else if (pos === 'bottom-left') { startY = nativeH - 120 * scale; }
+      else if (pos === 'bottom-right') { startX = nativeW - 180 * scale; startY = nativeH - 120 * scale; }
+
+      let lineOffset = 0;
+
+      // 1. Info (回数・経過時間)
+      if (overlayShowTextCheck.checked) {
+        canvasCtx.fillText(`Count: ${curCount}`, startX, startY + lineOffset);
+        lineOffset += 20 * scale;
+        canvasCtx.fillText(`Time : ${curElapsed.toFixed(1)}s`, startX, startY + lineOffset);
+        lineOffset += 20 * scale;
+      }
+
+      // 2. Pace (直近5回平均)
+      if (overlayShowPaceCheck.checked) {
+        canvasCtx.fillText(`Pace : ${curPaceAvg.toFixed(1)}`, startX, startY + lineOffset);
+        lineOffset += 20 * scale;
+      }
+
+      // 3. Drop (落ち率 %)
+      if (overlayShowDropCheck.checked) {
+        const dropSign = curDropRate >= 0 ? '+' : '';
+        canvasCtx.fillText(`Drop : ${dropSign}${curDropRate.toFixed(1)}%`, startX, startY + lineOffset);
+        lineOffset += 20 * scale;
+      }
+
+      // 4. Graph (直近5秒のペース推移グラフ)
+      if (overlayShowGraphCheck.checked && recentPaces.length > 0) {
+        const gw = 140 * scale;
+        const gh = 50 * scale;
+        const gx = startX;
+        const gy = startY + lineOffset + 6;
+
+        canvasCtx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+        canvasCtx.fillRect(gx, gy, gw, gh);
+        canvasCtx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+        canvasCtx.strokeRect(gx, gy, gw, gh);
+
+        const yVals = recentPaces.map(p => p.y);
+        const minY = Math.min(...yVals) * 0.9 || 0;
+        const maxY = Math.max(...yVals) * 1.1 || 100;
+        const minX = recentPaces[0].x;
+        const maxX = recentPaces[recentPaces.length - 1].x || minX + 1;
+
+        canvasCtx.strokeStyle = '#80d5ff';
+        canvasCtx.lineWidth = 2 * scale;
+        canvasCtx.beginPath();
+        recentPaces.forEach((pt, idx) => {
+          const px = gx + ((pt.x - minX) / (maxX - minX || 1)) * gw;
+          const py = gy + gh - ((pt.y - minY) / (maxY - minY || 1)) * gh;
+          if (idx === 0) canvasCtx.moveTo(px, py);
+          else canvasCtx.lineTo(px, py);
+        });
+        canvasCtx.stroke();
+      }
+
+      canvasCtx.restore();
       animFrameId = requestAnimationFrame(renderVideoFileFrame);
     }
 
@@ -2066,7 +2340,7 @@
 
     function updateChart() {
       if (currentGraph === 'none') return;
-      if (sourceMode === 'file') return; // 動画モード時はrenderVideoFileFrameで処理
+      if (sourceMode === 'file') return;
 
       if (currentGraph === 'orbit' && currentRole === 'turner') {
         chart.options.aspectRatio = 1;
@@ -2111,7 +2385,6 @@
       timerToggleBtn.style.display = mode === 'camera' ? 'flex' : 'none';
       shutterAnalyticsBtn.style.display = mode === 'camera' ? 'flex' : 'none';
 
-      // 動画解析モード制限コントロール
       const roleTurnerBtn = document.getElementById('role-turner-btn');
       const roleJumperBtn = document.getElementById('role-jumper-btn');
       const graphAxisBtn = document.getElementById('graph-axis-btn');
@@ -2184,7 +2457,7 @@
         videoDevices.forEach((device, index) => {
           const option = document.createElement('option');
           option.value = device.deviceId;
-          option.text = device.label || `Cam ${index + 1}`;
+          option.text = device.label || `カメラ ${index + 1}`;
           cameraSelect.appendChild(option);
         });
 
@@ -2245,7 +2518,7 @@
     });
 
     updateTimerLabel();
-    setupCameraList();
+    setupCameraList(); 
   </script>
 </body>
 </html>
