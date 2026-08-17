@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Double Dutch Motion Analytics</title>
 
-  <!-- Google Fonts: Roboto & Material Symbols -->
+  <!-- Google Fonts & Material Symbols -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -18,7 +18,6 @@
 
   <style>
     :root {
-      /* Material Design 3 Palette (Dark Theme) */
       --md-sys-color-background: #121318;
       --md-sys-color-surface: #1b1b21;
       --md-sys-color-surface-container: #26262e;
@@ -41,23 +40,20 @@
       --md-shape-corner-full: 9999px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       background-color: var(--md-sys-color-background);
       color: var(--md-sys-color-on-surface);
       font-family: 'Roboto', sans-serif;
       margin: 0;
-      padding: 16px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 16px;
+      gap: 12px;
     }
 
-    /* App Header */
     header {
       width: 100%;
       max-width: 680px;
@@ -67,67 +63,58 @@
     }
 
     h1 {
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       font-weight: 500;
       margin: 0;
-      color: var(--md-sys-color-on-surface);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .header-btns {
       display: flex;
-      gap: 8px;
+      gap: 6px;
     }
 
     .icon {
       font-family: 'Material Symbols Outlined';
       font-weight: normal;
       font-style: normal;
-      font-size: 24px;
+      font-size: 20px;
       line-height: 1;
-      letter-spacing: normal;
-      text-transform: none;
       display: inline-block;
       white-space: nowrap;
-      word-wrap: normal;
-      direction: ltr;
     }
 
-    /* Cards */
     .card {
       width: 100%;
       max-width: 680px;
       background: var(--md-sys-color-surface);
       border-radius: var(--md-shape-corner-large);
-      padding: 16px;
+      padding: 12px;
       border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
-    /* Source Selector Tabs */
     .source-tabs {
       display: flex;
       gap: 8px;
       width: 100%;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
 
     .tab-btn {
       flex: 1;
-      padding: 10px;
+      padding: 8px;
       background: var(--md-sys-color-surface-container);
       color: var(--md-sys-color-on-surface-variant);
       border: 1px solid var(--md-sys-color-outline);
       border-radius: var(--md-shape-corner-medium);
-      font-size: 0.875rem;
-      font-weight: 500;
+      font-size: 0.8rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
       transition: all 0.2s;
     }
 
@@ -137,10 +124,9 @@
       border-color: var(--md-sys-color-primary);
     }
 
-    /* Controls Container */
     .toolbar-container {
       display: flex;
-      gap: 12px;
+      gap: 8px;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
@@ -149,18 +135,18 @@
     .select-wrapper {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       background: var(--md-sys-color-surface-container);
-      padding: 6px 14px;
+      padding: 4px 10px;
       border-radius: var(--md-shape-corner-full);
       border: 1px solid var(--md-sys-color-outline);
     }
 
-    select, input[type="file"], input[type="number"], input[type="text"] {
+    select, input[type="file"], input[type="number"], input[type="text"], input[type="color"] {
       background: transparent;
       color: var(--md-sys-color-on-surface);
       border: none;
-      font-size: 0.875rem;
+      font-size: 0.8rem;
       outline: none;
       cursor: pointer;
       font-family: inherit;
@@ -174,24 +160,21 @@
     .file-input-label {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       cursor: pointer;
-      font-size: 0.875rem;
+      font-size: 0.8rem;
       color: var(--md-sys-color-primary);
     }
 
-    .file-input-label input[type="file"] {
-      display: none;
-    }
+    .file-input-label input[type="file"] { display: none; }
 
-    /* Video Controls */
     .video-controls {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       width: 100%;
       background: var(--md-sys-color-surface-container);
-      padding: 8px 14px;
+      padding: 6px 10px;
       border-radius: var(--md-shape-corner-medium);
     }
 
@@ -207,9 +190,7 @@
       border-radius: 50%;
     }
 
-    .icon-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
+    .icon-btn:hover { background: rgba(255, 255, 255, 0.1); }
 
     .seek-slider {
       flex-grow: 1;
@@ -217,79 +198,62 @@
       cursor: pointer;
     }
 
-    /* Buttons */
-    .btn-filled-error {
-      background: var(--md-sys-color-error-container);
-      color: var(--md-sys-color-error);
-      border: none;
-      padding: 8px 16px;
-      font-size: 0.875rem;
-      font-weight: 500;
-      border-radius: var(--md-shape-corner-full);
+    .btn-icon-only {
+      background: var(--md-sys-color-surface-container-high);
+      color: var(--md-sys-color-on-surface);
+      border: 1px solid var(--md-sys-color-outline);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 6px;
-      transition: opacity 0.2s;
+      justify-content: center;
+      transition: all 0.2s;
     }
 
-    .btn-filled-error:hover { opacity: 0.85; }
+    .btn-icon-only.error {
+      background: var(--md-sys-color-error-container);
+      color: var(--md-sys-color-error);
+      border: none;
+    }
 
     .btn-secondary {
       background: var(--md-sys-color-surface-container-high);
       color: var(--md-sys-color-on-surface);
       border: 1px solid var(--md-sys-color-outline);
-      padding: 8px 16px;
-      font-size: 0.875rem;
-      font-weight: 500;
+      padding: 6px 12px;
+      font-size: 0.8rem;
       border-radius: var(--md-shape-corner-full);
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
+    }
+
+    .btn-secondary:disabled, .btn-primary:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
     }
 
     .btn-primary {
       background: var(--md-sys-color-primary);
       color: var(--md-sys-color-on-primary);
       border: none;
-      padding: 8px 16px;
-      font-size: 0.875rem;
+      padding: 6px 12px;
+      font-size: 0.8rem;
       font-weight: 700;
       border-radius: var(--md-shape-corner-full);
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 6px;
-      transition: all 0.2s;
-    }
-
-    .btn-primary:hover { opacity: 0.9; }
-
-    .btn-primary:disabled {
-      background: var(--md-sys-color-secondary-container);
-      color: var(--md-sys-color-on-surface-variant);
-      cursor: not-allowed;
-    }
-
-    /* Timer Display */
-    .timer-display-box {
-      font-family: 'Roboto Mono', monospace;
-      font-size: 0.9rem;
-      font-weight: bold;
-      color: #ffb74d;
-      display: flex;
-      align-items: center;
       gap: 4px;
     }
 
-    /* Modals Overlay */
     .modal-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
       background: rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(4px);
       display: flex;
@@ -309,18 +273,17 @@
     .modal-card {
       background: var(--md-sys-color-surface);
       width: 90%;
-      max-width: 600px;
+      max-width: 500px;
       max-height: 85vh;
       border-radius: var(--md-shape-corner-large);
       border: 1px solid var(--md-sys-color-surface-container-high);
       display: flex;
       flex-direction: column;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
       overflow: hidden;
     }
 
     .modal-header {
-      padding: 16px;
+      padding: 12px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -328,76 +291,73 @@
     }
 
     .modal-title {
-      font-size: 1.1rem;
+      font-size: 0.95rem;
       font-weight: 500;
       color: var(--md-sys-color-primary);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .modal-body {
-      padding: 16px;
+      padding: 12px 16px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
     }
 
     .modal-footer {
-      padding: 16px;
+      padding: 12px 16px;
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      gap: 12px;
+      gap: 8px;
       border-top: 1px solid var(--md-sys-color-surface-container-high);
       background: var(--md-sys-color-surface-container);
     }
 
     .section-title {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       font-weight: 700;
       color: var(--md-sys-color-tertiary);
-      text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 4px;
     }
 
     .config-group {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 8px;
       background: var(--md-sys-color-surface-container);
-      padding: 12px;
+      padding: 10px;
       border-radius: var(--md-shape-corner-medium);
     }
 
     .slider-group {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 0.875rem;
+      gap: 8px;
+      font-size: 0.8rem;
     }
 
     .slider-group label {
       color: var(--md-sys-color-on-surface-variant);
-      width: 160px;
+      width: 130px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
     }
 
     .slider-group input[type="range"] {
       flex-grow: 1;
-      height: 6px;
-      border-radius: 3px;
+      height: 4px;
       accent-color: var(--md-sys-color-primary);
       cursor: pointer;
     }
 
     .slider-value {
-      width: 55px;
+      width: 45px;
       text-align: right;
       color: var(--md-sys-color-primary);
       font-family: 'Roboto Mono', monospace;
@@ -407,8 +367,8 @@
     .checkbox-group {
       display: flex;
       align-items: center;
-      gap: 20px;
-      font-size: 0.875rem;
+      gap: 16px;
+      font-size: 0.8rem;
       color: var(--md-sys-color-on-surface-variant);
       flex-wrap: wrap;
     }
@@ -416,58 +376,42 @@
     .checkbox-label {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       cursor: pointer;
     }
 
-    .checkbox-label input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--md-sys-color-primary);
-      cursor: pointer;
+    .checkbox-label.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
     }
 
-    /* History List Styling */
     .history-list {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
 
     .history-item {
       background: var(--md-sys-color-surface-container);
-      padding: 12px 16px;
+      padding: 8px 12px;
       border-radius: var(--md-shape-corner-medium);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .history-info {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
     }
 
     .history-date {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: var(--md-sys-color-on-surface-variant);
     }
 
     .history-count {
-      font-size: 1.1rem;
+      font-size: 0.95rem;
       font-weight: bold;
       color: var(--md-sys-color-primary);
       font-family: 'Roboto Mono', monospace;
     }
 
-    .history-actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    /* Media View */
     #media-container {
       position: relative;
       width: 100%;
@@ -476,18 +420,6 @@
       border-radius: var(--md-shape-corner-large);
       overflow: hidden;
       border: 1px solid var(--md-sys-color-surface-container-high);
-      transition: aspect-ratio 0.2s ease;
-    }
-
-    #media-container:fullscreen {
-      max-width: none;
-      width: 100vw;
-      height: 100vh;
-      border-radius: 0;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     #input_video { display: none; }
@@ -499,224 +431,243 @@
       object-fit: contain;
     }
 
-    /* Circular Overlay Recording Button */
-    .record-circle-btn {
+    .preview-overlay-controls {
       position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
       z-index: 20;
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(8px);
-      border: 3px solid rgba(255, 255, 255, 0.8);
-      cursor: pointer;
+    }
+
+    .preview-overlay-controls * { pointer-events: auto; }
+
+    .top-overlay-bar {
+      position: absolute;
+      top: 10px; left: 10px;
       display: flex;
+      gap: 6px;
       align-items: center;
-      justify-content: center;
-      transition: opacity 0.5s ease, transform 0.2s ease, background 0.2s ease;
-      padding: 0;
-      outline: none;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
 
-    .record-circle-btn:hover {
-      background: rgba(255, 255, 255, 0.4);
-      transform: translate(-50%, -50%) scale(1.05);
-    }
-
-    .record-circle-inner {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background-color: #ff3b30;
-      transition: all 0.2s ease;
-    }
-
-    .record-circle-btn.recording .record-circle-inner {
-      border-radius: 4px;
-      width: 22px;
-      height: 22px;
-    }
-
-    /* Layout configurations based on preview orientation */
-    #media-container.landscape .record-circle-btn {
-      top: 50%;
-      right: 24px;
-      transform: translateY(-50%);
-    }
-    #media-container.landscape .record-circle-btn:hover {
-      transform: translateY(-50%) scale(1.05);
-    }
-
-    #media-container.portrait .record-circle-btn {
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    #media-container.portrait .record-circle-btn:hover {
-      transform: translateX(-50%) scale(1.05);
-    }
-
-    .record-circle-btn.hidden-fade {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    /* Countdown Overlay Element */
-    .countdown-overlay {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 30;
-      font-family: 'Roboto', sans-serif;
-      font-size: 7rem;
-      font-weight: 700;
-      color: #ffffff;
-      text-shadow: 0 4px 20px rgba(0,0,0,0.8), 0 0 10px rgba(0,0,0,0.5);
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.2s ease, transform 0.2s ease;
-    }
-
-    .countdown-overlay.visible {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1.1);
-    }
-
-    /* Fullscreen Floating Trigger */
-    .fullscreen-btn {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      z-index: 20;
-      background: rgba(0, 0, 0, 0.5);
+    .camera-switch-btn, .timer-toggle-btn, .fullscreen-btn {
+      background: rgba(0, 0, 0, 0.4);
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: #fff;
-      border-radius: 50%;
-      width: 38px;
-      height: 38px;
+      border-radius: var(--md-shape-corner-full);
+      height: 32px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       backdrop-filter: blur(4px);
-      transition: background 0.2s;
     }
 
-    .fullscreen-btn:hover {
-      background: rgba(0, 0, 0, 0.8);
+    .camera-switch-btn, .fullscreen-btn { width: 32px; }
+
+    .timer-toggle-btn {
+      padding: 0 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      gap: 4px;
     }
 
-    /* Metrics Dashboard Grid */
+    .fullscreen-btn {
+      position: absolute;
+      top: 10px; right: 10px;
+    }
+
+    .shutter-bar {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+
+    #media-container.landscape .shutter-bar {
+      top: 50%; right: 16px;
+      flex-direction: column;
+      transform: translateY(-50%);
+    }
+
+    #media-container.portrait .shutter-bar {
+      bottom: 16px; left: 50%;
+      flex-direction: row;
+      transform: translateX(-50%);
+    }
+
+    .shutter-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(6px);
+      border: 3px solid rgba(255, 255, 255, 0.9);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      outline: none;
+    }
+
+    .shutter-btn.video-rec .shutter-inner {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background-color: #ff3b30;
+    }
+
+    .shutter-btn.video-rec.recording .shutter-inner {
+      border-radius: 3px;
+      width: 16px; height: 16px;
+    }
+
+    .shutter-btn.analytics-start .shutter-inner {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background-color: #80d5ff;
+    }
+
+    .shutter-btn.analytics-start.recording .shutter-inner {
+      border-radius: 3px;
+      width: 16px; height: 16px;
+      background-color: #ff9500;
+    }
+
+    .countdown-overlay {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 30;
+      font-size: 5rem;
+      font-weight: 700;
+      color: #ffffff;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .countdown-overlay.visible { opacity: 1; }
+
+    /* 進捗表示オーバーレイ */
+    .processing-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(18, 19, 24, 0.85);
+      backdrop-filter: blur(6px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      z-index: 40;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .processing-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .progress-bar-box {
+      width: 70%;
+      height: 8px;
+      background: var(--md-sys-color-surface-container-high);
+      border-radius: var(--md-shape-corner-full);
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      width: 0%;
+      height: 100%;
+      background: var(--md-sys-color-primary);
+      transition: width 0.1s linear;
+    }
+
     .metrics-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      gap: 12px;
+      gap: 8px;
     }
 
     .metric-card {
       background: var(--md-sys-color-surface-container);
       border-radius: var(--md-shape-corner-medium);
-      padding: 12px 16px;
+      padding: 8px 12px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
     }
 
     .metric-label {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--md-sys-color-on-surface-variant);
-      margin-bottom: 4px;
+      margin-bottom: 2px;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 2px;
     }
 
     .metric-value {
       font-family: 'Roboto Mono', monospace;
-      font-size: 1.8rem;
+      font-size: 1.4rem;
       font-weight: 700;
       color: var(--md-sys-color-primary);
     }
 
     .metric-value.count { color: #81c784; }
+    .metric-value.time { color: #ba68c8; font-size: 1.1rem; }
 
-    .metric-value.time {
-      color: #ba68c8;
-      font-size: 1.4rem;
-    }
-
-    /* Mode Filter Chips Container */
-    .mode-section {
-      width: 100%;
-      max-width: 680px;
+    .mode-section-card {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
 
-    .chip-row {
+    .mode-group-row {
       display: flex;
       align-items: center;
       gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 2px;
     }
 
-    .role-badge {
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 6px 10px;
-      border-radius: var(--md-shape-corner-medium);
-      min-width: 36px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    .role-badge.turner {
-      background: var(--md-sys-color-primary-container);
-      color: var(--md-sys-color-on-primary-container);
-      border: 1px solid var(--md-sys-color-primary);
-    }
-
-    .role-badge.jumper {
-      background: #4a2800;
-      color: #ffcc80;
-      border: 1px solid #ffb74d;
-    }
-
-    .chip {
+    .segmented-button-group {
+      display: inline-flex;
       background: var(--md-sys-color-surface-container);
-      color: var(--md-sys-color-on-surface-variant);
       border: 1px solid var(--md-sys-color-outline);
-      padding: 8px 14px;
-      border-radius: var(--md-shape-corner-medium);
-      font-size: 0.8125rem;
-      font-weight: 500;
-      white-space: nowrap;
+      border-radius: var(--md-shape-corner-full);
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .segmented-btn {
+      background: transparent;
+      border: none;
+      color: var(--md-sys-color-on-surface-variant);
+      padding: 4px 10px;
+      border-radius: var(--md-shape-corner-full);
+      font-size: 0.75rem;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-      flex-shrink: 0;
+      gap: 4px;
+      white-space: nowrap;
     }
 
-    .chip.active {
+    .segmented-btn.active {
       background: var(--md-sys-color-primary-container);
       color: var(--md-sys-color-on-primary-container);
-      border-color: var(--md-sys-color-primary);
+      font-weight: 700;
     }
 
-    /* Chart Card */
+    .segmented-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
     #chart-container {
       width: 100%;
       max-width: 680px;
       background: var(--md-sys-color-surface);
       border-radius: var(--md-shape-corner-large);
-      padding: 16px;
-      box-sizing: border-box;
+      padding: 12px;
       border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
@@ -730,30 +681,29 @@
 
   <!-- App Header -->
   <header>
-    <h1><span class="icon">analytics</span> Double Dutch Analytics</h1>
+    <h1><span class="icon">analytics</span> Analytics</h1>
     <div class="header-btns">
-      <button class="btn-secondary" onclick="openHistoryModal()">
-        <span class="icon">history</span> 履歴
+      <button class="btn-icon-only" onclick="openHistoryModal()" title="履歴">
+        <span class="icon">history</span>
       </button>
-      <button class="btn-secondary" onclick="openSettingsModal()">
-        <span class="icon">settings</span> 設定
+      <button class="btn-icon-only" onclick="openSettingsModal()" title="設定">
+        <span class="icon">settings</span>
       </button>
-      <button class="btn-filled-error" onclick="resetCounter()">
-        <span class="icon">restart_alt</span> リセット
+      <button class="btn-icon-only error" onclick="resetCounter()" title="リセット">
+        <span class="icon">restart_alt</span>
       </button>
     </div>
   </header>
 
-  <!-- Video File Custom Player Controls (File Input Mode Only) -->
+  <!-- Video Player Controls (File Mode Only) -->
   <div id="file-controls-bar" class="card" style="display: none;">
-    <div class="video-controls">
+    <div class="video-controls" style="flex-wrap: wrap;">
       <button id="play-pause-btn" class="icon-btn" onclick="toggleVideoPlay()">
         <span class="icon" id="play-icon">play_arrow</span>
       </button>
-      <input type="range" id="seek-slider" class="seek-slider" min="0" max="100" value="0" step="0.1">
-      <span id="video-time-display" style="font-family: 'Roboto Mono', monospace; font-size: 0.75rem; color: var(--md-sys-color-on-surface-variant);">00:00 / 00:00</span>
-      
-      <div class="select-wrapper" style="padding: 2px 8px;">
+      <input type="range" id="seek-slider" class="seek-slider" min="0" max="100" value="0" step="0.01">
+      <span id="video-time-display" style="font-family: 'Roboto Mono', monospace; font-size: 0.7rem; color: var(--md-sys-color-on-surface-variant);">00:00 / 00:00</span>
+      <div class="select-wrapper" style="padding: 2px 6px;">
         <select id="playback-rate-select">
           <option value="0.25">0.25x</option>
           <option value="0.5">0.5x</option>
@@ -762,33 +712,79 @@
           <option value="2.0">2.0x</option>
         </select>
       </div>
+      <!-- 動画解析用トリガーボタンと時間設定 -->
+      <div style="display: flex; gap: 6px; align-items: center; width: 100%; margin-top: 4px; font-size: 0.75rem; flex-wrap: wrap;">
+        <button class="btn-secondary" onclick="setCurrentTimeAsStart()" style="padding: 2px 8px;">
+          <span class="icon" style="font-size:14px;">place</span> 現位置を開始に指定
+        </button>
+        <span>開始:</span>
+        <input type="number" id="file-start-sec" value="0" min="0" step="0.1" style="width: 50px; background: var(--md-sys-color-surface-container); color:#fff; border-radius:4px; padding:2px 4px;">
+        <span>s</span>
+        
+        <span>期間:</span>
+        <div class="select-wrapper" style="padding: 2px 6px;">
+          <select id="file-duration-select">
+            <option value="10">10s</option>
+            <option value="30" selected>30s</option>
+            <option value="60">60s</option>
+            <option value="0">エンドレス</option>
+          </select>
+        </div>
+
+        <button class="btn-primary" onclick="startFileAnalysis()" style="margin-left: auto;">
+          <span class="icon">analytics</span> 解析開始
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- CSV Timer & Recording Trigger Section -->
-  <div class="card toolbar-container">
-    <div style="display: flex; align-items: center; gap: 8px;">
-      <button id="start-record-btn" class="btn-primary" onclick="startTimerRecording()">
-        <span class="icon">fiber_manual_record</span> 記録開始
-      </button>
-    </div>
-    <div id="record-status-display" class="timer-display-box"></div>
-  </div>
-
-  <!-- Video Canvas Area -->
+  <!-- Media Viewport -->
   <div id="media-container" class="landscape">
-    <button class="fullscreen-btn" onclick="toggleFullScreen()" title="全画面表示/解除">
-      <span class="icon" id="fullscreen-icon">fullscreen</span>
-    </button>
-    <button id="camera-record-circle-btn" class="record-circle-btn" onclick="startTimerRecording()" title="記録開始">
-      <div class="record-circle-inner"></div>
-    </button>
-    <div id="countdown-overlay-text" class="countdown-overlay">3</div>
-    <video id="input_video" playsinline muted></video>
+    <video id="input_video" playsinline crossorigin="anonymous"></video>
     <canvas id="output_canvas"></canvas>
+
+    <div class="preview-overlay-controls">
+      <div class="top-overlay-bar">
+        <button id="camera-switch-btn" class="camera-switch-btn" onclick="switchNextCamera()">
+          <span class="icon">flip_camera_android</span>
+        </button>
+        <button id="timer-toggle-btn" class="timer-toggle-btn" onclick="cycleMeasurementTimer()">
+          <span class="icon" style="font-size: 16px;">timer</span>
+          <span id="timer-toggle-label">10s</span>
+        </button>
+      </div>
+
+      <button class="fullscreen-btn" onclick="toggleFullScreen()">
+        <span class="icon" id="fullscreen-icon">fullscreen</span>
+      </button>
+
+      <div class="shutter-bar">
+        <button id="shutter-video-btn" class="shutter-btn video-rec" onclick="toggleVideoRecording()">
+          <div class="shutter-inner"></div>
+        </button>
+        <button id="shutter-analytics-btn" class="shutter-btn analytics-start" onclick="startTimerRecording()">
+          <div class="shutter-inner"></div>
+        </button>
+      </div>
+    </div>
+
+    <div id="countdown-overlay-text" class="countdown-overlay">3</div>
+
+    <!-- バックグラウンド解析処理プログレスUI -->
+    <div id="processing-overlay" class="processing-overlay">
+      <span class="icon" style="font-size: 40px; color: var(--md-sys-color-primary);">analytics</span>
+      <div style="font-size: 0.9rem; font-weight: 500;">動画バックグラウンド解析中...</div>
+      <div class="progress-bar-box">
+        <div id="progress-bar-fill" class="progress-bar-fill"></div>
+      </div>
+      <div style="display: flex; gap: 16px; font-size: 0.8rem; font-family: 'Roboto Mono', monospace;">
+        <span id="progress-percent">0%</span>
+        <span id="progress-eta">ETA: --s</span>
+      </div>
+    </div>
   </div>
 
-  <!-- Dashboard Metrics -->
+  <!-- Metrics -->
   <div class="card metrics-grid">
     <div class="metric-card">
       <span class="metric-label" id="track-target-label"><span class="icon">my_location</span> Speed</span>
@@ -799,12 +795,40 @@
       <span id="count-val" class="metric-value count">0</span>
     </div>
     <div class="metric-card">
-      <span class="metric-label"><span class="icon">schedule</span> 1-Turn Time</span>
+      <span class="metric-label"><span class="icon">schedule</span> Turn</span>
       <span id="time-val" class="metric-value time">0.00s</span>
     </div>
   </div>
 
-  <!-- Realtime Graph -->
+  <!-- Modes -->
+  <div class="card mode-section-card">
+    <div class="mode-group-row">
+      <div class="segmented-button-group">
+        <button id="role-turner-btn" class="segmented-btn" onclick="setRoleMode('turner')">
+          <span class="icon">autorenew</span> Turner
+        </button>
+        <button id="role-jumper-btn" class="segmented-btn active" onclick="setRoleMode('jumper')">
+          <span class="icon">directions_run</span> Jumper
+        </button>
+      </div>
+      <div class="segmented-button-group">
+        <button id="graph-none-btn" class="segmented-btn" onclick="setGraphMode('none')">
+          <span class="icon">visibility_off</span>
+        </button>
+        <button id="graph-speed-btn" class="segmented-btn active" onclick="setGraphMode('speed')">
+          <span class="icon">speed</span>
+        </button>
+        <button id="graph-axis-btn" class="segmented-btn" onclick="setGraphMode('axis')">
+          <span class="icon">show_chart</span>
+        </button>
+        <button id="graph-orbit-btn" class="segmented-btn" onclick="setGraphMode('orbit')">
+          <span class="icon">gesture</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Realtime Graph Card -->
   <div id="chart-container">
     <canvas id="myChart"></canvas>
   </div>
@@ -813,13 +837,11 @@
   <div id="history-modal" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
-        <div class="modal-title"><span class="icon">history</span> 計測履歴</div>
+        <div class="modal-title"><span class="icon">history</span> 履歴</div>
         <button class="icon-btn" onclick="closeHistoryModal()"><span class="icon">close</span></button>
       </div>
       <div class="modal-body">
-        <div id="history-list-container" class="history-list">
-          <!-- 履歴アイテムがここに動的に追加されます -->
-        </div>
+        <div id="history-list-container" class="history-list"></div>
       </div>
       <div class="modal-footer">
         <button class="btn-secondary" onclick="closeHistoryModal()">閉じる</button>
@@ -831,27 +853,26 @@
   <div id="settings-modal" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
-        <div class="modal-title"><span class="icon">settings</span> アプリ詳細設定</div>
+        <div class="modal-title"><span class="icon">settings</span> 設定</div>
         <button class="icon-btn" onclick="closeSettingsModal()"><span class="icon">close</span></button>
       </div>
       <div class="modal-body">
         
-        <!-- Input Source Settings -->
-        <div class="section-title">1. 入力ソース選択</div>
+        <div class="section-title">1. Source</div>
         <div class="config-group">
           <div class="source-tabs">
             <button id="tab-camera" class="tab-btn active" onclick="switchSourceMode('camera')">
-              <span class="icon">videocam</span> カメラ入力
+              <span class="icon">videocam</span> Camera
             </button>
             <button id="tab-file" class="tab-btn" onclick="switchSourceMode('file')">
-              <span class="icon">upload_file</span> 動画ファイル分析
+              <span class="icon">upload_file</span> Video File
             </button>
           </div>
 
           <div id="camera-settings" class="toolbar-container">
             <div class="select-wrapper">
               <span class="icon" style="color: var(--md-sys-color-primary);">videocam</span>
-              <select id="camera-select"><option value="">カメラを準備中...</option></select>
+              <select id="camera-select"><option value="">準備中...</option></select>
             </div>
             <div class="select-wrapper">
               <span class="icon" style="color: var(--md-sys-color-primary);">speed</span>
@@ -859,163 +880,145 @@
             </div>
           </div>
 
+          <!-- File selector input container (Visible only in Video File mode) -->
           <div id="file-settings" class="toolbar-container" style="display: none;">
             <label class="file-input-label select-wrapper">
               <span class="icon">file_open</span>
-              <span id="file-name-display">動画ファイルを選択 (MP4, WebM...)</span>
+              <span id="file-name-display">ファイルを選択</span>
               <input type="file" id="video-file-input" accept="video/*">
             </label>
           </div>
         </div>
 
-        <!-- Mode Filter Settings -->
-        <div class="section-title">2. 分析・グラフ表示モード</div>
-        <div class="config-group">
-          <div class="chip-row">
-            <span class="role-badge jumper">Jumper</span>
-            <button id="btn-jumper-speed" class="chip active" onclick="setMode('jumper-speed')"><span class="icon">speed</span> Speed</button>
-            <button id="btn-jumper-axis" class="chip" onclick="setMode('jumper-axis')"><span class="icon">show_chart</span> Axis Value</button>
-          </div>
-          <div class="chip-row">
-            <span class="role-badge turner">Turner</span>
-            <button id="btn-turner-speed" class="chip" onclick="setMode('turner-speed')"><span class="icon">speed</span> Speed</button>
-            <button id="btn-turner-axis" class="chip" onclick="setMode('turner-axis')"><span class="icon">show_chart</span> Axis Value</button>
-            <button id="btn-turner-orbit" class="chip" onclick="setMode('turner-orbit')"><span class="icon">gesture</span> Orbit</button>
-          </div>
-        </div>
-
-        <!-- Detection Landmark & Method Settings -->
-        <div class="section-title">3. 検知対象ランドマーク・検知軸設定</div>
+        <div class="section-title">2. Target</div>
         <div class="config-group">
           <div class="slider-group">
-            <label for="detect-lm-select"><span class="icon">my_location</span> 対象ランドマーク</label>
-            <div class="select-wrapper" style="padding: 2px 10px; flex-grow:1;">
+            <label for="detect-lm-select"><span class="icon">my_location</span> Landmark</label>
+            <div class="select-wrapper" style="padding: 2px 8px; flex-grow:1;">
               <select id="detect-lm-select" style="width:100%;">
-                <option value="15">Left Wrist (15: 左手首)</option>
-                <option value="16">Right Wrist (16: 右手首)</option>
-                <option value="27">Left Ankle (27: 左足首)</option>
-                <option value="28" selected>Right Ankle (28: 右足首)</option>
-                <option value="0">Nose (0: 鼻)</option>
-                <option value="13">Left Elbow (13: 左肘)</option>
-                <option value="14">Right Elbow (14: 右肘)</option>
-                <option value="25">Left Knee (25: 左膝)</option>
-                <option value="26">Right Knee (26: 右膝)</option>
+                <option value="15">Left Wrist (15)</option>
+                <option value="16">Right Wrist (16)</option>
+                <option value="27">Left Ankle (27)</option>
+                <option value="28" selected>Right Ankle (28)</option>
+                <option value="0">Nose (0)</option>
               </select>
             </div>
           </div>
           <div class="slider-group">
-            <label for="detect-method-select"><span class="icon">query_stats</span> 計測・表示軸</label>
-            <div class="select-wrapper" style="padding: 2px 10px; flex-grow:1;">
+            <label for="detect-method-select"><span class="icon">query_stats</span> Axis</label>
+            <div class="select-wrapper" style="padding: 2px 8px; flex-grow:1;">
               <select id="detect-method-select" style="width:100%;">
-                <option value="y_pos" selected>Y軸 (高さ・上下振幅)</option>
-                <option value="x_pos">X軸 (左右振幅)</option>
-                <option value="z_pos">Z軸 (奥行き)</option>
+                <option value="y_pos" selected>Y-Axis</option>
+                <option value="x_pos">X-Axis</option>
+                <option value="z_pos">Z-Axis</option>
               </select>
             </div>
           </div>
         </div>
 
-        <!-- Timer & Recording Settings -->
-        <div class="section-title">4. 記録・タイマー設定</div>
+        <div class="section-title">3. Timer</div>
         <div class="config-group">
           <div class="slider-group">
-            <label for="countdown-sec-input"><span class="icon">hourglass_top</span> カウントダウン秒数</label>
-            <div class="select-wrapper" style="padding: 2px 10px; width: 100px;">
+            <label for="countdown-sec-input"><span class="icon">hourglass_top</span> Delay</label>
+            <div class="select-wrapper" style="padding: 2px 8px; width: 80px;">
               <input type="number" id="countdown-sec-input" min="0" max="10" value="0" style="width: 100%;">
             </div>
-            <span>秒</span>
+            <span>sec</span>
           </div>
           <div class="slider-group">
-            <label for="record-timer-select"><span class="icon">timer</span> 記録時間</label>
-            <div class="select-wrapper" style="padding: 2px 10px;">
-              <select id="record-timer-select">
-                <option value="5">5 秒</option>
-                <option value="10">10 秒</option>
-                <option value="20">20 秒</option>
-                <option value="30">30 秒</option>
-                <option value="60">60 秒</option>
-              </select>
+            <label for="custom-timer-sec-input"><span class="icon">timer</span> Duration</label>
+            <div class="select-wrapper" style="padding: 2px 8px; width: 80px;">
+              <input type="number" id="custom-timer-sec-input" min="0" max="3600" value="10" style="width: 100%;">
             </div>
+            <span>sec</span>
           </div>
         </div>
 
-        <!-- Camera & Screen Parameters -->
-        <div class="section-title">5. 感度・画面調整</div>
+        <div class="section-title">4. Sensitivity</div>
         <div class="config-group">
           <div class="checkbox-group">
             <label class="checkbox-label">
-              <input type="checkbox" id="flip-h-check" checked>
-              <span class="icon">flip</span> 左右反転
+              <input type="checkbox" id="flip-h-check">
+              <span class="icon">flip</span> Flip-H
             </label>
             <label class="checkbox-label">
               <input type="checkbox" id="flip-v-check">
-              <span class="icon" style="transform: rotate(90deg);">flip</span> 上下反転
+              <span class="icon" style="transform: rotate(90deg);">flip</span> Flip-V
             </label>
           </div>
 
           <div class="slider-group">
-            <label for="rotation-select"><span class="icon">screen_rotation</span> 画面回転</label>
-            <div class="select-wrapper" style="padding: 2px 10px;">
+            <label for="rotation-select"><span class="icon">screen_rotation</span> Rotate</label>
+            <div class="select-wrapper" style="padding: 2px 8px;">
               <select id="rotation-select">
-                <option value="0" selected>0° (標準)</option>
-                <option value="90">90° (時計回り)</option>
-                <option value="180">180° (上下逆)</option>
-                <option value="270">270° (反時計回り)</option>
+                <option value="0" selected>0°</option>
+                <option value="90">90°</option>
+                <option value="180">180°</option>
+                <option value="270">270°</option>
               </select>
             </div>
           </div>
 
           <div class="slider-group">
-            <label for="zoom-slider"><span class="icon">zoom_in</span> ズーム</label>
+            <label for="zoom-slider"><span class="icon">zoom_in</span> Zoom</label>
             <input type="range" id="zoom-slider" min="1.0" max="3.0" step="0.1" value="1.0">
             <span id="zoom-val-display" class="slider-value">1.0x</span>
           </div>
           <div class="slider-group">
-            <label for="threshold-slider"><span class="icon">sensors</span> 動作しきい値</label>
+            <label for="threshold-slider"><span class="icon">sensors</span> Threshold</label>
             <input type="range" id="threshold-slider" min="0.00" max="0.100" step="0.005" value="0.010">
             <span id="threshold-val-display" class="slider-value">0.010</span>
           </div>
           <div class="slider-group">
-            <label for="cooldown-slider"><span class="icon">timer</span> 冷却時間 (連打防止)</label>
+            <label for="cooldown-slider"><span class="icon">timer</span> Cooldown</label>
             <input type="range" id="cooldown-slider" min="0.05" max="0.50" step="0.01" value="0.10">
             <span id="cooldown-val-display" class="slider-value">0.10s</span>
           </div>
         </div>
 
-        <!-- Overlay Customization Settings -->
-        <div class="section-title">6. 画面オーバーレイ設定</div>
+        <div class="section-title">5. Overlay</div>
         <div class="config-group">
           <div class="checkbox-group">
             <label class="checkbox-label">
               <input type="checkbox" id="overlay-show-text-check" checked>
-              <span>カウント・時間</span>
+              <span>Info</span>
+            </label>
+            <label class="checkbox-label" id="label-overlay-show-skel">
+              <input type="checkbox" id="overlay-show-skel-check" checked>
+              <span>Skeleton</span>
             </label>
             <label class="checkbox-label">
               <input type="checkbox" id="overlay-show-graph-check" checked>
-              <span>リアルタイムペースグラフ</span>
+              <span>Graph</span>
             </label>
             <label class="checkbox-label">
               <input type="checkbox" id="overlay-show-pace-check" checked>
-              <span>推計ペース (トレンド線終点)</span>
+              <span>Pace</span>
             </label>
             <label class="checkbox-label">
               <input type="checkbox" id="overlay-show-drop-check" checked>
-              <span>ペース落ち率 (%)</span>
+              <span>Drop</span>
             </label>
           </div>
+
           <div class="slider-group">
-            <label for="overlay-position-select"><span class="icon">place</span> 表示位置</label>
-            <div class="select-wrapper" style="padding: 2px 10px;">
+            <label for="overlay-text-color-input"><span class="icon">palette</span> Text Color</label>
+            <input type="color" id="overlay-text-color-input" value="#ffffff" style="cursor:pointer; width:36px; height:24px; border:none; background:transparent;">
+          </div>
+
+          <div class="slider-group">
+            <label for="overlay-position-select"><span class="icon">place</span> Position</label>
+            <div class="select-wrapper" style="padding: 2px 8px;">
               <select id="overlay-position-select">
-                <option value="top-left" selected>左上</option>
-                <option value="top-right">右上</option>
-                <option value="bottom-left">左下</option>
-                <option value="bottom-right">右下</option>
+                <option value="top-left" selected>Top-L</option>
+                <option value="top-right">Top-R</option>
+                <option value="bottom-left">Bot-L</option>
+                <option value="bottom-right">Bot-R</option>
               </select>
             </div>
           </div>
           <div class="slider-group">
-            <label for="overlay-scale-slider"><span class="icon">aspect_ratio</span> 表示サイズ</label>
+            <label for="overlay-scale-slider"><span class="icon">aspect_ratio</span> Scale</label>
             <input type="range" id="overlay-scale-slider" min="0" max="3" step="0.1" value="1.0">
             <span id="overlay-scale-display" class="slider-value">1.0x</span>
           </div>
@@ -1025,45 +1028,45 @@
     </div>
   </div>
 
-  <!-- Pace Analysis Specification Modal Overlay -->
+  <!-- Pace Analysis Modal Overlay -->
   <div id="pace-analysis-modal" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
-        <div class="modal-title"><span class="icon">analytics</span> ペース分析画像出力設定</div>
+        <div class="modal-title"><span class="icon">analytics</span> Pace Export</div>
         <button class="icon-btn" onclick="closePaceModal()"><span class="icon">close</span></button>
       </div>
       <div class="modal-body">
         <div class="config-group">
           <div class="slider-group">
-            <label for="analysis-title-input"><span class="icon">title</span> タイトル</label>
-            <div class="select-wrapper" style="padding: 4px 10px; flex-grow: 1;">
+            <label for="analysis-title-input"><span class="icon">title</span> Title</label>
+            <div class="select-wrapper" style="padding: 2px 8px; flex-grow: 1;">
               <input type="text" id="analysis-title-input" value="ペース分析" style="width: 100%;">
             </div>
           </div>
           <div class="slider-group">
-            <label for="analysis-start-tag"><span class="icon">first_page</span> 開始 tag (ID)</label>
-            <div class="select-wrapper" style="padding: 4px 10px; width: 120px;">
+            <label for="analysis-start-tag"><span class="icon">first_page</span> Start Tag</label>
+            <div class="select-wrapper" style="padding: 2px 8px; width: 80px;">
               <input type="number" id="analysis-start-tag" min="1" value="3" style="width: 100%;">
             </div>
           </div>
           <div class="slider-group">
-            <label for="analysis-end-tag"><span class="icon">last_page</span> 終了 tag (ID)</label>
-            <div class="select-wrapper" style="padding: 4px 10px; width: 120px;">
+            <label for="analysis-end-tag"><span class="icon">last_page</span> End Tag</label>
+            <div class="select-wrapper" style="padding: 2px 8px; width: 80px;">
               <input type="number" id="analysis-end-tag" min="1" value="3" style="width: 100%;">
             </div>
           </div>
-          <div class="checkbox-group" style="margin-top: 4px;">
+          <div class="checkbox-group">
             <label class="checkbox-label">
               <input type="checkbox" id="analysis-iqr-toggle" checked>
-              <span>外れ値を除く (IQR法フィルタリング)</span>
+              <span>Filter Outliers (IQR)</span>
             </label>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn-secondary" onclick="closePaceModal()">キャンセル</button>
+        <button class="btn-secondary" onclick="closePaceModal()">Cancel</button>
         <button class="btn-primary" onclick="executePaceAnalysisExport()">
-          <span class="icon">download</span> 出力
+          <span class="icon">download</span> Export
         </button>
       </div>
     </div>
@@ -1086,12 +1089,15 @@
     const videoTimeDisplay = document.getElementById('video-time-display');
     const playbackRateSelect = document.getElementById('playback-rate-select');
 
-    const recordTimerSelect = document.getElementById('record-timer-select');
     const countdownSecInput = document.getElementById('countdown-sec-input');
-    const startRecordBtn = document.getElementById('start-record-btn');
-    const recordStatusDisplay = document.getElementById('record-status-display');
-    const cameraRecordCircleBtn = document.getElementById('camera-record-circle-btn');
+    const customTimerSecInput = document.getElementById('custom-timer-sec-input');
     const countdownOverlayText = document.getElementById('countdown-overlay-text');
+
+    const shutterVideoBtn = document.getElementById('shutter-video-btn');
+    const shutterAnalyticsBtn = document.getElementById('shutter-analytics-btn');
+    const cameraSwitchBtn = document.getElementById('camera-switch-btn');
+    const timerToggleBtn = document.getElementById('timer-toggle-btn');
+    const timerToggleLabel = document.getElementById('timer-toggle-label');
 
     const detectLmSelect = document.getElementById('detect-lm-select');
     const detectMethodSelect = document.getElementById('detect-method-select');
@@ -1107,14 +1113,20 @@
     const flipVCheck = document.getElementById('flip-v-check');
     const rotationSelect = document.getElementById('rotation-select');
 
-    /* Overlay Control Elements */
     const overlayShowTextCheck = document.getElementById('overlay-show-text-check');
+    const overlayShowSkelCheck = document.getElementById('overlay-show-skel-check');
     const overlayShowGraphCheck = document.getElementById('overlay-show-graph-check');
     const overlayShowPaceCheck = document.getElementById('overlay-show-pace-check');
     const overlayShowDropCheck = document.getElementById('overlay-show-drop-check');
+    const overlayTextColorInput = document.getElementById('overlay-text-color-input');
     const overlayPositionSelect = document.getElementById('overlay-position-select');
     const overlayScaleSlider = document.getElementById('overlay-scale-slider');
     const overlayScaleDisplay = document.getElementById('overlay-scale-display');
+
+    const processingOverlay = document.getElementById('processing-overlay');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    const progressPercent = document.getElementById('progress-percent');
+    const progressEta = document.getElementById('progress-eta');
 
     let zoomFactor = parseFloat(zoomSlider.value);
     let threshold = parseFloat(thresholdSlider.value);
@@ -1125,20 +1137,33 @@
     let rotationAngle = parseInt(rotationSelect.value, 10);
     let currentFps = 30;
 
-    let sourceMode = 'camera'; // 'camera' or 'file'
+    let sourceMode = 'camera';
 
-    // Timer & Recording Variables
+    let currentRole = 'jumper';
+    let currentGraph = 'speed';
+
+    const timerPresets = [10, 30, 60, 0];
+    let selectedTimerSec = 30;
+
     let isRecording = false;
     let recordedData = [];
     let countTimestamps = [];
     let recordStartTime = 0;
-    let recordDurationSec = 5;
     let countdownInterval = null;
     let timerCheckInterval = null;
 
-    // Measurement History Management
+    let mediaRecorder = null;
+    let recordedChunks = [];
+    let isVideoRecording = false;
+
     let measurementHistory = [];
     let currentActiveRecordData = null;
+
+    // 動画バックグラウンド解析用変数
+    let fileAnalysisResult = null; 
+    let audioCtx = null;
+    let audioSourceNode = null;
+    let audioDestinationNode = null;
 
     zoomSlider.addEventListener('input', (e) => {
       zoomFactor = parseFloat(e.target.value);
@@ -1163,6 +1188,13 @@
     flipVCheck.addEventListener('change', (e) => { flipV = e.target.checked; });
     rotationSelect.addEventListener('change', (e) => { rotationAngle = parseInt(e.target.value, 10); });
 
+    customTimerSecInput.addEventListener('change', (e) => {
+      let val = parseInt(e.target.value, 10);
+      if (isNaN(val) || val < 0) val = 0;
+      selectedTimerSec = val;
+      updateTimerLabel();
+    });
+
     function openSettingsModal() {
       document.getElementById('settings-modal').classList.add('open');
     }
@@ -1171,7 +1203,6 @@
       document.getElementById('settings-modal').classList.remove('open');
     }
 
-    /* History Modal Control Functions */
     function openHistoryModal() {
       renderHistoryList();
       document.getElementById('history-modal').classList.add('open');
@@ -1186,25 +1217,22 @@
       container.innerHTML = '';
 
       if (measurementHistory.length === 0) {
-        container.innerHTML = '<div style="text-align: center; color: var(--md-sys-color-on-surface-variant); padding: 24px 0;">計測履歴がありません</div>';
+        container.innerHTML = '<div style="text-align: center; color: var(--md-sys-color-on-surface-variant); padding: 16px 0; font-size: 0.8rem;">履歴なし</div>';
         return;
       }
 
       measurementHistory.forEach((item, index) => {
         const div = document.createElement('div');
         div.className = 'history-item';
+        const durLabel = item.duration > 0 ? `${item.duration}s` : 'Endless';
         div.innerHTML = `
-          <div class="history-info">
+          <div style="display:flex; flex-direction:column;">
             <span class="history-date">${item.timestampStr}</span>
-            <span class="history-count">${item.count} 回 (${item.duration}s)</span>
+            <span class="history-count">${item.count} cnt (${durLabel})</span>
           </div>
-          <div class="history-actions">
-            <button class="btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="exportHistoryCsv(${index})">
-              <span class="icon" style="font-size: 18px;">csv</span> CSV
-            </button>
-            <button class="btn-primary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="openPaceModalFromHistory(${index})">
-              <span class="icon" style="font-size: 18px;">image</span> グラフ
-            </button>
+          <div style="display:flex; gap: 4px;">
+            <button class="btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;" onclick="exportHistoryCsv(${index})">CSV</button>
+            <button class="btn-primary" style="padding: 4px 8px; font-size: 0.75rem;" onclick="openPaceModalFromHistory(${index})">Graph</button>
           </div>
         `;
         container.appendChild(div);
@@ -1213,10 +1241,7 @@
 
     function exportHistoryCsv(index) {
       const item = measurementHistory[index];
-      if (!item || !item.countTimestamps || item.countTimestamps.length === 0) {
-        alert("出力できるタイムスタンプデータがありません。");
-        return;
-      }
+      if (!item || !item.countTimestamps || item.countTimestamps.length === 0) return;
 
       let csvContent = "data:text/csv;charset=utf-8,Count,Elapsed_Time_Sec,Speed_RPM,Turn_Time_Sec\n";
       item.countTimestamps.forEach(row => {
@@ -1226,7 +1251,7 @@
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
-      link.setAttribute("download", `double_dutch_count_${item.timestampStr.replace(/[: /]/g, '_')}.csv`);
+      link.setAttribute("download", `count_${item.timestampStr.replace(/[: /]/g, '_')}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -1243,9 +1268,7 @@
 
     function toggleFullScreen() {
       if (!document.fullscreenElement) {
-        mediaContainer.requestFullscreen().catch(err => {
-          console.error(`Error attempting to enable fullscreen: ${err.message}`);
-        });
+        mediaContainer.requestFullscreen().catch(err => console.error(err));
       } else {
         document.exitFullscreen();
       }
@@ -1253,17 +1276,100 @@
 
     document.addEventListener('fullscreenchange', () => {
       const fsIcon = document.getElementById('fullscreen-icon');
-      if (document.fullscreenElement) {
-        fsIcon.innerText = 'fullscreen_exit';
-      } else {
-        fsIcon.innerText = 'fullscreen';
-      }
+      fsIcon.innerText = document.fullscreenElement ? 'fullscreen_exit' : 'fullscreen';
     });
+
+    function cycleMeasurementTimer() {
+      const idx = timerPresets.indexOf(selectedTimerSec);
+      selectedTimerSec = idx !== -1 ? timerPresets[(idx + 1) % timerPresets.length] : timerPresets[0];
+      customTimerSecInput.value = selectedTimerSec;
+      updateTimerLabel();
+    }
+
+    function updateTimerLabel() {
+      timerToggleLabel.innerText = selectedTimerSec === 0 ? "Endless" : `${selectedTimerSec}s`;
+    }
+
+    async function switchNextCamera() {
+      const options = Array.from(cameraSelect.options);
+      if (options.length <= 1) return;
+
+      const currentIdx = cameraSelect.selectedIndex;
+      const nextIdx = (currentIdx + 1) % options.length;
+      cameraSelect.selectedIndex = nextIdx;
+
+      const targetDeviceId = options[nextIdx].value;
+      await updateSupportedFpsOptions(targetDeviceId);
+      startCamera(targetDeviceId, parseInt(fpsSelect.value, 10));
+    }
+
+    function toggleVideoRecording() {
+      if (isVideoRecording) stopVideoRecording();
+      else startVideoRecording();
+    }
+
+    function setupAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        audioDestinationNode = audioCtx.createMediaStreamDestination();
+        audioSourceNode = audioCtx.createMediaElementSource(videoElement);
+        audioSourceNode.connect(audioCtx.destination);
+        audioSourceNode.connect(audioDestinationNode);
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function startVideoRecording() {
+      recordedChunks = [];
+      const canvasStream = canvasElement.captureStream(currentFps || 30);
+      let combinedStream = new MediaStream();
+
+      canvasStream.getVideoTracks().forEach(track => combinedStream.addTrack(track));
+
+      if (sourceMode === 'file') {
+        setupAudioContext();
+        audioDestinationNode.stream.getAudioTracks().forEach(track => combinedStream.addTrack(track));
+      }
+
+      let options = { mimeType: 'video/webm;codecs=vp9,opus' };
+      if (!MediaRecorder.isTypeSupported(options.mimeType)) options = { mimeType: 'video/webm' };
+
+      try { mediaRecorder = new MediaRecorder(combinedStream, options); }
+      catch (e) { return; }
+
+      mediaRecorder.ondataavailable = (e) => { if (e.data && e.data.size > 0) recordedChunks.push(e.data); };
+      mediaRecorder.onstop = saveRecordedVideo;
+      mediaRecorder.start();
+      isVideoRecording = true;
+      shutterVideoBtn.classList.add('recording');
+    }
+
+    function stopVideoRecording() {
+      if (!isVideoRecording || !mediaRecorder) return;
+      mediaRecorder.stop();
+      isVideoRecording = false;
+      shutterVideoBtn.classList.remove('recording');
+    }
+
+    function saveRecordedVideo() {
+      const blob = new Blob(recordedChunks, { type: mediaRecorder.mimeType || 'video/webm' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `video_${Date.now()}.webm`;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      }, 100);
+    }
 
     let currentStream = null;
     let animFrameId = null;
     let isProcessing = false;
-    let currentMode = 'jumper-speed';
     const BUFFER_SIZE = 60;
 
     function resetBuffer() {
@@ -1279,7 +1385,6 @@
     }
 
     let buffer = resetBuffer();
-
     let lastTurnTime = 0;
     let lastStateTime = 0;
     let state = 'DOWN';
@@ -1287,52 +1392,44 @@
     let peakY = 0.5;
     let totalCount = 0;
     let flashFrames = 0;
-
     let currentS = 0;
     let smoothedS = 0;
     const speedHistory = [];
 
     function resetCounter() {
-      if (isRecording || countdownInterval) {
-        stopRecordingData(false);
-      }
+      if (isRecording || countdownInterval) stopRecordingData(false);
       totalCount = 0;
       lastTurnTime = 0;
       state = 'DOWN';
       buffer = resetBuffer();
       speedHistory.length = 0;
       countTimestamps = [];
+      fileAnalysisResult = null;
       document.getElementById('count-val').innerText = '0';
       document.getElementById('speed-val').innerText = '0.0';
       document.getElementById('time-val').innerText = '0.00s';
     }
 
-    /* タイマー＆記録処理 */
     function startTimerRecording() {
-      if (isRecording) return;
+      if (sourceMode === 'file') return;
+
+      if (isRecording) {
+        stopRecordingData(true);
+        return;
+      }
 
       resetCounter();
       recordedData = [];
       countTimestamps = [];
-      recordDurationSec = parseInt(recordTimerSelect.value, 10);
-
-      startRecordBtn.disabled = true;
-      cameraRecordCircleBtn.classList.add('hidden-fade');
+      shutterAnalyticsBtn.disabled = true;
 
       let countdown = parseInt(countdownSecInput.value, 10) || 0;
-
-      if (videoElement.paused && videoElement.src) {
-        videoElement.play();
-        if (typeof playIcon !== 'undefined' && playIcon) playIcon.innerText = 'pause';
-        processVideoFrame();
-      }
 
       if (countdown <= 0) {
         startRecordingData();
         return;
       }
 
-      recordStatusDisplay.innerText = `開始まで: ${countdown}s`;
       countdownOverlayText.innerText = countdown;
       countdownOverlayText.classList.add('visible');
 
@@ -1340,7 +1437,6 @@
       countdownInterval = setInterval(() => {
         countdown--;
         if (countdown > 0) {
-          recordStatusDisplay.innerText = `開始まで: ${countdown}s`;
           countdownOverlayText.innerText = countdown;
         } else {
           clearInterval(countdownInterval);
@@ -1354,82 +1450,60 @@
     function startRecordingData() {
       isRecording = true;
       recordStartTime = performance.now();
-      recordStatusDisplay.innerText = `REC: ${recordDurationSec.toFixed(1)}s`;
+      shutterAnalyticsBtn.disabled = false;
+      shutterAnalyticsBtn.classList.add('recording');
 
       if (timerCheckInterval) clearInterval(timerCheckInterval);
-      timerCheckInterval = setInterval(() => {
-        if (!isRecording) {
-          clearInterval(timerCheckInterval);
-          return;
-        }
-        
-        const elapsed = (performance.now() - recordStartTime) / 1000.0;
-        const remain = Math.max(0, recordDurationSec - elapsed);
-        recordStatusDisplay.innerText = `REC: ${remain.toFixed(1)}s`;
 
-        if (elapsed >= recordDurationSec) {
-          clearInterval(timerCheckInterval);
-          stopRecordingData(true);
-        }
-      }, 100);
+      if (selectedTimerSec > 0) {
+        timerCheckInterval = setInterval(() => {
+          if (!isRecording) {
+            clearInterval(timerCheckInterval);
+            return;
+          }
+          const elapsed = (performance.now() - recordStartTime) / 1000.0;
+          if (elapsed >= selectedTimerSec) {
+            clearInterval(timerCheckInterval);
+            stopRecordingData(true);
+          }
+        }, 100);
+      }
     }
 
     function stopRecordingData(exportData = true) {
-      if (countdownInterval) {
-        clearInterval(countdownInterval);
-        countdownInterval = null;
-      }
-      if (timerCheckInterval) {
-        clearInterval(timerCheckInterval);
-        timerCheckInterval = null;
-      }
+      if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
+      if (timerCheckInterval) { clearInterval(timerCheckInterval); timerCheckInterval = null; }
       countdownOverlayText.classList.remove('visible');
 
       const wereRecording = isRecording;
       isRecording = false;
-      startRecordBtn.disabled = false;
-      cameraRecordCircleBtn.classList.remove('hidden-fade');
+      shutterAnalyticsBtn.disabled = false;
+      shutterAnalyticsBtn.classList.remove('recording');
 
       if (wereRecording && exportData) {
-        recordStatusDisplay.innerText = "完了";
-        setTimeout(() => { recordStatusDisplay.innerText = ""; }, 3000);
-
-        // Save history item
         const now = new Date();
-        const timestampStr = `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
+        const timestampStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
         
-        const historyItem = {
+        measurementHistory.unshift({
           timestampStr: timestampStr,
           count: totalCount,
-          duration: recordDurationSec,
+          duration: selectedTimerSec,
           recordedData: [...recordedData],
           countTimestamps: [...countTimestamps]
-        };
-
-        measurementHistory.unshift(historyItem);
+        });
         currentActiveRecordData = recordedData;
-
         openPaceModal(recordedData);
-      } else {
-        recordStatusDisplay.innerText = "";
       }
     }
 
-    /* モーダルダイアログ・画像ダウンロード処理 */
     function openPaceModal(dataToUse) {
       const targetData = dataToUse || recordedData;
       const validLogs = targetData.filter(d => d.id >= 3 && d.calculatedValue !== null);
-      if (validLogs.length < 3) {
-        alert("分析可能なデータ件数が不足しています（ID 3以上のデータが3件以上必要です）。");
-        return;
-      }
+      if (validLogs.length < 3) return;
 
       const latestId = targetData[targetData.length - 1].id;
       document.getElementById('analysis-start-tag').value = 3;
       document.getElementById('analysis-end-tag').value = latestId;
-      document.getElementById('analysis-title-input').value = "ペース分析";
-      document.getElementById('analysis-iqr-toggle').checked = true;
-
       document.getElementById('pace-analysis-modal').classList.add('open');
     }
 
@@ -1443,74 +1517,41 @@
       const index = (sortedArr.length - 1) * p;
       const lower = Math.floor(index);
       const upper = Math.ceil(index);
-      const weight = index - lower;
-      return sortedArr[lower] * (1 - weight) + sortedArr[upper] * weight;
+      return sortedArr[lower] * (1 - (index - lower)) + sortedArr[upper] * (index - lower);
     }
 
     function executePaceAnalysisExport() {
       const dataToUse = currentActiveRecordData || recordedData;
-      const title = document.getElementById('analysis-title-input').value.trim() || "ペース分析";
+      const title = document.getElementById('analysis-title-input').value.trim() || "Pace Analysis";
       const startTagId = parseInt(document.getElementById('analysis-start-tag').value, 10);
       const endTagId = parseInt(document.getElementById('analysis-end-tag').value, 10);
       const removeOutliers = document.getElementById('analysis-iqr-toggle').checked;
 
       const extracted = dataToUse.filter(d => d.id >= startTagId && d.id <= endTagId && d.calculatedValue !== null);
-      if (extracted.length < 2) {
-        alert("指定された範囲内の有効なデータ件数が足りません（2件以上必要です）。");
-        return;
-      }
+      if (extracted.length < 2) return;
 
       const unixMs0 = dataToUse[0].unixMs;
-      const P = extracted.map(d => ({
-        x: (d.unixMs - unixMs0) / 1000.0,
-        y: d.calculatedValue,
-        id: d.id
-      }));
+      const P = extracted.map(d => ({ x: (d.unixMs - unixMs0) / 1000.0, y: d.calculatedValue, id: d.id }));
 
       let P_valid = [];
-      let P_outlier = [];
-
       if (removeOutliers) {
         const yVals = P.map(p => p.y).sort((a, b) => a - b);
         const q1 = calculatePercentile(yVals, 0.25);
         const q3 = calculatePercentile(yVals, 0.75);
         const iqr = q3 - q1;
-        const lowBound = q1 - 1.5 * iqr;
-        const highBound = q3 + 1.5 * iqr;
-
-        P.forEach(p => {
-          if (p.y >= lowBound && p.y <= highBound) {
-            P_valid.push(p);
-          } else {
-            P_outlier.push(p);
-          }
-        });
-
-        if (P_valid.length < 2) {
-          P_valid = [...P];
-          P_outlier = [];
-        }
+        P_valid = P.filter(p => p.y >= q1 - 1.5 * iqr && p.y <= q3 + 1.5 * iqr);
+        if (P_valid.length < 2) P_valid = [...P];
       } else {
         P_valid = [...P];
       }
 
       const n = P_valid.length;
       let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
-      P_valid.forEach(p => {
-        sumX += p.x;
-        sumY += p.y;
-        sumXY += p.x * p.y;
-        sumX2 += p.x * p.x;
-      });
+      P_valid.forEach(p => { sumX += p.x; sumY += p.y; sumXY += p.x * p.y; sumX2 += p.x * p.x; });
 
       const denom = n * sumX2 - sumX * sumX;
-      let a = 0, b = 0;
-      if (Math.abs(denom) > 1e-9) {
-        a = (n * sumXY - sumX * sumY) / denom;
-        b = (sumY - a * sumX) / n;
-      } else {
-        b = sumY / n;
-      }
+      let a = Math.abs(denom) > 1e-9 ? (n * sumXY - sumX * sumY) / denom : 0;
+      let b = Math.abs(denom) > 1e-9 ? (sumY - a * sumX) / n : sumY / n;
 
       const xValid0 = P_valid[0].x;
       const xValidN1 = P_valid[P_valid.length - 1].x;
@@ -1518,138 +1559,25 @@
       const yEnd = a * xValidN1 + b;
       const ratio = yStart !== 0 ? (yEnd / yStart) * 100 : 0;
 
-      const signStr = b >= 0 ? '+' : '-';
-      const formulaStr = `y = ${a.toFixed(4)}x ${signStr} ${Math.abs(b).toFixed(2)} (${yStart.toFixed(2)} → ${yEnd.toFixed(2)}) ${ratio.toFixed(1)}%`;
+      const formulaStr = `y = ${a.toFixed(4)}x ${b >= 0 ? '+' : '-'} ${Math.abs(b).toFixed(2)} (${yStart.toFixed(2)} -> ${yEnd.toFixed(2)}) ${ratio.toFixed(1)}%`;
 
       const exportCanvas = document.createElement('canvas');
-      exportCanvas.width = 1200;
-      exportCanvas.height = 700;
+      exportCanvas.width = 1000;
+      exportCanvas.height = 500;
       const ctx = exportCanvas.getContext('2d');
 
-      // 背景
-      ctx.fillStyle = '#18181b';
-      ctx.fillRect(0, 0, 1200, 700);
+      ctx.fillStyle = '#121318';
+      ctx.fillRect(0, 0, 1000, 500);
 
-      const margin = { top: 80, right: 60, bottom: 80, left: 100 };
-      const graphW = 1040;
-      const graphH = 540;
-
-      // タイトル
-      ctx.fillStyle = '#f4f4f5';
-      ctx.font = 'bold 28px Roboto, sans-serif';
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 20px Roboto, sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText(title, 600, 48);
+      ctx.fillText(title, 500, 36);
 
-      const allX = P.map(p => p.x);
-      const allY = P.map(p => p.y);
-      let minX = Math.min(...allX);
-      let maxX = Math.max(...allX);
-      let minY = Math.min(...allY);
-      let maxY = Math.max(...allY);
-
-      if (minX === maxX) { minX -= 1; maxX += 1; }
-      if (minY === maxY) { minY -= 10; maxY += 10; }
-
-      const paddingX = (maxX - minX) * 0.05 || 1;
-      const paddingY = (maxY - minY) * 0.1 || 5;
-
-      const plotMinX = minX - paddingX;
-      const plotMaxX = maxX + paddingX;
-      const plotMinY = Math.max(0, minY - paddingY);
-      const plotMaxY = maxY + paddingY;
-
-      const mapX = (x) => margin.left + ((x - plotMinX) / (plotMaxX - plotMinX)) * graphW;
-      const mapY = (y) => (margin.top + graphH) - ((y - plotMinY) / (plotMaxY - plotMinY)) * graphH;
-
-      // グリッド・目盛線
-      ctx.strokeStyle = '#3f3f46';
-      ctx.lineWidth = 1;
-      ctx.fillStyle = '#71717a';
+      ctx.fillStyle = '#80d5ff';
       ctx.font = '14px "Roboto Mono", monospace';
+      ctx.fillText(formulaStr, 500, 64);
 
-      for (let i = 0; i <= 5; i++) {
-        const gx = margin.left + (graphW / 5) * i;
-        ctx.beginPath();
-        ctx.moveTo(gx, margin.top);
-        ctx.lineTo(gx, margin.top + graphH);
-        ctx.stroke();
-
-        const valX = plotMinX + ((plotMaxX - plotMinX) / 5) * i;
-        ctx.textAlign = 'center';
-        ctx.fillText(valX.toFixed(1), gx, margin.top + graphH + 24);
-
-        const gy = margin.top + (graphH / 5) * i;
-        ctx.beginPath();
-        ctx.moveTo(margin.left, gy);
-        ctx.lineTo(margin.left + graphW, gy);
-        ctx.stroke();
-
-        const valY = plotMaxY - ((plotMaxY - plotMinY) / 5) * i;
-        ctx.textAlign = 'right';
-        ctx.fillText(valY.toFixed(1), margin.left - 12, gy + 5);
-      }
-
-      ctx.strokeRect(margin.left, margin.top, graphW, graphH);
-
-      // 軸ラベル
-      ctx.fillStyle = '#f4f4f5';
-      ctx.font = '16px Roboto, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('時間 (s)', margin.left + graphW / 2, margin.top + graphH + 60);
-
-      ctx.save();
-      ctx.translate(32, margin.top + graphH / 2);
-      ctx.rotate(-Math.PI / 2);
-      ctx.fillText('ペース', 0, 0);
-      ctx.restore();
-
-      // 回帰直線（トレンドライン）
-      const regY1 = a * plotMinX + b;
-      const regY2 = a * plotMaxX + b;
-
-      ctx.save();
-      ctx.strokeStyle = '#ff3b30';
-      ctx.lineWidth = 2.5;
-      ctx.setLineDash([8, 6]);
-      ctx.beginPath();
-      ctx.moveTo(mapX(plotMinX), mapY(regY1));
-      ctx.lineTo(mapX(plotMaxX), mapY(regY2));
-      ctx.stroke();
-      ctx.restore();
-
-      // 有効データ接続線（青色折れ線・プロット丸は無し）
-      if (P_valid.length > 1) {
-        ctx.strokeStyle = '#007aff';
-        ctx.lineWidth = 2.5;
-        ctx.beginPath();
-        P_valid.forEach((p, idx) => {
-          const cx = mapX(p.x);
-          const cy = mapY(p.y);
-          if (idx === 0) ctx.moveTo(cx, cy);
-          else ctx.lineTo(cx, cy);
-        });
-        ctx.stroke();
-      }
-
-      // 数式ボックス
-      const boxX = margin.left + 20;
-      const boxY = margin.top + 20;
-      ctx.font = 'bold 18px "Roboto Mono", monospace';
-      const textMetrics = ctx.measureText(formulaStr);
-      const boxW = textMetrics.width + 30;
-      const boxH = 44;
-
-      ctx.fillStyle = 'rgba(24, 24, 27, 0.9)';
-      ctx.fillRect(boxX, boxY, boxW, boxH);
-      ctx.strokeStyle = '#3f3f46';
-      ctx.lineWidth = 1;
-      ctx.strokeRect(boxX, boxY, boxW, boxH);
-
-      ctx.fillStyle = '#ff3b30';
-      ctx.textAlign = 'left';
-      ctx.fillText(formulaStr, boxX + 15, boxY + 28);
-
-      // 画像自動ダウンロード
       const dataURL = exportCanvas.toDataURL('image/png');
       const downloadLink = document.createElement('a');
       downloadLink.download = `${title}.png`;
@@ -1672,65 +1600,57 @@
       type: 'scatter',
       data: {
         datasets: [
-          {
-            label: 'Raw Speed',
-            data: [],
-            borderColor: 'rgba(128, 213, 255, 0.3)',
-            borderWidth: 1.5,
-            tension: 0.1,
-            pointRadius: 0,
-            showLine: true
-          },
-          {
-            label: 'Smoothed Speed',
-            data: [],
-            borderColor: '#80d5ff',
-            borderWidth: 3,
-            tension: 0.3,
-            pointRadius: 2,
-            showLine: true
-          }
+          { label: 'Raw', data: [], borderColor: 'rgba(128, 213, 255, 0.3)', borderWidth: 1, showLine: true, pointRadius: 0 },
+          { label: 'Smoothed', data: [], borderColor: '#80d5ff', borderWidth: 2, showLine: true, pointRadius: 0 }
         ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: true,
-        aspectRatio: 2,
+        aspectRatio: 2.2,
         animation: false,
         scales: {
-          x: {
-            type: 'linear',
-            position: 'bottom',
-            grid: { color: '#26262e' },
-            ticks: { color: '#c2c7cf', font: { size: 10 } }
-          },
-          y: {
-            grid: { color: '#26262e' },
-            ticks: { color: '#c2c7cf', font: { size: 10 } }
-          }
+          x: { grid: { color: '#26262e' }, ticks: { color: '#c2c7cf', font: { size: 9 } } },
+          y: { grid: { color: '#26262e' }, ticks: { color: '#c2c7cf', font: { size: 9 } } }
         },
-        plugins: {
-          legend: { labels: { color: '#e2e2e9', font: { size: 11 } } }
-        }
+        plugins: { legend: { display: false } }
       }
     });
 
-    function setMode(mode) {
-      currentMode = mode;
-      document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
-      
-      const btnId = `btn-${mode}`;
-      const targetBtn = document.getElementById(btnId);
-      if (targetBtn) targetBtn.classList.add('active');
+    function setRoleMode(role) {
+      if (sourceMode === 'file') return;
+      currentRole = role;
+      document.getElementById('role-turner-btn').classList.toggle('active', role === 'turner');
+      document.getElementById('role-jumper-btn').classList.toggle('active', role === 'jumper');
 
-      if (mode.startsWith('jumper')) {
-        detectLmSelect.value = "27";
-        detectMethodSelect.value = "y_pos";
-      } else if (mode.startsWith('turner')) {
+      const orbitBtn = document.getElementById('graph-orbit-btn');
+      if (role === 'jumper') {
+        orbitBtn.disabled = true;
+        if (currentGraph === 'orbit') setGraphMode('speed');
+        detectLmSelect.value = "28";
+      } else {
+        orbitBtn.disabled = false;
         detectLmSelect.value = "15";
-        detectMethodSelect.value = "y_pos";
       }
       resetCounter();
+      updateChart();
+    }
+
+    function setGraphMode(graph) {
+      if (sourceMode === 'file') {
+        if (graph !== 'none' && graph !== 'speed') return;
+      } else {
+        if (currentRole === 'jumper' && graph === 'orbit') return;
+      }
+      currentGraph = graph;
+
+      document.getElementById('graph-none-btn').classList.toggle('active', graph === 'none');
+      document.getElementById('graph-speed-btn').classList.toggle('active', graph === 'speed');
+      document.getElementById('graph-axis-btn').classList.toggle('active', graph === 'axis');
+      document.getElementById('graph-orbit-btn').classList.toggle('active', graph === 'orbit');
+
+      document.getElementById('chart-container').style.display = graph === 'none' ? 'none' : 'block';
+      updateChart();
     }
 
     const pose = new Pose({
@@ -1744,85 +1664,49 @@
     });
 
     function getEffectivePoint(p, isFlipH, isFlipV, rot) {
-      let x = p.x;
-      let y = p.y;
-
-      if (isFlipH) x = 1.0 - x;
-      if (isFlipV) y = 1.0 - y;
-
-      let rx = x;
-      let ry = y;
-
-      if (rot === 90) {
-        rx = 1.0 - y;
-        ry = x;
-      } else if (rot === 180) {
-        rx = 1.0 - x;
-        ry = 1.0 - y;
-      } else if (rot === 270) {
-        rx = y;
-        ry = 1.0 - x;
-      }
-
+      let x = isFlipH ? 1.0 - p.x : p.x;
+      let y = isFlipV ? 1.0 - p.y : p.y;
+      let rx = x, ry = y;
+      if (rot === 90) { rx = 1.0 - y; ry = x; }
+      else if (rot === 180) { rx = 1.0 - x; ry = 1.0 - y; }
+      else if (rot === 270) { rx = y; ry = 1.0 - x; }
       return { x: rx, y: ry, z: p.z || 0 };
     }
 
+    // カメラリアルタイム時のMediapipe結果処理
     pose.onResults((results) => {
+      if (sourceMode === 'file') return; // 動画モード時は専用ループで描画
+
       const vWidth = videoElement.videoWidth || 640;
       const vHeight = videoElement.videoHeight || 480;
 
-      let nativeW = vWidth;
-      let nativeH = vHeight;
-      if (rotationAngle === 90 || rotationAngle === 270) {
-        nativeW = vHeight;
-        nativeH = vWidth;
-      }
+      let nativeW = (rotationAngle === 90 || rotationAngle === 270) ? vHeight : vWidth;
+      let nativeH = (rotationAngle === 90 || rotationAngle === 270) ? vWidth : vHeight;
 
-      // プレビューの縦横方向判定を更新（縦: portrait, 横: landscape）
-      if (nativeH > nativeW) {
-        mediaContainer.classList.remove('landscape');
-        mediaContainer.classList.add('portrait');
-      } else {
-        mediaContainer.classList.remove('portrait');
-        mediaContainer.classList.add('landscape');
-      }
+      mediaContainer.classList.toggle('portrait', nativeH > nativeW);
+      mediaContainer.classList.toggle('landscape', nativeH <= nativeW);
 
       canvasElement.width = nativeW;
       canvasElement.height = nativeH;
-      mediaContainer.style.aspectRatio = `${nativeW} / ${nativeH}`;
 
       canvasCtx.save();
       canvasCtx.clearRect(0, 0, nativeW, nativeH);
 
       canvasCtx.translate(nativeW / 2, nativeH / 2);
-      if (flipH || flipV) {
-        canvasCtx.scale(flipH ? -1 : 1, flipV ? -1 : 1);
-      }
+      if (flipH || flipV) canvasCtx.scale(flipH ? -1 : 1, flipV ? -1 : 1);
       canvasCtx.rotate((rotationAngle * Math.PI) / 180);
       canvasCtx.scale(zoomFactor, zoomFactor);
 
-      const drawW = vWidth;
-      const drawH = vHeight;
+      canvasCtx.drawImage(results.image, -vWidth / 2, -vHeight / 2, vWidth, vHeight);
 
-      canvasCtx.drawImage(results.image, -drawW / 2, -drawH / 2, drawW, drawH);
-
-      const lmToCanvasPx = (p) => {
-        return {
-          x: (p.x - 0.5) * drawW,
-          y: (p.y - 0.5) * drawH
-        };
-      };
+      const lmToCanvasPx = (p) => ({ x: (p.x - 0.5) * vWidth, y: (p.y - 0.5) * vHeight });
 
       let elapsedTimeSec = 0;
       const now = performance.now();
 
       if (results.poseLandmarks) {
         const lm = results.poseLandmarks;
-
-        const selectedLmIdx = parseInt(detectLmSelect.value, 10);
-        const targetLm = lm[selectedLmIdx];
-        document.getElementById('track-target-label').innerHTML = `<span class="icon">my_location</span> LM ${selectedLmIdx}`;
-
+        const targetLm = lm[parseInt(detectLmSelect.value, 10)];
         const lwEff = getEffectivePoint(lm[15], flipH, flipV, rotationAngle);
         const rwEff = getEffectivePoint(lm[16], flipH, flipV, rotationAngle);
 
@@ -1841,12 +1725,7 @@
         }
         buffer.target_val.shift(); buffer.target_val.push(targetAxisVal);
 
-        let currentY = 0;
-        if (targetLm) {
-          const effPt = getEffectivePoint(targetLm, flipH, flipV, rotationAngle);
-          currentY = effPt.y;
-        }
-
+        let currentY = targetLm ? getEffectivePoint(targetLm, flipH, flipV, rotationAngle).y : 0;
         const timeSinceLastState = (now - lastStateTime) / 1000.0;
         let turnTime = 0;
 
@@ -1857,23 +1736,20 @@
             peakY = currentY;
             lastStateTime = now;
           }
-        } 
-        else if (state === 'UP') {
+        } else if (state === 'UP') {
           if (currentY < peakY) peakY = currentY;
           if (currentY > peakY + threshold && timeSinceLastState > cooldownSec) {
             state = 'DOWN';
             valleyY = currentY;
             lastStateTime = now;
-
             totalCount++;
             flashFrames = 5;
 
             if (lastTurnTime > 0) {
               turnTime = (now - lastTurnTime) / 1000.0;
               if (turnTime >= 0.12 && turnTime <= 4.0) {
-                const currentPlaybackRate = (sourceMode === 'file') ? parseFloat(playbackRateSelect.value) : 1.0;
-                currentS = (60.0 / turnTime) / currentPlaybackRate;
-                
+                // 【変更】 Speedの計算結果を2で割る
+                currentS = (60.0 / turnTime) / 2.0;
                 speedHistory.push(currentS);
                 if (speedHistory.length > 3) speedHistory.shift();
                 smoothedS = speedHistory.reduce((a, b) => a + b, 0) / speedHistory.length;
@@ -1881,10 +1757,7 @@
                 document.getElementById('speed-val').innerText = smoothedS.toFixed(1);
                 document.getElementById('time-val').innerText = turnTime.toFixed(2) + 's';
               }
-            } else {
-              document.getElementById('time-val').innerText = "--";
             }
-
             document.getElementById('count-val').innerText = totalCount;
             lastTurnTime = now;
 
@@ -1903,296 +1776,324 @@
         buffer.smoothed_speed.shift(); buffer.smoothed_speed.push(smoothedS);
 
         if (isRecording) {
-          recordedData.push({
-            unixMs: Date.now(),
-            id: totalCount,
-            calculatedValue: smoothedS > 0 ? smoothedS : null
-          });
+          recordedData.push({ unixMs: Date.now(), id: totalCount, calculatedValue: smoothedS > 0 ? smoothedS : null });
         }
 
         updateChart();
 
-        /* 薄型の骨格描画 */
-        canvasCtx.save();
-        canvasCtx.globalAlpha = 0.08;
-        canvasCtx.strokeStyle = '#80d5ff';
-        canvasCtx.lineWidth = 1 / zoomFactor;
-        CONNECTIONS.forEach(([s, e]) => {
-          if (lm[s] && lm[e]) {
-            const p1 = lmToCanvasPx(lm[s]);
-            const p2 = lmToCanvasPx(lm[e]);
-            canvasCtx.beginPath();
-            canvasCtx.moveTo(p1.x, p1.y);
-            canvasCtx.lineTo(p2.x, p2.y);
-            canvasCtx.stroke();
-          }
-        });
-
-        canvasCtx.fillStyle = 'rgba(129, 199, 132, 0.2)';
-        lm.forEach((p) => {
-          const pt = lmToCanvasPx(p);
-          canvasCtx.beginPath();
-          canvasCtx.arc(pt.x, pt.y, 2 / zoomFactor, 0, 2 * Math.PI);
-          canvasCtx.fill();
-        });
-        canvasCtx.restore();
+        if (overlayShowSkelCheck.checked) {
+          canvasCtx.save();
+          canvasCtx.globalAlpha = 0.08;
+          canvasCtx.strokeStyle = '#80d5ff';
+          canvasCtx.lineWidth = 1 / zoomFactor;
+          CONNECTIONS.forEach(([s, e]) => {
+            if (lm[s] && lm[e]) {
+              const p1 = lmToCanvasPx(lm[s]);
+              const p2 = lmToCanvasPx(lm[e]);
+              canvasCtx.beginPath();
+              canvasCtx.moveTo(p1.x, p1.y);
+              canvasCtx.lineTo(p2.x, p2.y);
+              canvasCtx.stroke();
+            }
+          });
+          canvasCtx.restore();
+        }
 
         if (flashFrames > 0) {
           canvasCtx.strokeStyle = '#81c784';
-          canvasCtx.lineWidth = 12 / zoomFactor;
-          canvasCtx.strokeRect(-drawW / 2, -drawH / 2, drawW, drawH);
+          canvasCtx.lineWidth = 8 / zoomFactor;
+          canvasCtx.strokeRect(-vWidth / 2, -vHeight / 2, vWidth, vHeight);
           flashFrames--;
         }
 
         canvasCtx.restore();
-
       } else {
         canvasCtx.restore();
       }
 
-      /* カスタマイズ可能な画面オーバーレイ描画 */
-      if (isRecording) {
-        elapsedTimeSec = (now - recordStartTime) / 1000.0;
+      if (isRecording) elapsedTimeSec = (now - recordStartTime) / 1000.0;
+
+      const showText = overlayShowTextCheck.checked;
+      const scale = parseFloat(overlayScaleSlider.value);
+      const textColor = overlayTextColorInput.value || '#ffffff';
+
+      canvasCtx.save();
+      if (showText) {
+        canvasCtx.fillStyle = textColor;
+        canvasCtx.font = `700 ${Math.round(16 * scale)}px "Roboto Mono", monospace`;
+        canvasCtx.fillText(`C: ${totalCount} | T: ${elapsedTimeSec.toFixed(1)}s`, 12, 24 * scale);
+      }
+      canvasCtx.restore();
+    });
+
+    // ==========================================
+    // 動画ファイル：シーク位置設定＆一括解析
+    // ==========================================
+    function setCurrentTimeAsStart() {
+      if (!videoElement.src || sourceMode !== 'file') return;
+      document.getElementById('file-start-sec').value = videoElement.currentTime.toFixed(1);
+    }
+
+    async function startFileAnalysis() {
+      if (!videoElement.src || sourceMode !== 'file') return;
+
+      const startTime = parseFloat(document.getElementById('file-start-sec').value) || 0;
+      const selectedDur = parseFloat(document.getElementById('file-duration-select').value);
+      
+      // 0（エンドレス）の場合は動画の末尾まで
+      const duration = (selectedDur === 0) ? (videoElement.duration - startTime) : selectedDur;
+      const endTime = Math.min(startTime + duration, videoElement.duration);
+
+      if (startTime >= videoElement.duration) return;
+
+      videoElement.pause();
+      processingOverlay.classList.add('open');
+      progressBarFill.style.width = '0%';
+      progressPercent.innerText = '0%';
+      progressEta.innerText = 'ETA: --s';
+
+      let localState = 'DOWN';
+      let localValleyY = 0.5;
+      let localPeakY = 0.5;
+      let localLastStateTime = -999;
+      let localLastTurnTime = 0;
+      let localCount = 0;
+      const localSpeedHist = [];
+
+      const analysisTimestamps = [];
+      const analysisRecData = [];
+
+      const step = 1 / 30; // 30fpsコマ送り
+      let currentSeek = startTime;
+
+      const processStartTime = performance.now();
+      const totalSteps = Math.ceil((endTime - startTime) / step);
+      let stepCount = 0;
+
+      while (currentSeek <= endTime) {
+        videoElement.currentTime = currentSeek;
+        await new Promise(r => {
+          const onSeeked = () => {
+            videoElement.removeEventListener('seeked', onSeeked);
+            r();
+          };
+          videoElement.addEventListener('seeked', onSeeked);
+        });
+
+        const poseResults = await new Promise(resolve => {
+          pose.onResults(resolve);
+          pose.send({ image: videoElement });
+        });
+
+        if (poseResults && poseResults.poseLandmarks) {
+          const lm = poseResults.poseLandmarks;
+          const targetLm = lm[parseInt(detectLmSelect.value, 10)];
+
+          if (targetLm) {
+            let currentY = getEffectivePoint(targetLm, flipH, flipV, rotationAngle).y;
+            let timeSinceState = currentSeek - localLastStateTime;
+            let turnTime = 0;
+            let currentS = 0;
+            let smoothedS = 0;
+
+            if (localState === 'DOWN') {
+              if (currentY > localValleyY) localValleyY = currentY;
+              if (currentY < localValleyY - threshold && timeSinceState > cooldownSec) {
+                localState = 'UP';
+                localPeakY = currentY;
+                localLastStateTime = currentSeek;
+              }
+            } else if (localState === 'UP') {
+              if (currentY < localPeakY) localPeakY = currentY;
+              if (currentY > localPeakY + threshold && timeSinceState > cooldownSec) {
+                localState = 'DOWN';
+                localValleyY = currentY;
+                localLastStateTime = currentSeek;
+                localCount++;
+
+                if (localLastTurnTime > 0) {
+                  turnTime = currentSeek - localLastTurnTime;
+                  if (turnTime >= 0.12 && turnTime <= 4.0) {
+                    // 【変更】 Speedの計算結果を2で割る
+                    currentS = (60.0 / turnTime) / 2.0;
+                    localSpeedHist.push(currentS);
+                    if (localSpeedHist.length > 3) localSpeedHist.shift();
+                    smoothedS = localSpeedHist.reduce((a, b) => a + b, 0) / localSpeedHist.length;
+                  }
+                }
+                localLastTurnTime = currentSeek;
+
+                const relTime = currentSeek - startTime;
+                analysisTimestamps.push({
+                  count: localCount,
+                  videoTime: currentSeek,
+                  elapsedSec: relTime,
+                  speed: smoothedS,
+                  turnTime: turnTime
+                });
+
+                analysisRecData.push({
+                  unixMs: relTime * 1000,
+                  id: localCount,
+                  calculatedValue: smoothedS > 0 ? smoothedS : null
+                });
+              }
+            }
+          }
+        }
+
+        stepCount++;
+        currentSeek += step;
+
+        const progressRatio = Math.min(stepCount / totalSteps, 1.0);
+        progressBarFill.style.width = `${Math.round(progressRatio * 100)}%`;
+        progressPercent.innerText = `${Math.round(progressRatio * 100)}%`;
+
+        const elapsedProc = (performance.now() - processStartTime) / 1000;
+        if (progressRatio > 0) {
+          const estimatedTotal = elapsedProc / progressRatio;
+          const eta = Math.max(0, Math.ceil(estimatedTotal - elapsedProc));
+          progressEta.innerText = `ETA: ${eta}s`;
+        }
+      }
+
+      fileAnalysisResult = {
+        startTime: startTime,
+        endTime: endTime,
+        duration: duration,
+        totalCount: localCount,
+        timestamps: analysisTimestamps,
+        recordedData: analysisRecData
+      };
+
+      // 履歴に自動登録
+      const now = new Date();
+      const timestampStr = `[File] ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
+      measurementHistory.unshift({
+        timestampStr: timestampStr,
+        count: localCount,
+        duration: selectedDur === 0 ? 0 : duration,
+        recordedData: [...analysisRecData],
+        countTimestamps: [...analysisTimestamps]
+      });
+      currentActiveRecordData = analysisRecData;
+
+      processingOverlay.classList.remove('open');
+      videoElement.currentTime = startTime;
+      renderVideoFileFrame();
+    }
+
+    // 動画ファイルの同期描画ループ（再生中にタイムスタンプからオーバーレイを描画）
+    function renderVideoFileFrame() {
+      if (sourceMode !== 'file') return;
+
+      const vWidth = videoElement.videoWidth || 640;
+      const vHeight = videoElement.videoHeight || 480;
+
+      let nativeW = (rotationAngle === 90 || rotationAngle === 270) ? vHeight : vWidth;
+      let nativeH = (rotationAngle === 90 || rotationAngle === 270) ? vWidth : vHeight;
+
+      mediaContainer.classList.toggle('portrait', nativeH > nativeW);
+      mediaContainer.classList.toggle('landscape', nativeH <= nativeW);
+
+      canvasElement.width = nativeW;
+      canvasElement.height = nativeH;
+
+      canvasCtx.save();
+      canvasCtx.clearRect(0, 0, nativeW, nativeH);
+
+      canvasCtx.translate(nativeW / 2, nativeH / 2);
+      if (flipH || flipV) canvasCtx.scale(flipH ? -1 : 1, flipV ? -1 : 1);
+      canvasCtx.rotate((rotationAngle * Math.PI) / 180);
+      canvasCtx.scale(zoomFactor, zoomFactor);
+
+      canvasCtx.drawImage(videoElement, -vWidth / 2, -vHeight / 2, vWidth, vHeight);
+      canvasCtx.restore();
+
+      // 動画解析結果に基づくオーバーレイ情報の検索
+      let curCount = 0;
+      let curSpeed = 0.0;
+      let curTurnTime = 0.0;
+      let curElapsed = 0.0;
+
+      if (fileAnalysisResult) {
+        const vTime = videoElement.currentTime;
+        const startT = fileAnalysisResult.startTime;
+
+        if (vTime >= startT) {
+          curElapsed = Math.min(vTime - startT, fileAnalysisResult.duration);
+          const pastItems = fileAnalysisResult.timestamps.filter(t => t.videoTime <= vTime);
+
+          if (pastItems.length > 0) {
+            const lastItem = pastItems[pastItems.length - 1];
+            curCount = lastItem.count;
+            curSpeed = lastItem.speed || 0;
+            curTurnTime = lastItem.turnTime || 0;
+          }
+        }
+      }
+
+      document.getElementById('count-val').innerText = curCount;
+      document.getElementById('speed-val').innerText = curSpeed > 0 ? curSpeed.toFixed(1) : '0.0';
+      document.getElementById('time-val').innerText = curTurnTime > 0 ? curTurnTime.toFixed(2) + 's' : '0.00s';
+
+      // グラフ更新（動画解析時）
+      if (currentGraph === 'speed' && fileAnalysisResult) {
+        const pastItems = fileAnalysisResult.timestamps.filter(t => t.videoTime <= videoElement.currentTime);
+        chart.data.datasets[0].data = pastItems.map((item, idx) => ({ x: idx, y: item.speed }));
+        chart.data.datasets[1].data = pastItems.map((item, idx) => ({ x: idx, y: item.speed }));
+        chart.update();
       }
 
       const showText = overlayShowTextCheck.checked;
-      const showGraph = overlayShowGraphCheck.checked;
-      const showPace = overlayShowPaceCheck.checked;
-      const showDrop = overlayShowDropCheck ? overlayShowDropCheck.checked : true;
       const scale = parseFloat(overlayScaleSlider.value);
-      const position = overlayPositionSelect.value;
-
-      const validPoints = recordedData.filter(d => d.calculatedValue !== null);
-
-      // トレンドラインの終点推計ペース（ペース値）およびペース落ち率の算出
-      let currentTrendPace = null;
-      let paceDropRate = null;
-
-      if (validPoints.length >= 2) {
-        const u0 = recordedData[0].unixMs;
-        const P = validPoints.map(d => ({
-          x: (d.unixMs - u0) / 1000.0,
-          y: d.calculatedValue
-        }));
-
-        const n = P.length;
-        let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
-        P.forEach(p => {
-          sumX += p.x;
-          sumY += p.y;
-          sumXY += p.x * p.y;
-          sumX2 += p.x * p.x;
-        });
-
-        const denom = n * sumX2 - sumX * sumX;
-        if (Math.abs(denom) > 1e-9) {
-          const a = (n * sumXY - sumX * sumY) / denom;
-          const b = (sumY - a * sumX) / n;
-          const firstX = P[0].x;
-          const latestX = P[P.length - 1].x;
-          
-          const yStart = a * firstX + b;
-          const yEnd = a * latestX + b;
-
-          currentTrendPace = yEnd;
-          if (yStart > 0) {
-            paceDropRate = ((yEnd - yStart) / yStart) * 100;
-          }
-        } else {
-          currentTrendPace = sumY / n;
-          paceDropRate = 0.0;
-        }
-      }
+      const textColor = overlayTextColorInput.value || '#ffffff';
 
       canvasCtx.save();
-
-      const padding = 16;
-      let anchorX = padding;
-      let anchorY = padding;
-
-      // 表示幅・高さの推計
-      const boxW = 220 * scale;
-      const boxH = (showGraph ? 90 : 40) * scale;
-
-      if (position === 'top-right') {
-        anchorX = nativeW - boxW - padding;
-        anchorY = padding;
-      } else if (position === 'bottom-left') {
-        anchorX = padding;
-        anchorY = nativeH - boxH - padding - 40 * scale;
-      } else if (position === 'bottom-right') {
-        anchorX = nativeW - boxW - padding;
-        anchorY = nativeH - boxH - padding - 40 * scale;
-      }
-
-      let currY = anchorY;
-
-      // 1. カウント・経過時間 テキスト表示
       if (showText) {
-        canvasCtx.fillStyle = '#ffffff';
-        canvasCtx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-        canvasCtx.shadowBlur = 4;
-        canvasCtx.font = `700 ${Math.round(20 * scale)}px "Roboto Mono", monospace`;
-        canvasCtx.fillText(`COUNT: ${totalCount}`, anchorX, currY + 20 * scale);
-        canvasCtx.font = `500 ${Math.round(15 * scale)}px "Roboto Mono", monospace`;
-        canvasCtx.fillText(`TIME : ${elapsedTimeSec.toFixed(2)}s`, anchorX, currY + 42 * scale);
-        currY += 50 * scale;
-      }
-
-      // 2. トレンド線終点推計ペースの表示
-      if (showPace) {
-        canvasCtx.fillStyle = '#ff3b30';
-        canvasCtx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-        canvasCtx.shadowBlur = 4;
+        canvasCtx.fillStyle = textColor;
         canvasCtx.font = `700 ${Math.round(16 * scale)}px "Roboto Mono", monospace`;
-        const paceStr = currentTrendPace !== null ? `${currentTrendPace.toFixed(1)}` : '--';
-        canvasCtx.fillText(`PACE : ${paceStr}`, anchorX, currY + 18 * scale);
-        currY += 28 * scale;
+        canvasCtx.fillText(`C: ${curCount} | T: ${curElapsed.toFixed(1)}s`, 12, 24 * scale);
       }
-
-      // 3. ペース落ち率 (%) の表示
-      if (showDrop) {
-        canvasCtx.fillStyle = paceDropRate !== null && paceDropRate < 0 ? '#ffb4ab' : '#80d5ff';
-        canvasCtx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-        canvasCtx.shadowBlur = 4;
-        canvasCtx.font = `700 ${Math.round(15 * scale)}px "Roboto Mono", monospace`;
-        const dropStr = paceDropRate !== null ? `${paceDropRate >= 0 ? '+' : ''}${paceDropRate.toFixed(1)}%` : '--%';
-        canvasCtx.fillText(`DROP : ${dropStr}`, anchorX, currY + 16 * scale);
-        currY += 26 * scale;
-      }
-
-      // 4. リアルタイムペース遷移グラフ表示
-      if (showGraph && validPoints.length > 1) {
-        const graphW = 200 * scale;
-        const graphH = 80 * scale;
-        const gx = anchorX;
-        const gy = currY;
-
-        const maxDuration = recordDurationSec || parseInt(recordTimerSelect.value, 10) || 5;
-
-        const speeds = validPoints.map(d => d.calculatedValue);
-        let minS = Math.min(...speeds);
-        let maxS = Math.max(...speeds);
-
-        if (minS === maxS) {
-          minS = Math.max(0, minS - 10);
-          maxS = maxS + 10;
-        }
-        
-        const sRange = maxS - minS;
-        const marginLow = sRange * 0.15;
-        const marginHigh = sRange * 0.15;
-        
-        const yMin = Math.max(0, minS - marginLow);
-        const yMax = maxS + marginHigh;
-
-        canvasCtx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
-        canvasCtx.lineWidth = 1 * scale;
-        canvasCtx.beginPath();
-        canvasCtx.moveTo(gx, gy);
-        canvasCtx.lineTo(gx, gy + graphH);
-        canvasCtx.lineTo(gx + graphW, gy + graphH);
-        canvasCtx.stroke();
-
-        canvasCtx.strokeStyle = '#80d5ff';
-        canvasCtx.lineWidth = 2 * scale;
-        canvasCtx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-        canvasCtx.shadowBlur = 3;
-        canvasCtx.beginPath();
-
-        const u0 = recordedData[0].unixMs;
-        validPoints.forEach((d, idx) => {
-          const tSec = (d.unixMs - u0) / 1000.0;
-          const px = gx + Math.min(1.0, tSec / maxDuration) * graphW;
-          const normalizedY = (d.calculatedValue - yMin) / (yMax - yMin);
-          const py = gy + graphH - Math.max(0, Math.min(1, normalizedY)) * graphH;
-
-          if (idx === 0) canvasCtx.moveTo(px, py);
-          else canvasCtx.lineTo(px, py);
-        });
-        canvasCtx.stroke();
-      }
-
       canvasCtx.restore();
-    });
+
+      animFrameId = requestAnimationFrame(renderVideoFileFrame);
+    }
 
     function toTimeSeriesData(arr) {
       return arr.map((val, index) => ({ x: index, y: val }));
     }
 
     function updateChart() {
-      if (currentMode === 'turner-orbit') {
+      if (currentGraph === 'none') return;
+      if (sourceMode === 'file') return; // 動画モード時はrenderVideoFileFrameで処理
+
+      if (currentGraph === 'orbit' && currentRole === 'turner') {
         chart.options.aspectRatio = 1;
-        const lOrbitData = buffer.lw_x.map((x, i) => ({ x: x, y: 1.0 - buffer.lw_y[i] }));
-        const rOrbitData = buffer.rw_x.map((x, i) => ({ x: x, y: 1.0 - buffer.rw_y[i] }));
-
-        const allX = lOrbitData.map(p => p.x).concat(rOrbitData.map(p => p.x));
-        const allY = lOrbitData.map(p => p.y).concat(rOrbitData.map(p => p.y));
-
-        let minX = Math.min(...allX);
-        let maxX = Math.max(...allX);
-        let minY = Math.min(...allY);
-        let maxY = Math.max(...allY);
-
-        let rangeX = maxX - minX || 0.1;
-        let rangeY = maxY - minY || 0.1;
-
-        const maxRange = Math.max(rangeX, rangeY) + 0.1;
-
-        const midX = (minX + maxX) / 2;
-        const midY = (minY + maxY) / 2;
-
-        chart.options.scales.x.min = midX - maxRange / 2;
-        chart.options.scales.x.max = midX + maxRange / 2;
-        chart.options.scales.y.min = midY - maxRange / 2;
-        chart.options.scales.y.max = midY + maxRange / 2;
-
-        chart.data.datasets[0].label = 'Left Wrist Orbit';
-        chart.data.datasets[0].borderColor = '#80d5ff';
-        chart.data.datasets[0].data = lOrbitData;
-
-        chart.data.datasets[1].label = 'Right Wrist Orbit';
-        chart.data.datasets[1].borderColor = '#ffb74d';
-        chart.data.datasets[1].data = rOrbitData;
-
+        chart.data.datasets[0].data = buffer.lw_x.map((x, i) => ({ x: x, y: 1.0 - buffer.lw_y[i] }));
+        chart.data.datasets[1].data = buffer.rw_x.map((x, i) => ({ x: x, y: 1.0 - buffer.rw_y[i] }));
       } else {
-        chart.options.aspectRatio = 2;
-
-        delete chart.options.scales.x.min;
-        delete chart.options.scales.x.max;
-        delete chart.options.scales.y.min;
-        delete chart.options.scales.y.max;
-
+        chart.options.aspectRatio = 2.2;
         chart.data.datasets[1].data = [];
-
-        if (currentMode === 'jumper-speed' || currentMode === 'turner-speed') {
-          chart.data.datasets[0].label = 'Raw Speed';
-          chart.data.datasets[0].borderColor = 'rgba(128, 213, 255, 0.3)';
+        if (currentGraph === 'speed') {
           chart.data.datasets[0].data = toTimeSeriesData(buffer.raw_speed);
-
-          chart.data.datasets[1].label = 'Smoothed Speed';
-          chart.data.datasets[1].borderColor = '#80d5ff';
           chart.data.datasets[1].data = toTimeSeriesData(buffer.smoothed_speed);
-
-        } else if (currentMode === 'jumper-axis' || currentMode === 'turner-axis') {
-          const lmIdx = detectLmSelect.value;
-          const axisName = detectMethodSelect.value.split('_')[0].toUpperCase();
-          chart.data.datasets[0].label = `LM ${lmIdx} (${axisName}-Axis Value)`;
-          chart.data.datasets[0].borderColor = '#ffb74d';
+        } else if (currentGraph === 'axis') {
           chart.data.datasets[0].data = toTimeSeriesData(buffer.target_val);
         }
       }
-
       chart.update();
     }
 
     async function processVideoFrame() {
-      if (videoElement.readyState >= 2 && !isProcessing && !videoElement.paused && !videoElement.ended) {
-        isProcessing = true;
-        await pose.send({ image: videoElement });
-        isProcessing = false;
+      if (sourceMode === 'camera') {
+        if (videoElement.readyState >= 2 && !isProcessing && !videoElement.paused && !videoElement.ended) {
+          isProcessing = true;
+          await pose.send({ image: videoElement });
+          isProcessing = false;
+        }
+        animFrameId = requestAnimationFrame(processVideoFrame);
       }
-      animFrameId = requestAnimationFrame(processVideoFrame);
     }
 
     function switchSourceMode(mode) {
@@ -2206,8 +2107,38 @@
       document.getElementById('file-settings').style.display = mode === 'file' ? 'flex' : 'none';
       fileControlsBar.style.display = mode === 'file' ? 'block' : 'none';
 
-      if (animFrameId) cancelAnimationFrame(animFrameId);
+      cameraSwitchBtn.style.display = mode === 'camera' ? 'flex' : 'none';
+      timerToggleBtn.style.display = mode === 'camera' ? 'flex' : 'none';
+      shutterAnalyticsBtn.style.display = mode === 'camera' ? 'flex' : 'none';
 
+      // 動画解析モード制限コントロール
+      const roleTurnerBtn = document.getElementById('role-turner-btn');
+      const roleJumperBtn = document.getElementById('role-jumper-btn');
+      const graphAxisBtn = document.getElementById('graph-axis-btn');
+      const graphOrbitBtn = document.getElementById('graph-orbit-btn');
+      const labelOverlayShowSkel = document.getElementById('label-overlay-show-skel');
+
+      if (mode === 'file') {
+        roleTurnerBtn.disabled = true;
+        roleJumperBtn.disabled = true;
+        graphAxisBtn.disabled = true;
+        graphOrbitBtn.disabled = true;
+
+        overlayShowSkelCheck.disabled = true;
+        labelOverlayShowSkel.classList.add('disabled');
+
+        setGraphMode('speed');
+      } else {
+        roleTurnerBtn.disabled = false;
+        roleJumperBtn.disabled = false;
+        graphAxisBtn.disabled = false;
+        graphOrbitBtn.disabled = false;
+
+        overlayShowSkelCheck.disabled = false;
+        labelOverlayShowSkel.classList.remove('disabled');
+      }
+
+      if (animFrameId) cancelAnimationFrame(animFrameId);
       if (currentStream) {
         currentStream.getTracks().forEach(track => track.stop());
         currentStream = null;
@@ -2217,79 +2148,28 @@
       videoElement.src = "";
       videoElement.srcObject = null;
 
-      if (mode === 'camera') {
-        setupCameraList();
-      } else {
+      if (mode === 'camera') setupCameraList();
+      else {
         canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
       }
     }
 
     async function updateSupportedFpsOptions(deviceId) {
-      const candidateFps = [30, 60, 120, 240];
-      const supportedFps = [];
-
-      try {
-        const tempStream = await navigator.mediaDevices.getUserMedia({
-          video: deviceId ? { deviceId: { exact: deviceId } } : true
-        });
-        const track = tempStream.getVideoTracks()[0];
-        const capabilities = track.getCapabilities ? track.getCapabilities() : {};
-
-        let maxSupported = 30;
-        if (capabilities.frameRate && capabilities.frameRate.max) {
-          maxSupported = capabilities.frameRate.max;
-        }
-
-        tempStream.getTracks().forEach(t => t.stop());
-
-        candidateFps.forEach(fps => {
-          if (fps <= Math.max(30, maxSupported)) {
-            supportedFps.push(fps);
-          }
-        });
-      } catch (err) {
-        supportedFps.push(30);
-      }
-
-      fpsSelect.innerHTML = '';
-      supportedFps.forEach(fps => {
-        const option = document.createElement('option');
-        option.value = fps;
-        option.text = `${fps} FPS`;
-        if (fps === currentFps) option.selected = true;
-        fpsSelect.appendChild(option);
-      });
-
-      if (!supportedFps.includes(currentFps)) {
-        currentFps = supportedFps[supportedFps.length - 1];
-        fpsSelect.value = currentFps;
-      }
+      fpsSelect.innerHTML = '<option value="30">30 FPS</option>';
     }
 
     async function startCamera(deviceId, targetFps = 30) {
       if (animFrameId) cancelAnimationFrame(animFrameId);
-      if (currentStream) {
-        currentStream.getTracks().forEach(track => track.stop());
-      }
-
-      const constraints = {
-        video: {
-          ...(deviceId ? { deviceId: { exact: deviceId } } : {}),
-          width: { ideal: 1280 },
-          height: { ideal: 720 },
-          frameRate: { ideal: targetFps, max: targetFps }
-        }
-      };
+      if (currentStream) currentStream.getTracks().forEach(track => track.stop());
 
       try {
-        currentStream = await navigator.mediaDevices.getUserMedia(constraints);
+        currentStream = await navigator.mediaDevices.getUserMedia({
+          video: { ...(deviceId ? { deviceId: { exact: deviceId } } : {}), width: { ideal: 1280 }, height: { ideal: 720 } }
+        });
         videoElement.srcObject = currentStream;
         await videoElement.play();
-
         processVideoFrame();
-      } catch (err) {
-        console.error("指定カメラの起動に失敗しました: ", err);
-      }
+      } catch (err) {}
     }
 
     async function setupCameraList() {
@@ -2299,116 +2179,72 @@
         const videoDevices = devices.filter(d => d.kind === 'videoinput');
 
         cameraSelect.innerHTML = '';
-
-        if (videoDevices.length === 0) {
-          cameraSelect.innerHTML = '<option value="">カメラが見つかりません</option>';
-          return;
-        }
+        cameraSwitchBtn.style.display = videoDevices.length > 1 ? 'flex' : 'none';
 
         videoDevices.forEach((device, index) => {
           const option = document.createElement('option');
           option.value = device.deviceId;
-          option.text = device.label || `Camera ${index + 1}`;
+          option.text = device.label || `Cam ${index + 1}`;
           cameraSelect.appendChild(option);
         });
 
         tempStream.getTracks().forEach(track => track.stop());
-
-        const initialDeviceId = videoDevices[0].deviceId;
-        await updateSupportedFpsOptions(initialDeviceId);
-        startCamera(initialDeviceId, parseInt(fpsSelect.value, 10));
-
-      } catch (err) {
-        console.error("カメラへのアクセス許可が得られませんでした: ", err);
-        cameraSelect.innerHTML = '<option value="">カメラ使用不可</option>';
-      }
+        if (videoDevices.length > 0) startCamera(videoDevices[0].deviceId);
+      } catch (err) {}
     }
 
-    // Video File Handling
     videoFileInput.addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (!file) return;
 
       fileNameDisplay.innerText = file.name;
-      const fileUrl = URL.createObjectURL(file);
-
       videoElement.srcObject = null;
-      videoElement.src = fileUrl;
+      videoElement.src = URL.createObjectURL(file);
       videoElement.load();
 
       videoElement.onloadedmetadata = () => {
         seekSlider.max = videoElement.duration;
-        updateTimeDisplay();
         resetCounter();
         videoElement.play();
-        playIcon.innerText = 'pause';
-        processVideoFrame();
+        if (playIcon) playIcon.innerText = 'pause';
+        renderVideoFileFrame();
       };
     });
 
     function toggleVideoPlay() {
       if (videoElement.paused) {
         videoElement.play();
-        playIcon.innerText = 'pause';
-        processVideoFrame();
+        if (playIcon) playIcon.innerText = 'pause';
       } else {
         videoElement.pause();
-        playIcon.innerText = 'play_arrow';
+        if (playIcon) playIcon.innerText = 'play_arrow';
       }
     }
 
     videoElement.addEventListener('timeupdate', () => {
       if (sourceMode === 'file') {
         seekSlider.value = videoElement.currentTime;
-        updateTimeDisplay();
+        const curM = Math.floor(videoElement.currentTime / 60).toString().padStart(2, '0');
+        const curS = Math.floor(videoElement.currentTime % 60).toString().padStart(2, '0');
+        const durM = Math.floor((videoElement.duration || 0) / 60).toString().padStart(2, '0');
+        const durS = Math.floor((videoElement.duration || 0) % 60).toString().padStart(2, '0');
+        videoTimeDisplay.innerText = `${curM}:${curS} / ${durM}:${durS}`;
       }
     });
 
     seekSlider.addEventListener('input', (e) => {
       videoElement.currentTime = parseFloat(e.target.value);
-      updateTimeDisplay();
-      if (videoElement.paused) {
-        pose.send({ image: videoElement });
-      }
     });
 
     playbackRateSelect.addEventListener('change', (e) => {
       videoElement.playbackRate = parseFloat(e.target.value);
     });
 
-    function updateTimeDisplay() {
-      const cur = formatTime(videoElement.currentTime);
-      const dur = formatTime(videoElement.duration || 0);
-      videoTimeDisplay.innerText = `${cur} / ${dur}`;
-    }
-
-    function formatTime(sec) {
-      const m = Math.floor(sec / 60);
-      const s = Math.floor(sec % 60);
-      return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-    }
-
-    videoElement.addEventListener('ended', () => {
-      if (sourceMode === 'file') {
-        playIcon.innerText = 'play_arrow';
-      }
+    cameraSelect.addEventListener('change', (e) => {
+      if (e.target.value && sourceMode === 'camera') startCamera(e.target.value);
     });
 
-    cameraSelect.addEventListener('change', async (e) => {
-      if (e.target.value && sourceMode === 'camera') {
-        await updateSupportedFpsOptions(e.target.value);
-        startCamera(e.target.value, parseInt(fpsSelect.value, 10));
-      }
-    });
-
-    fpsSelect.addEventListener('change', (e) => {
-      if (sourceMode === 'camera') {
-        const selectedFps = parseInt(e.target.value, 10);
-        currentFps = selectedFps;
-        startCamera(cameraSelect.value, selectedFps);
-      }
-    });
-
+    updateTimerLabel();
     setupCameraList();
   </script>
 </body>
