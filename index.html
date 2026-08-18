@@ -426,9 +426,17 @@
 
     #output_canvas {
       width: 100%;
-      height: 100%;
+      height: auto;
       display: block;
       object-fit: contain;
+      touch-action: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    #camera-select {
+      min-width: 0;
+      max-width: min(52vw, 320px);
     }
 
     .preview-overlay-controls {
@@ -447,6 +455,28 @@
       display: flex;
       gap: 6px;
       align-items: center;
+    }
+
+    .crop-mode-btn {
+      background: rgba(0, 0, 0, 0.55);
+      border: 1px solid rgba(128, 213, 255, 0.65);
+      color: #fff;
+      border-radius: var(--md-shape-corner-full);
+      height: 32px;
+      padding: 0 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .crop-mode-btn.active {
+      background: var(--md-sys-color-primary-container);
+      color: var(--md-sys-color-on-primary-container);
+      border-color: var(--md-sys-color-primary);
     }
 
     .camera-switch-btn, .timer-toggle-btn, .fullscreen-btn {
@@ -731,7 +761,7 @@
           </select>
         </div>
 
-        <button class="btn-primary" onclick="startFileAnalysis()" style="margin-left: auto;">
+        <button id="file-analysis-btn" class="btn-primary" onclick="startFileAnalysis()" style="margin-left: auto;">
           <span class="icon">analytics</span> 解析開始
         </button>
       </div>
@@ -751,6 +781,10 @@
         <button id="timer-toggle-btn" class="timer-toggle-btn" onclick="cycleMeasurementTimer()">
           <span class="icon" style="font-size: 16px;">timer</span>
           <span id="timer-toggle-label">30秒</span>
+        </button>
+        <button id="crop-mode-btn" class="crop-mode-btn" onclick="toggleCropMode()" title="人物を検出する範囲を指定">
+          <span class="icon" style="font-size: 16px;">crop_free</span>
+          <span id="crop-mode-label">人物範囲</span>
         </button>
       </div>
 
@@ -919,7 +953,28 @@
           </div>
         </div>
 
-        <div class="section-title">3. タイマー設定</div>
+        <div class="section-title">3. 人物検出範囲</div>
+        <div class="config-group">
+          <div style="font-size:0.78rem; color:var(--md-sys-color-on-surface-variant); line-height:1.5;">
+            プレビューの「人物範囲」を押し、検出したい人物が入るように枠をドラッグして指定する。
+            枠内だけをPoseへ渡すため、複数人いる映像でも対象を絞り込みやすくなる。
+          </div>
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="crop-enabled-check">
+              <span class="icon">crop_free</span> クロッピングを有効化
+            </label>
+          </div>
+          <div class="slider-group">
+            <label><span class="icon">aspect_ratio</span> 範囲サイズ</label>
+            <button class="btn-secondary" type="button" onclick="resetCropSelection()">
+              <span class="icon">fit_screen</span> 中央に戻す
+            </button>
+            <span id="crop-size-display" class="slider-value">70% × 85%</span>
+          </div>
+        </div>
+
+        <div class="section-title">4. タイマー設定</div>
         <div class="config-group">
           <div class="slider-group">
             <label for="countdown-sec-input"><span class="icon">hourglass_top</span> 開始ディレイ</label>
@@ -937,7 +992,7 @@
           </div>
         </div>
 
-        <div class="section-title">4. 検出感度・映像変換</div>
+        <div class="section-title">5. 検出感度・映像変換</div>
         <div class="config-group">
           <div class="checkbox-group">
             <label class="checkbox-label">
@@ -968,18 +1023,23 @@
             <span id="zoom-val-display" class="slider-value">1.0x</span>
           </div>
           <div class="slider-group">
-            <label for="threshold-slider"><span class="icon">sensors</span> 判定しきい値</label>
-            <input type="range" id="threshold-slider" min="0.00" max="0.100" step="0.005" value="0.010">
-            <span id="threshold-val-display" class="slider-value">0.010</span>
+            <label for="jumper-threshold-slider"><span class="icon">height</span> ジャンパー感度</label>
+            <input type="range" id="jumper-threshold-slider" min="0.001" max="0.050" step="0.001" value="0.005">
+            <span id="jumper-threshold-val" class="slider-value">0.005</span>
           </div>
           <div class="slider-group">
-            <label for="cooldown-slider"><span class="icon">timer</span> クールダウン</label>
-            <input type="range" id="cooldown-slider" min="0.05" max="0.50" step="0.01" value="0.10">
-            <span id="cooldown-val-display" class="slider-value">0.10s</span>
+            <label for="turner-threshold-slider"><span class="icon">360</span> ターナー感度</label>
+            <input type="range" id="turner-threshold-slider" min="0.010" max="0.080" step="0.005" value="0.040">
+            <span id="turner-threshold-val" class="slider-value">0.040</span>
+          </div>
+          <div class="slider-group">
+            <label for="min-interval-slider"><span class="icon">timer</span> クールダウン(s)</label>
+            <input type="range" id="min-interval-slider" min="0.00" max="0.50" step="0.01" value="0.15">
+            <span id="min-interval-val" class="slider-value">0.15s</span>
           </div>
         </div>
 
-        <div class="section-title">5. 画面表示（オーバーレイ）</div>
+        <div class="section-title">6. 画面表示（オーバーレイ）</div>
         <div class="config-group">
           <div class="checkbox-group">
             <label class="checkbox-label">
@@ -1082,6 +1142,10 @@
     const cameraSelect = document.getElementById('camera-select');
     const fpsSelect = document.getElementById('fps-select');
     const mediaContainer = document.getElementById('media-container');
+    const cropModeBtn = document.getElementById('crop-mode-btn');
+    const cropModeLabel = document.getElementById('crop-mode-label');
+    const cropEnabledCheck = document.getElementById('crop-enabled-check');
+    const cropSizeDisplay = document.getElementById('crop-size-display');
 
     const videoFileInput = document.getElementById('video-file-input');
     const fileNameDisplay = document.getElementById('file-name-display');
@@ -1107,10 +1171,12 @@
 
     const zoomSlider = document.getElementById('zoom-slider');
     const zoomDisplay = document.getElementById('zoom-val-display');
-    const thresholdSlider = document.getElementById('threshold-slider');
-    const thresholdDisplay = document.getElementById('threshold-val-display');
-    const cooldownSlider = document.getElementById('cooldown-slider');
-    const cooldownDisplay = document.getElementById('cooldown-val-display');
+    const jumperThresholdSlider = document.getElementById('jumper-threshold-slider');
+    const jumperThresholdDisplay = document.getElementById('jumper-threshold-val');
+    const turnerThresholdSlider = document.getElementById('turner-threshold-slider');
+    const turnerThresholdDisplay = document.getElementById('turner-threshold-val');
+    const minIntervalSlider = document.getElementById('min-interval-slider');
+    const minIntervalDisplay = document.getElementById('min-interval-val');
 
     const flipHCheck = document.getElementById('flip-h-check');
     const flipVCheck = document.getElementById('flip-v-check');
@@ -1125,6 +1191,15 @@
     const overlayPositionSelect = document.getElementById('overlay-position-select');
     const overlayScaleSlider = document.getElementById('overlay-scale-slider');
     const overlayScaleDisplay = document.getElementById('overlay-scale-display');
+    overlayShowSkelCheck.addEventListener('change', () => {
+      fileSkeletonEnabled = sourceMode === 'file' ? overlayShowSkelCheck.checked : fileSkeletonEnabled;
+      if (!fileSkeletonEnabled) {
+        fileSkeletonData = null;
+        lastFilePoseLandmarks = null;
+      }
+      requestCropRedraw();
+    });
+
 
     const processingOverlay = document.getElementById('processing-overlay');
     const progressBarFill = document.getElementById('progress-bar-fill');
@@ -1133,8 +1208,7 @@
     const progressEta = document.getElementById('progress-eta');
 
     let zoomFactor = parseFloat(zoomSlider.value);
-    let threshold = parseFloat(thresholdSlider.value);
-    let cooldownSec = parseFloat(cooldownSlider.value);
+    const motionConfig = { jumperThreshold: parseFloat(jumperThresholdSlider.value), turnerThreshold: parseFloat(turnerThresholdSlider.value), minPeakInterval: parseFloat(minIntervalSlider.value) };
 
     let flipH = flipHCheck.checked;
     let flipV = flipVCheck.checked;
@@ -1164,25 +1238,223 @@
     let currentActiveRecordData = null;
 
     // 動画バックグラウンド解析用変数
-    let fileAnalysisResult = null; 
+    let fileAnalysisResult = null;
+    let fileSkeletonData = null;
+    let fileSkeletonEnabled = false;
+    let fileAnalysisRunning = false;
+    let fileAnalysisCancelRequested = false; 
     let audioCtx = null;
     let audioSourceNode = null;
     let audioDestinationNode = null;
+
+    // 人物検出用クロップ領域（元動画のピクセル座標系）
+    let cropEnabled = false;
+    let cropEditMode = false;
+    let cropRect = { x: 0, y: 0, w: 0, h: 0 };
+    let cropDrag = null;
+    let lastFilePoseLandmarks = null;
+    let filePreviewPoseBusy = false;
+    let lastFilePoseTime = -1;
+
+    function getSourceDimensions() {
+      return { w: videoElement.videoWidth || 640, h: videoElement.videoHeight || 480 };
+    }
+
+    function resetCropSelection() {
+      const { w, h } = getSourceDimensions();
+      cropRect = { x: w * 0.15, y: h * 0.075, w: w * 0.70, h: h * 0.85 };
+      updateCropSizeDisplay();
+      requestCropRedraw();
+    }
+
+    function updateCropSizeDisplay() {
+      const { w, h } = getSourceDimensions();
+      cropSizeDisplay.innerText = `${w ? (cropRect.w / w * 100).toFixed(0) : 0}% × ${h ? (cropRect.h / h * 100).toFixed(0) : 0}%`;
+    }
+
+    function ensureCropSelection() {
+      const { w, h } = getSourceDimensions();
+      if (!cropRect.w || !cropRect.h || cropRect.w > w || cropRect.h > h) resetCropSelection();
+    }
+
+    function getCropRectNormalized() {
+      const { w, h } = getSourceDimensions();
+      ensureCropSelection();
+      return {
+        x: Math.max(0, Math.min(cropRect.x, w - 1)),
+        y: Math.max(0, Math.min(cropRect.y, h - 1)),
+        w: Math.max(1, Math.min(cropRect.w, w)),
+        h: Math.max(1, Math.min(cropRect.h, h))
+      };
+    }
+
+    function getCropCanvas(source) {
+      const c = document.createElement('canvas');
+      const r = getCropRectNormalized();
+      c.width = Math.max(1, Math.round(r.w));
+      c.height = Math.max(1, Math.round(r.h));
+      c.getContext('2d').drawImage(source, r.x, r.y, r.w, r.h, 0, 0, c.width, c.height);
+      return c;
+    }
+
+    function landmarksFromCropToSource(landmarks, crop, sourceW, sourceH) {
+      return landmarks.map(p => ({
+        ...p,
+        x: (crop.x + p.x * crop.w) / sourceW,
+        y: (crop.y + p.y * crop.h) / sourceH
+      }));
+    }
+
+    function getDetectionImage(source) {
+      return cropEnabled ? getCropCanvas(source) : source;
+    }
+
+    function toggleCropMode() {
+      cropEditMode = !cropEditMode;
+      cropModeBtn.classList.toggle('active', cropEditMode);
+      cropModeLabel.innerText = cropEditMode ? '範囲を調整中' : '人物範囲';
+      cropEnabledCheck.checked = cropEditMode;
+      cropEnabled = cropEditMode;
+      ensureCropSelection();
+      requestCropRedraw();
+    }
+
+    cropEnabledCheck.addEventListener('change', (e) => {
+      cropEnabled = e.target.checked;
+      if (cropEnabled) ensureCropSelection();
+      requestCropRedraw();
+    });
+
+    function requestCropRedraw() {
+      if (sourceMode === 'file') renderVideoFileFrame();
+    }
+
+    function sourceToCanvasPoint(x, y) {
+      const { w, h } = getSourceDimensions();
+      const nativeW = (rotationAngle === 90 || rotationAngle === 270) ? h : w;
+      const nativeH = (rotationAngle === 90 || rotationAngle === 270) ? w : h;
+      let px = x - w / 2, py = y - h / 2;
+      if (flipH) px *= -1;
+      if (flipV) py *= -1;
+      const rad = rotationAngle * Math.PI / 180;
+      const rx = Math.cos(rad) * px - Math.sin(rad) * py;
+      const ry = Math.sin(rad) * px + Math.cos(rad) * py;
+      return { x: nativeW / 2 + rx * zoomFactor, y: nativeH / 2 + ry * zoomFactor };
+    }
+
+    function sourceToLocalPoint(x, y) {
+      const { w, h } = getSourceDimensions();
+      return { x: x - w / 2, y: y - h / 2 };
+    }
+
+    function canvasToSourcePoint(clientX, clientY) {
+      const rect = canvasElement.getBoundingClientRect();
+      const nativeW = canvasElement.width || 640, nativeH = canvasElement.height || 480;
+      let x = (clientX - rect.left) * nativeW / rect.width;
+      let y = (clientY - rect.top) * nativeH / rect.height;
+      const { w, h } = getSourceDimensions();
+      x = (x - nativeW / 2) / zoomFactor;
+      y = (y - nativeH / 2) / zoomFactor;
+      const rad = rotationAngle * Math.PI / 180;
+      const rx = Math.cos(rad) * x + Math.sin(rad) * y;
+      const ry = -Math.sin(rad) * x + Math.cos(rad) * y;
+      x = flipH ? -rx : rx;
+      y = flipV ? -ry : ry;
+      return { x: x + w / 2, y: y + h / 2 };
+    }
+
+    function getCropHandleAtPoint(px, py) {
+      const r = cropRect, hit = 18 / Math.max(1, zoomFactor);
+      const handles = [['nw',r.x,r.y],['ne',r.x+r.w,r.y],['sw',r.x,r.y+r.h],['se',r.x+r.w,r.y+r.h]];
+      for (const [name,x,y] of handles) if (Math.hypot(px-x,py-y) <= hit) return name;
+      if (px >= r.x && px <= r.x+r.w && py >= r.y && py <= r.y+r.h) return 'move';
+      return null;
+    }
+
+    function clampCropRect() {
+      const { w, h } = getSourceDimensions();
+      const minSize = Math.max(40, Math.min(w, h) * 0.08);
+      cropRect.w = Math.max(minSize, Math.min(cropRect.w, w));
+      cropRect.h = Math.max(minSize, Math.min(cropRect.h, h));
+      cropRect.x = Math.max(0, Math.min(cropRect.x, w - cropRect.w));
+      cropRect.y = Math.max(0, Math.min(cropRect.y, h - cropRect.h));
+    }
+
+    canvasElement.addEventListener('pointermove', (e) => {
+      if (!cropEditMode || !cropEnabled || cropDrag) return;
+      const handle = getCropHandleAtPoint(...Object.values(canvasToSourcePoint(e.clientX,e.clientY)));
+      canvasElement.style.cursor = handle === 'move' ? 'move' : (handle ? 'nwse-resize' : 'crosshair');
+    });
+
+    canvasElement.addEventListener('pointerdown', (e) => {
+      if (!cropEditMode || !cropEnabled) return;
+      ensureCropSelection();
+      const pt = canvasToSourcePoint(e.clientX, e.clientY);
+      const handle = getCropHandleAtPoint(pt.x, pt.y);
+      if (!handle) return;
+      canvasElement.setPointerCapture(e.pointerId);
+      cropDrag = { handle, startX: pt.x, startY: pt.y, rect: { ...cropRect } };
+      e.preventDefault();
+    });
+
+    canvasElement.addEventListener('pointermove', (e) => {
+      if (!cropDrag) return;
+      const pt = canvasToSourcePoint(e.clientX, e.clientY);
+      const dx = pt.x - cropDrag.startX, dy = pt.y - cropDrag.startY, r = cropDrag.rect;
+      cropRect = { ...r };
+      if (cropDrag.handle === 'move') {
+        cropRect.x = r.x + dx; cropRect.y = r.y + dy;
+      } else {
+        if (cropDrag.handle.includes('w')) { cropRect.x = r.x + dx; cropRect.w = r.w - dx; }
+        if (cropDrag.handle.includes('e')) cropRect.w = r.w + dx;
+        if (cropDrag.handle.includes('n')) { cropRect.y = r.y + dy; cropRect.h = r.h - dy; }
+        if (cropDrag.handle.includes('s')) cropRect.h = r.h + dy;
+      }
+      clampCropRect();
+      updateCropSizeDisplay();
+      requestCropRedraw();
+      e.preventDefault();
+    });
+
+    canvasElement.addEventListener('pointerup', () => { cropDrag = null; });
+    canvasElement.addEventListener('pointercancel', () => { cropDrag = null; });
+
+    function drawCropOverlay() {
+      if (!cropEnabled) return;
+      ensureCropSelection();
+      const r = cropRect;
+      const tl = sourceToCanvasPoint(r.x,r.y), tr = sourceToCanvasPoint(r.x+r.w,r.y);
+      const br = sourceToCanvasPoint(r.x+r.w,r.y+r.h), bl = sourceToCanvasPoint(r.x,r.y+r.h);
+      canvasCtx.save();
+      canvasCtx.fillStyle = cropEditMode ? 'rgba(0,0,0,0.38)' : 'rgba(0,0,0,0.22)';
+      canvasCtx.fillRect(0,0,canvasElement.width,canvasElement.height);
+      canvasCtx.globalCompositeOperation = 'destination-out';
+      canvasCtx.beginPath();
+      canvasCtx.moveTo(tl.x,tl.y); canvasCtx.lineTo(tr.x,tr.y); canvasCtx.lineTo(br.x,br.y); canvasCtx.lineTo(bl.x,bl.y);
+      canvasCtx.closePath(); canvasCtx.fill();
+      canvasCtx.globalCompositeOperation = 'source-over';
+      canvasCtx.strokeStyle = cropEditMode ? '#80d5ff' : 'rgba(128,213,255,0.8)';
+      canvasCtx.lineWidth = 2;
+      canvasCtx.beginPath();
+      canvasCtx.moveTo(tl.x,tl.y); canvasCtx.lineTo(tr.x,tr.y); canvasCtx.lineTo(br.x,br.y); canvasCtx.lineTo(bl.x,bl.y);
+      canvasCtx.closePath(); canvasCtx.stroke();
+      if (cropEditMode) {
+        const hs=7;
+        [tl,tr,br,bl].forEach(pt => { canvasCtx.fillStyle='#80d5ff'; canvasCtx.fillRect(pt.x-hs,pt.y-hs,hs*2,hs*2); });
+        canvasCtx.fillStyle='#fff'; canvasCtx.font='700 13px Roboto,sans-serif';
+        canvasCtx.fillText('ここだけ検出', Math.max(8, Math.min(tl.x + 8, canvasElement.width - 92)), Math.max(18, Math.min(tl.y - 8, canvasElement.height - 8)));
+      }
+      canvasCtx.restore();
+    }
 
     zoomSlider.addEventListener('input', (e) => {
       zoomFactor = parseFloat(e.target.value);
       zoomDisplay.innerText = zoomFactor.toFixed(1) + 'x';
     });
 
-    thresholdSlider.addEventListener('input', (e) => {
-      threshold = parseFloat(e.target.value);
-      thresholdDisplay.innerText = threshold.toFixed(3);
-    });
-
-    cooldownSlider.addEventListener('input', (e) => {
-      cooldownSec = parseFloat(e.target.value);
-      cooldownDisplay.innerText = cooldownSec.toFixed(2) + 's';
-    });
+    jumperThresholdSlider.addEventListener('input', (e) => { motionConfig.jumperThreshold = parseFloat(e.target.value); jumperThresholdDisplay.innerText = motionConfig.jumperThreshold.toFixed(3); });
+    turnerThresholdSlider.addEventListener('input', (e) => { motionConfig.turnerThreshold = parseFloat(e.target.value); turnerThresholdDisplay.innerText = motionConfig.turnerThreshold.toFixed(3); });
+    minIntervalSlider.addEventListener('input', (e) => { motionConfig.minPeakInterval = parseFloat(e.target.value); minIntervalDisplay.innerText = motionConfig.minPeakInterval.toFixed(2) + 's'; });
 
     overlayScaleSlider.addEventListener('input', (e) => {
       overlayScaleDisplay.innerText = parseFloat(e.target.value).toFixed(1) + 'x';
@@ -1245,6 +1517,7 @@
           </div>
           <div style="display:flex; gap: 4px;">
             <button class="btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;" onclick="exportHistoryCsv(${index})">CSV</button>
+            ${item.frameTargetData && item.frameTargetData.length ? `<button class="btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;" onclick="exportFrameTargetCsv(${index})">軸CSV</button>` : ''}
             <button class="btn-primary" style="padding: 4px 8px; font-size: 0.75rem;" onclick="openPaceModalFromHistory(${index})">グラフ</button>
           </div>
         `;
@@ -1268,6 +1541,25 @@
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+    }
+
+
+    function exportFrameTargetCsv(index) {
+      const item = measurementHistory[index];
+      if (!item || !item.frameTargetData || !item.frameTargetData.length) return;
+      const rows = ['Frame,Video_Time_Sec,Elapsed_Time_Sec,Target_X,Target_Y'];
+      item.frameTargetData.forEach(d => {
+        rows.push(`${d.frame},${d.videoTime.toFixed(3)},${d.elapsedSec.toFixed(3)},${d.x == null ? '' : d.x.toFixed(6)},${d.value == null ? '' : d.value.toFixed(6)}`);
+      });
+      const blob = new Blob(["\uFEFF" + rows.join('\n')], { type: 'text/csv;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `axis_${item.timestampStr.replace(/[: /\[\]]/g, '_')}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
     }
 
     function openPaceModalFromHistory(index) {
@@ -1304,16 +1596,18 @@
     }
 
     async function switchNextCamera() {
-      const options = Array.from(cameraSelect.options);
+      const options = Array.from(cameraSelect.options)
+        .filter(option => option.value);
+
       if (options.length <= 1) return;
 
-      const currentIdx = cameraSelect.selectedIndex;
-      const nextIdx = (currentIdx + 1) % options.length;
-      cameraSelect.selectedIndex = nextIdx;
+      const currentValue = cameraSelect.value;
+      const currentIdx = Math.max(0, options.findIndex(option => option.value === currentValue));
+      const nextOption = options[(currentIdx + 1) % options.length];
 
-      const targetDeviceId = options[nextIdx].value;
-      await updateSupportedFpsOptions(targetDeviceId);
-      startCamera(targetDeviceId, parseInt(fpsSelect.value, 10));
+      cameraSelect.value = nextOption.value;
+      await updateSupportedFpsOptions(nextOption.value);
+      await startCamera(nextOption.value, parseInt(fpsSelect.value, 10));
     }
 
     function toggleVideoRecording() {
@@ -1398,6 +1692,28 @@
     }
 
     let buffer = resetBuffer();
+
+    class MotionAnalyticsEngine {
+      constructor(config) { this.config = config; this.baselineY = null; this.lastCountTime = 0; this.state = 'GROUND'; this.count = 0; }
+      processFrame(rawY, currentTimeSec) {
+        if (rawY === null || rawY === undefined || !Number.isFinite(rawY)) return null;
+        if (this.baselineY === null) this.baselineY = rawY;
+        else this.baselineY = (0.02 * rawY) + (0.98 * this.baselineY);
+        const deltaY = rawY - this.baselineY;
+        const threshold = currentRole === 'turner' ? this.config.turnerThreshold : this.config.jumperThreshold;
+        const timeSinceLastCount = currentTimeSec - this.lastCountTime;
+        let counted = false;
+        if (this.state === 'GROUND') {
+          if (deltaY < -threshold) this.state = 'AIR';
+        } else if (this.state === 'AIR' && deltaY >= 0) {
+          if (timeSinceLastCount >= this.config.minPeakInterval) { this.count++; this.lastCountTime = currentTimeSec; counted = true; }
+          this.state = 'GROUND';
+        }
+        return { smoothedY: rawY, baselineY: this.baselineY, deltaY, state: this.state, count: this.count, counted };
+      }
+    }
+
+    let motionEngine = new MotionAnalyticsEngine(motionConfig);
     let lastTurnTime = 0;
     let lastStateTime = 0;
     let state = 'DOWN';
@@ -1414,6 +1730,7 @@
       totalCount = 0;
       lastTurnTime = 0;
       state = 'DOWN';
+      motionEngine = new MotionAnalyticsEngine(motionConfig);
       buffer = resetBuffer();
       speedHistory.length = 0;
       countTimestamps = [];
@@ -1790,7 +2107,7 @@
     });
 
     function setRoleMode(role) {
-      if (sourceMode === 'file') return;
+      if (sourceMode === 'file' && fileAnalysisRunning) return;
       currentRole = role;
       document.getElementById('role-turner-btn').classList.toggle('active', role === 'turner');
       document.getElementById('role-jumper-btn').classList.toggle('active', role === 'jumper');
@@ -1870,14 +2187,15 @@
       canvasCtx.scale(zoomFactor, zoomFactor);
 
       canvasCtx.drawImage(results.image, -vWidth / 2, -vHeight / 2, vWidth, vHeight);
-
       const lmToCanvasPx = (p) => ({ x: (p.x - 0.5) * vWidth, y: (p.y - 0.5) * vHeight });
 
       let elapsedTimeSec = 0;
       const now = performance.now();
 
       if (results.poseLandmarks) {
-        const lm = results.poseLandmarks;
+        const lm = cropEnabled
+          ? landmarksFromCropToSource(results.poseLandmarks, getCropRectNormalized(), vWidth, vHeight)
+          : results.poseLandmarks;
         const targetLm = lm[parseInt(detectLmSelect.value, 10)];
         const lwEff = getEffectivePoint(lm[15], flipH, flipV, rotationAngle);
         const rwEff = getEffectivePoint(lm[16], flipH, flipV, rotationAngle);
@@ -1896,31 +2214,18 @@
           else if (method === 'z_pos') targetAxisVal = effPt.z;
         }
         buffer.target_val.shift(); buffer.target_val.push(targetAxisVal);
+         let currentY = targetLm ? getEffectivePoint(targetLm, flipH, flipV, rotationAngle).y : null;
+         let turnTime = 0;
+         const motionResult = motionEngine.processFrame(currentY, now / 1000.0);
 
-        let currentY = targetLm ? getEffectivePoint(targetLm, flipH, flipV, rotationAngle).y : 0;
-        const timeSinceLastState = (now - lastStateTime) / 1000.0;
-        let turnTime = 0;
-
-        if (state === 'DOWN') {
-          if (currentY > valleyY) valleyY = currentY;
-          if (currentY < valleyY - threshold && timeSinceLastState > cooldownSec) {
-            state = 'UP';
-            peakY = currentY;
-            lastStateTime = now;
-          }
-        } else if (state === 'UP') {
-          if (currentY < peakY) peakY = currentY;
-          if (currentY > peakY + threshold && timeSinceLastState > cooldownSec) {
-            state = 'DOWN';
-            valleyY = currentY;
-            lastStateTime = now;
-            totalCount++;
-            flashFrames = 5;
+         if (motionResult && motionResult.counted) {
+           totalCount = motionResult.count;
+           flashFrames = 5;
 
             if (lastTurnTime > 0) {
               turnTime = (now - lastTurnTime) / 1000.0;
               if (turnTime >= 0.12 && turnTime <= 4.0) {
-                currentS = (60.0 / turnTime) / 2.0;
+                currentS = (60.0 / turnTime);
                 speedHistory.push(currentS);
                 if (speedHistory.length > 3) speedHistory.shift();
                 smoothedS = speedHistory.reduce((a, b) => a + b, 0) / speedHistory.length;
@@ -1941,7 +2246,6 @@
               });
             }
           }
-        }
 
         buffer.raw_speed.shift(); buffer.raw_speed.push(currentS);
         buffer.smoothed_speed.shift(); buffer.smoothed_speed.push(smoothedS);
@@ -1954,9 +2258,9 @@
 
         if (overlayShowSkelCheck.checked) {
           canvasCtx.save();
-          canvasCtx.globalAlpha = 0.08;
+          canvasCtx.globalAlpha = 0.22;
           canvasCtx.strokeStyle = '#80d5ff';
-          canvasCtx.lineWidth = 1 / zoomFactor;
+          canvasCtx.lineWidth = 1.5 / zoomFactor;
           CONNECTIONS.forEach(([s, e]) => {
             if (lm[s] && lm[e]) {
               const p1 = lmToCanvasPx(lm[s]);
@@ -1982,6 +2286,10 @@
         canvasCtx.restore();
       }
 
+      // クロップUIは変換済みの描画コンテキストから切り離し、
+      // 実際に表示されているCanvas座標系で描画する。
+      if (cropEditMode && cropEnabled) drawCropOverlay();
+
       if (isRecording) elapsedTimeSec = (now - recordStartTime) / 1000.0;
 
       const showText = overlayShowTextCheck.checked;
@@ -1990,9 +2298,22 @@
 
       canvasCtx.save();
       if (showText) {
+        const fontSize = Math.round(16 * scale);
+        const overlayText = `C: ${totalCount} | T: ${elapsedTimeSec.toFixed(1)}s`;
         canvasCtx.fillStyle = textColor;
-        canvasCtx.font = `700 ${Math.round(16 * scale)}px "Roboto Mono", monospace`;
-        canvasCtx.fillText(`C: ${totalCount} | T: ${elapsedTimeSec.toFixed(1)}s`, 12, 24 * scale);
+        canvasCtx.font = `700 ${fontSize}px "Roboto Mono", monospace`;
+        const textWidth = canvasCtx.measureText(overlayText).width;
+        const pad = Math.round(12 * scale);
+        const blockW = textWidth + pad * 2;
+        const blockH = fontSize + pad * 2;
+        const safeBottom = (nativeH > nativeW ? 82 : 16) + pad;
+        let ox = pad;
+        let oy = pad + fontSize;
+        if (overlayPositionSelect.value.includes('right')) ox = nativeW - blockW - pad;
+        if (overlayPositionSelect.value.includes('bottom')) oy = nativeH - safeBottom - pad;
+        ox = Math.max(pad, Math.min(ox, nativeW - blockW - pad));
+        oy = Math.max(fontSize + pad, Math.min(oy, nativeH - safeBottom));
+        canvasCtx.fillText(overlayText, ox + pad, oy);
       }
       canvasCtx.restore();
     });
@@ -2005,8 +2326,46 @@
       document.getElementById('file-start-sec').value = videoElement.currentTime.toFixed(1);
     }
 
+    function setFileAnalysisProcessingUI(running) {
+      fileAnalysisRunning = running;
+      const controls = document.querySelectorAll(
+        '#file-settings button, #file-settings select, #file-settings input, ' +
+        '#preview-overlay-controls button, #preview-overlay-controls select, #preview-overlay-controls input, ' +
+        '#role-turner-btn, #role-jumper-btn, #graph-none-btn, #graph-speed-btn, #graph-axis-btn, #graph-orbit-btn'
+      );
+      controls.forEach(el => {
+        if (el.id === 'file-analysis-btn') return;
+        el.disabled = running;
+      });
+      const btn = document.getElementById('file-analysis-btn');
+      if (btn) {
+        btn.innerHTML = running
+          ? '<span class="icon">stop</span> 停止'
+          : '<span class="icon">analytics</span> 解析開始';
+        btn.classList.toggle('btn-danger', running);
+      }
+      if (!running) {
+        document.getElementById('role-turner-btn').disabled = true;
+        document.getElementById('role-jumper-btn').disabled = true;
+        document.getElementById('graph-axis-btn').disabled = !(fileAnalysisResult && fileAnalysisResult.frameTargetData);
+        document.getElementById('graph-orbit-btn').disabled = true;
+        overlayShowSkelCheck.disabled = false;
+      }
+    }
+
     async function startFileAnalysis() {
-      if (!videoElement.src || sourceMode !== 'file') return;
+      if (sourceMode !== 'file' || !videoElement.src) return;
+      if (fileAnalysisRunning) {
+        fileAnalysisCancelRequested = true;
+        return;
+      }
+
+      fileAnalysisCancelRequested = false;
+      fileSkeletonEnabled = overlayShowSkelCheck.checked;
+      fileSkeletonData = null;
+      lastFilePoseLandmarks = null;
+      const frameTargetData = fileSkeletonEnabled ? [] : null;
+      setFileAnalysisProcessingUI(true);
 
       const startTime = parseFloat(document.getElementById('file-start-sec').value) || 0;
       const selectedDur = parseFloat(document.getElementById('file-duration-select').value);
@@ -2022,11 +2381,7 @@
       progressPercent.innerText = '0.0%';
       progressFrames.innerText = '0 / 0 frames';
       progressEta.innerText = 'ETA: --m --s';
-
-      let localState = 'DOWN';
-      let localValleyY = 0.5;
-      let localPeakY = 0.5;
-      let localLastStateTime = -999;
+      const localEngine = new MotionAnalyticsEngine(motionConfig);
       let localLastTurnTime = 0;
       let localCount = 0;
       const localSpeedHist = [];
@@ -2042,6 +2397,7 @@
       let stepCount = 0;
 
       while (currentSeek <= endTime) {
+        if (fileAnalysisCancelRequested) break;
         videoElement.currentTime = currentSeek;
         await new Promise(r => {
           const onSeeked = () => {
@@ -2051,41 +2407,46 @@
           videoElement.addEventListener('seeked', onSeeked);
         });
 
+        const detectionImage = getDetectionImage(videoElement);
         const poseResults = await new Promise(resolve => {
           pose.onResults(resolve);
-          pose.send({ image: videoElement });
+          pose.send({ image: detectionImage });
         });
 
         if (poseResults && poseResults.poseLandmarks) {
-          const lm = poseResults.poseLandmarks;
+          const sourceW = videoElement.videoWidth || 640;
+          const sourceH = videoElement.videoHeight || 480;
+          const lm = cropEnabled
+            ? landmarksFromCropToSource(poseResults.poseLandmarks, getCropRectNormalized(), sourceW, sourceH)
+            : poseResults.poseLandmarks;
           const targetLm = lm[parseInt(detectLmSelect.value, 10)];
+          if (fileSkeletonEnabled && frameTargetData) {
+            const targetIndex = parseInt(detectLmSelect.value, 10);
+            const targetPoint = lm[targetIndex];
+            const effectiveTarget = targetPoint ? getEffectivePoint(targetPoint, flipH, flipV, rotationAngle) : null;
+            frameTargetData.push({
+              frame: stepCount,
+              videoTime: currentSeek,
+              elapsedSec: currentSeek - startTime,
+              value: effectiveTarget ? effectiveTarget.y : null,
+              x: effectiveTarget ? effectiveTarget.x : null
+            });
+          }
 
           if (targetLm) {
             let currentY = getEffectivePoint(targetLm, flipH, flipV, rotationAngle).y;
-            let timeSinceState = currentSeek - localLastStateTime;
             let turnTime = 0;
             let currentS = 0;
             let smoothedS = 0;
+            const motionResult = localEngine.processFrame(currentY, currentSeek);
 
-            if (localState === 'DOWN') {
-              if (currentY > localValleyY) localValleyY = currentY;
-              if (currentY < localValleyY - threshold && timeSinceState > cooldownSec) {
-                localState = 'UP';
-                localPeakY = currentY;
-                localLastStateTime = currentSeek;
-              }
-            } else if (localState === 'UP') {
-              if (currentY < localPeakY) localPeakY = currentY;
-              if (currentY > localPeakY + threshold && timeSinceState > cooldownSec) {
-                localState = 'DOWN';
-                localValleyY = currentY;
-                localLastStateTime = currentSeek;
-                localCount++;
+            if (motionResult && motionResult.counted) {
+              localCount = motionResult.count;
 
                 if (localLastTurnTime > 0) {
                   turnTime = currentSeek - localLastTurnTime;
                   if (turnTime >= 0.12 && turnTime <= 4.0) {
-                    currentS = (60.0 / turnTime) / 2.0;
+                    currentS = (60.0 / turnTime);
                     localSpeedHist.push(currentS);
                     if (localSpeedHist.length > 3) localSpeedHist.shift();
                     smoothedS = localSpeedHist.reduce((a, b) => a + b, 0) / localSpeedHist.length;
@@ -2112,7 +2473,6 @@
               }
             }
           }
-        }
 
         stepCount++;
         currentSeek += step;
@@ -2133,36 +2493,78 @@
         }
       }
 
+      if (fileAnalysisCancelRequested) {
+        processingOverlay.classList.remove('open');
+        setFileAnalysisProcessingUI(false);
+        fileAnalysisCancelRequested = false;
+        videoElement.currentTime = startTime;
+        renderVideoFileFrame();
+        return;
+      }
+
       fileAnalysisResult = {
         startTime: startTime,
         endTime: endTime,
         duration: duration,
         totalCount: localCount,
         timestamps: analysisTimestamps,
-        recordedData: analysisRecData
+        recordedData: analysisRecData,
+        frameTargetData: frameTargetData
       };
 
-      // 履歴に自動登録
-      const now = new Date();
-      const timestampStr = `[動画] ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
+      currentActiveRecordData = analysisRecData;
+
+      const historyNow = new Date();
       measurementHistory.unshift({
-        timestampStr: timestampStr,
+        timestampStr: `[動画] ${historyNow.getHours().toString().padStart(2,'0')}:${historyNow.getMinutes().toString().padStart(2,'0')}:${historyNow.getSeconds().toString().padStart(2,'0')}`,
         count: localCount,
         duration: selectedDur === 0 ? 0 : duration,
         recordedData: [...analysisRecData],
-        countTimestamps: [...analysisTimestamps]
+        countTimestamps: [...analysisTimestamps],
+        frameTargetData: frameTargetData ? [...frameTargetData] : null
       });
-      currentActiveRecordData = analysisRecData;
 
       processingOverlay.classList.remove('open');
+      setFileAnalysisProcessingUI(false);
+      document.getElementById('graph-axis-btn').disabled = !frameTargetData;
       videoElement.currentTime = startTime;
       renderVideoFileFrame();
+    }
+
+    async function updateFilePreviewPose() {
+      if (sourceMode !== 'file' || filePreviewPoseBusy || videoElement.readyState < 2) return;
+      const t = videoElement.currentTime;
+      if (Math.abs(t - lastFilePoseTime) < 0.03) return;
+      filePreviewPoseBusy = true;
+      lastFilePoseTime = t;
+      try {
+        const result = await new Promise(resolve => {
+          pose.onResults(resolve);
+          pose.send({ image: getDetectionImage(videoElement) });
+        });
+        if (result && result.poseLandmarks) {
+          const w = videoElement.videoWidth || 640, h = videoElement.videoHeight || 480;
+          lastFilePoseLandmarks = cropEnabled
+            ? landmarksFromCropToSource(result.poseLandmarks, getCropRectNormalized(), w, h)
+            : result.poseLandmarks;
+          if (fileSkeletonEnabled) {
+            if (!fileSkeletonData) fileSkeletonData = [];
+            fileSkeletonData.push({ t, landmarks: lastFilePoseLandmarks });
+            if (fileSkeletonData.length > 1200) fileSkeletonData.shift();
+          }
+        } else lastFilePoseLandmarks = null;
+      } catch (err) {
+        lastFilePoseLandmarks = null;
+      } finally {
+        filePreviewPoseBusy = false;
+      }
     }
 
     // 動画ファイルの同期描画ループ（再生中にタイムスタンプからオーバーレイ描画）
     function renderVideoFileFrame() {
       if (sourceMode !== 'file') return;
 
+      updateFilePreviewPose();
       const vWidth = videoElement.videoWidth || 640;
       const vHeight = videoElement.videoHeight || 480;
 
@@ -2184,7 +2586,22 @@
       canvasCtx.scale(zoomFactor, zoomFactor);
 
       canvasCtx.drawImage(videoElement, -vWidth / 2, -vHeight / 2, vWidth, vHeight);
+      if (lastFilePoseLandmarks && overlayShowSkelCheck.checked) {
+        canvasCtx.save();
+        canvasCtx.globalAlpha = 0.22;
+        canvasCtx.strokeStyle = '#80d5ff';
+        canvasCtx.lineWidth = 1.5 / zoomFactor;
+        const lmToFileCanvasPx = (p) => sourceToLocalPoint(p.x * vWidth, p.y * vHeight);
+        CONNECTIONS.forEach(([a,b]) => {
+          if (lastFilePoseLandmarks[a] && lastFilePoseLandmarks[b]) {
+            const p1=lmToFileCanvasPx(lastFilePoseLandmarks[a]), p2=lmToFileCanvasPx(lastFilePoseLandmarks[b]);
+            canvasCtx.beginPath(); canvasCtx.moveTo(p1.x,p1.y); canvasCtx.lineTo(p2.x,p2.y); canvasCtx.stroke();
+          }
+        });
+        canvasCtx.restore();
+      }
       canvasCtx.restore();
+      if (cropEditMode && cropEnabled) drawCropOverlay();
 
       // 動画解析結果に基づくオーバーレイ情報の検索・算出
       let curCount = 0;
@@ -2271,11 +2688,28 @@
       canvasCtx.fillStyle = textColor;
       canvasCtx.font = `700 ${Math.round(14 * scale)}px "Roboto Mono", monospace`;
 
-      let startX = 16 * scale;
-      let startY = 28 * scale;
-      if (pos === 'top-right') { startX = nativeW - 180 * scale; }
-      else if (pos === 'bottom-left') { startY = nativeH - 120 * scale; }
-      else if (pos === 'bottom-right') { startX = nativeW - 180 * scale; startY = nativeH - 120 * scale; }
+      const overlayPad = Math.max(10, Math.round(16 * scale));
+      const overlayFontSize = Math.round(14 * scale);
+      const safeBottom = (nativeH > nativeW ? 82 : 16) + overlayPad;
+      const textLines = (overlayShowTextCheck.checked ? 2 : 0)
+        + (overlayShowPaceCheck.checked ? 1 : 0)
+        + (overlayShowDropCheck.checked ? 1 : 0);
+      const textBlockH = textLines * 20 * scale;
+      const graphH = overlayShowGraphCheck.checked && recentPaces.length > 0 ? 50 * scale + 6 : 0;
+      const overlayTextWidths = [
+        `Count: ${curCount}`,
+        `Time : ${curElapsed.toFixed(1)}s`,
+        `Pace : ${curPaceAvg.toFixed(1)}`,
+        `Drop : ${(curDropRate >= 0 ? '+' : '') + curDropRate.toFixed(1)}%`
+      ].map(t => canvasCtx.measureText(t).width);
+      const blockH = textBlockH + graphH;
+      const blockW = Math.max(180 * scale, 140 * scale, ...(overlayTextWidths.map(w => w + overlayPad * 2)));
+      let startX = overlayPad;
+      let startY = overlayPad + overlayFontSize;
+      if (pos.includes('right')) startX = nativeW - blockW - overlayPad;
+      if (pos.includes('bottom')) startY = nativeH - safeBottom - blockH + overlayFontSize;
+      startX = Math.max(overlayPad, Math.min(startX, nativeW - blockW - overlayPad));
+      startY = Math.max(overlayFontSize + overlayPad, Math.min(startY, nativeH - safeBottom));
 
       let lineOffset = 0;
 
@@ -2340,7 +2774,22 @@
 
     function updateChart() {
       if (currentGraph === 'none') return;
-      if (sourceMode === 'file') return;
+
+      if (sourceMode === 'file') {
+        if (currentGraph === 'axis' && fileAnalysisResult && fileAnalysisResult.frameTargetData) {
+          chart.options.aspectRatio = 2.2;
+          chart.data.datasets[0].data = fileAnalysisResult.frameTargetData.map(d => ({ x: d.elapsedSec, y: d.value }));
+          chart.data.datasets[1].data = [];
+          chart.update();
+        } else if (currentGraph === 'speed' && fileAnalysisResult) {
+          chart.options.aspectRatio = 2.2;
+          const data = fileAnalysisResult.timestamps || [];
+          chart.data.datasets[0].data = data.map(d => ({ x: d.elapsedSec, y: d.speed || 0 }));
+          chart.data.datasets[1].data = [];
+          chart.update();
+        }
+        return;
+      }
 
       if (currentGraph === 'orbit' && currentRole === 'turner') {
         chart.options.aspectRatio = 1;
@@ -2363,7 +2812,7 @@
       if (sourceMode === 'camera') {
         if (videoElement.readyState >= 2 && !isProcessing && !videoElement.paused && !videoElement.ended) {
           isProcessing = true;
-          await pose.send({ image: videoElement });
+          await pose.send({ image: getDetectionImage(videoElement) });
           isProcessing = false;
         }
         animFrameId = requestAnimationFrame(processVideoFrame);
@@ -2372,6 +2821,9 @@
 
     function switchSourceMode(mode) {
       sourceMode = mode;
+      cropEditMode = false;
+      cropModeBtn.classList.remove('active');
+      cropModeLabel.innerText = '人物範囲';
       resetCounter();
 
       document.getElementById('tab-camera').classList.toggle('active', mode === 'camera');
@@ -2392,13 +2844,15 @@
       const labelOverlayShowSkel = document.getElementById('label-overlay-show-skel');
 
       if (mode === 'file') {
-        roleTurnerBtn.disabled = true;
-        roleJumperBtn.disabled = true;
+        roleTurnerBtn.disabled = false;
+        roleJumperBtn.disabled = false;
         graphAxisBtn.disabled = true;
         graphOrbitBtn.disabled = true;
 
-        overlayShowSkelCheck.disabled = true;
-        labelOverlayShowSkel.classList.add('disabled');
+        fileSkeletonEnabled = false;
+        overlayShowSkelCheck.checked = false;
+        overlayShowSkelCheck.disabled = false;
+        labelOverlayShowSkel.classList.remove('disabled');
 
         setGraphMode('speed');
       } else {
@@ -2423,6 +2877,8 @@
 
       if (mode === 'camera') setupCameraList();
       else {
+        fileSkeletonData = null;
+        lastFilePoseLandmarks = null;
         canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
       }
     }
@@ -2432,38 +2888,134 @@
     }
 
     async function startCamera(deviceId, targetFps = 30) {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        cameraSelect.innerHTML = '<option value="">カメラを使用できません</option>';
+        return;
+      }
+
       if (animFrameId) cancelAnimationFrame(animFrameId);
       if (currentStream) currentStream.getTracks().forEach(track => track.stop());
+      currentStream = null;
+
+      const baseVideo = {
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      };
 
       try {
-        currentStream = await navigator.mediaDevices.getUserMedia({
-          video: { ...(deviceId ? { deviceId: { exact: deviceId } } : {}), width: { ideal: 1280 }, height: { ideal: 720 } }
-        });
+        // deviceId は権限取得後にのみ使う。スマホでは列挙直後の exact 指定が
+        // 不安定な場合があるため、失敗時は通常の video 制約へ戻す。
+        if (deviceId) {
+          try {
+            currentStream = await navigator.mediaDevices.getUserMedia({
+              video: { ...baseVideo, deviceId: { exact: deviceId } },
+              audio: false
+            });
+          } catch (err) {
+            currentStream = await navigator.mediaDevices.getUserMedia({
+              video: baseVideo,
+              audio: false
+            });
+          }
+        } else {
+          currentStream = await navigator.mediaDevices.getUserMedia({
+            video: baseVideo,
+            audio: false
+          });
+        }
+
         videoElement.srcObject = currentStream;
         await videoElement.play();
+        resetCropSelection();
+
+        // 実際に取得できた stream の情報を基準に再列挙する。
+        await setupCameraList(false);
         processVideoFrame();
-      } catch (err) {}
+      } catch (err) {
+        currentStream = null;
+        videoElement.srcObject = null;
+        cameraSelect.innerHTML = '<option value="">カメラを使用できません</option>';
+        console.error('Camera start failed:', err);
+      }
     }
 
-    async function setupCameraList() {
+    async function setupCameraList(startIfNeeded = true) {
+      if (!navigator.mediaDevices ||
+          typeof navigator.mediaDevices.getUserMedia !== 'function' ||
+          typeof navigator.mediaDevices.enumerateDevices !== 'function') {
+        cameraSelect.innerHTML = '<option value="">カメラを使用できません</option>';
+        return;
+      }
+
       try {
-        const tempStream = await navigator.mediaDevices.getUserMedia({ video: true });
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        const videoDevices = devices.filter(d => d.kind === 'videoinput');
+        // 先に現在の stream があれば利用する。
+        // 無い場合だけ権限取得を行い、その後に enumerateDevices() する。
+        if (!currentStream && startIfNeeded) {
+          currentStream = await navigator.mediaDevices.getUserMedia({
+            video: {
+              width: { ideal: 1280 },
+              height: { ideal: 720 }
+            },
+            audio: false
+          });
+          videoElement.srcObject = currentStream;
+          await videoElement.play();
+        }
+
+        // 権限取得前の enumerateDevices() では、スマホで deviceId/label が
+        // 不完全になるため、stream 取得後に必ず再列挙する。
+        let devices = await navigator.mediaDevices.enumerateDevices();
+        let videoDevices = devices.filter(d => d.kind === 'videoinput');
+
+        // 一部ブラウザでは最初の列挙結果が空になることがあるため、
+        // stream がある場合は一度だけ再列挙する。
+        if (videoDevices.length === 0 && currentStream) {
+          devices = await navigator.mediaDevices.enumerateDevices();
+          videoDevices = devices.filter(d => d.kind === 'videoinput');
+        }
+
+        const activeTrack = currentStream?.getVideoTracks?.()[0];
+        const activeSettings = activeTrack?.getSettings?.() || {};
+        const activeDeviceId = activeSettings.deviceId || '';
 
         cameraSelect.innerHTML = '';
-        cameraSwitchBtn.style.display = videoDevices.length > 1 ? 'flex' : 'none';
 
         videoDevices.forEach((device, index) => {
           const option = document.createElement('option');
-          option.value = device.deviceId;
-          option.text = device.label || `カメラ ${index + 1}`;
+
+          // deviceId が得られた端末では通常どおり選択に使用する。
+          // label は権限取得後の値を優先し、空なら汎用名にする。
+          option.value = device.deviceId || '';
+          option.textContent = device.label || `カメラ ${index + 1}`;
+
+          if (activeDeviceId && device.deviceId === activeDeviceId) {
+            option.selected = true;
+          }
+
           cameraSelect.appendChild(option);
         });
 
-        tempStream.getTracks().forEach(track => track.stop());
-        if (videoDevices.length > 0) startCamera(videoDevices[0].deviceId);
-      } catch (err) {}
+        cameraSwitchBtn.style.display = videoDevices.length > 1 ? 'flex' : 'none';
+
+        if (videoDevices.length === 0) {
+          cameraSelect.innerHTML = '<option value="">カメラが見つかりません</option>';
+          return;
+        }
+
+        // activeDeviceId を取得できないブラウザでも、現在使用中の
+        // stream が存在する場合は先頭を表示上の選択状態にする。
+        if (cameraSelect.selectedIndex < 0) {
+          cameraSelect.selectedIndex = 0;
+        }
+
+        if (startIfNeeded && currentStream) {
+          resetCropSelection();
+          processVideoFrame();
+        }
+      } catch (err) {
+        console.error('Camera enumeration failed:', err);
+        cameraSelect.innerHTML = '<option value="">カメラの権限を確認してください</option>';
+      }
     }
 
     videoFileInput.addEventListener('change', (e) => {
@@ -2472,11 +3024,19 @@
 
       fileNameDisplay.innerText = file.name;
       videoElement.srcObject = null;
+      fileSkeletonData = null;
+      lastFilePoseLandmarks = null;
+      fileSkeletonEnabled = false;
+      fileAnalysisResult = null;
+      fileAnalysisCancelRequested = false;
+      overlayShowSkelCheck.checked = false;
+      document.getElementById('graph-axis-btn').disabled = true;
       videoElement.src = URL.createObjectURL(file);
       videoElement.load();
 
       videoElement.onloadedmetadata = () => {
         seekSlider.max = videoElement.duration;
+        resetCropSelection();
         resetCounter();
         videoElement.play();
         if (playIcon) playIcon.innerText = 'pause';
@@ -2513,12 +3073,32 @@
       videoElement.playbackRate = parseFloat(e.target.value);
     });
 
-    cameraSelect.addEventListener('change', (e) => {
-      if (e.target.value && sourceMode === 'camera') startCamera(e.target.value);
+    cameraSwitchBtn.addEventListener('click', async () => {
+      if (sourceMode === 'camera') await switchNextCamera();
+    });
+
+    cameraSelect.addEventListener('change', async (e) => {
+      if (!e.target.value || sourceMode !== 'camera') return;
+
+      cameraSelect.disabled = true;
+      cameraSwitchBtn.disabled = true;
+
+      try {
+        await updateSupportedFpsOptions(e.target.value);
+        await startCamera(e.target.value, parseInt(fpsSelect.value, 10));
+      } finally {
+        cameraSelect.disabled = false;
+        cameraSwitchBtn.disabled = cameraSelect.options.length <= 1;
+      }
     });
 
     updateTimerLabel();
-    setupCameraList(); 
+    if (navigator.mediaDevices && typeof navigator.mediaDevices.addEventListener === 'function') {
+      navigator.mediaDevices.addEventListener('devicechange', () => {
+        if (sourceMode === 'camera') setupCameraList(false);
+      });
+    }
+    setupCameraList();
   </script>
 </body>
 </html>
