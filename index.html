@@ -3,7 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VoV</title>
+  <title>VoV ~Speed Counter~</title>
+  <meta name="theme-color" content="#121318">
+  <meta name="application-name" content="VoV ~Speed Counter~">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2380d5ff'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Arial' font-size='28' font-weight='700' fill='%23003344'%3EVoV%3C/text%3E%3C/svg%3E">
 
   <!-- Google Fonts & Material Symbols -->
@@ -72,13 +78,16 @@
       gap: 6px;
     }
 
+
+    .site-title-main { font-weight: 700; letter-spacing: .02em; }
+    .site-title-sub { font-size: .62rem; font-weight: 400; opacity: .48; margin-left: 5px; letter-spacing: .04em; }
     .header-btns {
       display: flex;
       gap: 6px;
     }
 
     .icon {
-      font-family: 'Material Symbols Outlined';
+      font-family: 'Material Symbols Outlined', 'Arial Unicode MS', sans-serif;
       font-weight: normal;
       font-style: normal;
       font-size: 20px;
@@ -168,6 +177,7 @@
     }
 
     .file-input-label input[type="file"] { display: none; }
+    .file-input-label { position: relative; z-index: 60; pointer-events: auto; }
 
     .video-controls {
       display: flex;
@@ -433,6 +443,8 @@
       touch-action: none;
       -webkit-user-select: none;
       user-select: none;
+      -webkit-touch-callout: none;
+      cursor: default;
     }
 
     #camera-select {
@@ -713,14 +725,11 @@
 
   <!-- App Header -->
   <header>
-    <h1>VoV</h1>
+    <h1><span class="site-title-main">VoV</span><span class="site-title-sub">~Speed Counter~</span></h1>
     <div class="header-btns">
-      <button class="btn-icon-only" onclick="openHistoryModal()" title="履歴">
-        </button>
-      <button class="btn-icon-only" onclick="openSettingsModal()" title="設定">
-        </button>
-      <button class="btn-icon-only error" onclick="resetCounter()" title="リセット">
-        </button>
+      <button class="btn-icon-only" onclick="openHistoryModal()" title="履歴" aria-label="履歴"><span class="icon">history</span></button>
+      <button class="btn-icon-only" onclick="openSettingsModal()" title="設定" aria-label="設定"><span class="icon">settings</span></button>
+      <button class="btn-icon-only error" onclick="resetCounter()" title="リセット" aria-label="リセット"><span class="icon">restart_alt</span></button>
     </div>
   </header>
 
@@ -774,16 +783,15 @@
 
     <div class="preview-overlay-controls">
       <div class="top-overlay-bar">
-        <button id="camera-switch-btn" class="camera-switch-btn" onclick="switchNextCamera()">
-          </button>
+        <button id="camera-switch-btn" class="camera-switch-btn" onclick="switchNextCamera()" title="カメラ切替" aria-label="カメラ切替">
+          <span class="icon">flip_camera_ios</span>
+        </button>
         <button id="timer-toggle-btn" class="timer-toggle-btn" onclick="cycleMeasurementTimer()">
           <span class="icon" style="font-size: 16px;">timer</span>
           <span id="timer-toggle-label">30秒</span>
         </button>
         <button id="crop-mode-btn" class="crop-mode-btn" onclick="toggleCropMode()" title="人物を検出する範囲を指定">
-          <span class="icon" style="font-size: 16px;">crop</span>
-          
-        </button>
+          <span class="icon" style="font-size: 18px;">crop</span></button>
       </div>
 
       <button class="fullscreen-btn" onclick="toggleFullScreen()">
@@ -907,8 +915,8 @@
 
           <!-- File selector input container -->
           <div id="file-settings" class="toolbar-container" style="display: none;">
-            <label class="file-input-label select-wrapper">
-              <span id="file-name-display">動画ファイルを選択</span>
+            <label class="file-input-label select-wrapper" for="video-file-input">
+              <span class="icon">movie</span><span id="file-name-display">動画ファイルを選択</span>
               <input type="file" id="video-file-input" accept="video/*">
             </label>
           </div>
@@ -1005,7 +1013,51 @@
           </div>
         </div>
 
-        <div class="section-title">5. 画面表示（オーバーレイ）</div>
+        <div class="section-title">5. 省エネ・処理設定</div>
+        <div class="config-group">
+          <div class="slider-group">
+            <label for="power-mode-select">省エネモード</label>
+            <div class="select-wrapper" style="padding: 2px 8px; flex-grow:1;">
+              <select id="power-mode-select" style="width:100%;">
+                <option value="quality">高品質</option>
+                <option value="balanced" selected>標準</option>
+                <option value="eco">省エネ</option>
+                <option value="custom">カスタム</option>
+              </select>
+            </div>
+          </div>
+          <div class="slider-group">
+            <label for="perf-pose-fps">Pose頻度</label>
+            <input type="range" id="perf-pose-fps" min="5" max="30" step="1" value="20">
+            <span id="perf-pose-fps-val" class="slider-value">20fps</span>
+          </div>
+          <div class="slider-group">
+            <label for="perf-detection-width">推論幅</label>
+            <input type="range" id="perf-detection-width" min="256" max="960" step="32" value="480">
+            <span id="perf-detection-width-val" class="slider-value">480px</span>
+          </div>
+          <div class="slider-group">
+            <label for="perf-chart-fps">グラフ頻度</label>
+            <input type="range" id="perf-chart-fps" min="1" max="15" step="1" value="6">
+            <span id="perf-chart-fps-val" class="slider-value">6fps</span>
+          </div>
+          <div class="slider-group">
+            <label for="perf-smoothing-window">平滑化</label>
+            <input type="range" id="perf-smoothing-window" min="3" max="21" step="2" value="9">
+            <span id="perf-smoothing-window-val" class="slider-value">9点</span>
+          </div>
+          <div class="slider-group">
+            <label for="perf-camera-width">カメラ幅</label>
+            <input type="range" id="perf-camera-width" min="480" max="1920" step="160" value="1280">
+            <span id="perf-camera-width-val" class="slider-value">1280px</span>
+          </div>
+          <div class="checkbox-group">
+            <label class="checkbox-label"><input type="checkbox" id="perf-pause-when-cropping" checked> クロップ中はPose停止</label>
+            <label class="checkbox-label"><input type="checkbox" id="perf-limit-chart-points" checked> グラフ表示点を制限</label>
+          </div>
+        </div>
+
+        <div class="section-title">6. 画面表示（オーバーレイ）</div>
         <div class="config-group">
           <div class="checkbox-group">
             <label class="checkbox-label">
@@ -1193,6 +1245,58 @@
     let zoomFactor = parseFloat(zoomSlider.value);
     const motionConfig = { jumperThreshold: parseFloat(jumperThresholdSlider.value), turnerThreshold: parseFloat(turnerThresholdSlider.value), minPeakInterval: parseFloat(minIntervalSlider.value) };
 
+    const PERF_DEFAULTS = { quality: {poseFps:30, detectionWidth:640, chartFps:10, smoothing:9, cameraWidth:1280}, balanced:{poseFps:20, detectionWidth:480, chartFps:6, smoothing:9, cameraWidth:1280}, eco:{poseFps:12, detectionWidth:360, chartFps:3, smoothing:11, cameraWidth:960} };
+    const perf = { poseFps:20, detectionWidth:480, chartFps:6, smoothing:9, cameraWidth:1280, pauseWhenCropping:true, limitChartPoints:true };
+    let lastPoseRunAt = 0;
+    let lastChartUpdateAt = 0;
+    let poseBusy = false;
+    const PERF_STORAGE_KEY = 'vov-performance-settings-v1';
+
+    function setPoseModelComplexity() {
+      const complexity = perf.detectionWidth <= 384 ? 0 : (perf.detectionWidth <= 512 ? 1 : 2);
+      pose.setOptions({ modelComplexity: complexity, smoothLandmarks: true, minDetectionConfidence: 0.5, minTrackingConfidence: 0.5 });
+    }
+    function updatePerfLabels() {
+      document.getElementById('perf-pose-fps-val').innerText = perf.poseFps + 'fps';
+      document.getElementById('perf-detection-width-val').innerText = perf.detectionWidth + 'px';
+      document.getElementById('perf-chart-fps-val').innerText = perf.chartFps + 'fps';
+      document.getElementById('perf-smoothing-window-val').innerText = perf.smoothing + '点';
+      document.getElementById('perf-camera-width-val').innerText = perf.cameraWidth + 'px';
+    }
+    function savePerfSettings() {
+      try { localStorage.setItem(PERF_STORAGE_KEY, JSON.stringify(perf)); } catch(e) {}
+    }
+    function loadPerfSettings() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(PERF_STORAGE_KEY) || 'null');
+        if (saved) Object.assign(perf, saved);
+      } catch(e) {}
+      document.getElementById('perf-pose-fps').value = perf.poseFps;
+      document.getElementById('perf-detection-width').value = perf.detectionWidth;
+      document.getElementById('perf-chart-fps').value = perf.chartFps;
+      document.getElementById('perf-smoothing-window').value = perf.smoothing;
+      document.getElementById('perf-camera-width').value = perf.cameraWidth;
+      document.getElementById('perf-pause-when-cropping').checked = perf.pauseWhenCropping;
+      document.getElementById('perf-limit-chart-points').checked = perf.limitChartPoints;
+      updatePerfLabels();
+    }
+    function applyPowerPreset(mode) {
+      if (mode !== 'custom' && PERF_DEFAULTS[mode]) Object.assign(perf, PERF_DEFAULTS[mode]);
+      document.getElementById('perf-pose-fps').value = perf.poseFps;
+      document.getElementById('perf-detection-width').value = perf.detectionWidth;
+      document.getElementById('perf-chart-fps').value = perf.chartFps;
+      document.getElementById('perf-smoothing-window').value = perf.smoothing;
+      document.getElementById('perf-camera-width').value = perf.cameraWidth;
+      updatePerfLabels(); setPoseModelComplexity(); savePerfSettings();
+      if (currentStream) restartCameraForPerformance();
+    }
+    async function restartCameraForPerformance() {
+      const currentDevice = cameraSelect.value;
+      if (sourceMode === 'camera' && currentDevice) await startCamera(currentDevice, Math.min(30, perf.poseFps));
+    }
+
+    loadPerfSettings();
+
     let flipH = flipHCheck.checked;
     let flipV = flipVCheck.checked;
     let rotationAngle = parseInt(rotationSelect.value, 10);
@@ -1283,15 +1387,27 @@
     }
 
     function getDetectionImage(source) {
-      return cropEnabled ? getCropCanvas(source) : source;
+      const base = cropEnabled ? getCropCanvas(source) : source;
+      const srcW = base.videoWidth || base.width || perf.detectionWidth;
+      const srcH = base.videoHeight || base.height || Math.round(perf.detectionWidth * 0.75);
+      const targetW = Math.min(perf.detectionWidth, srcW);
+      const targetH = Math.max(1, Math.round(srcH * targetW / srcW));
+      if (targetW >= srcW - 2) return base;
+      const c = document.createElement('canvas');
+      c.width = targetW; c.height = targetH;
+      c.getContext('2d', {alpha:false}).drawImage(base, 0, 0, targetW, targetH);
+      return c;
     }
 
     function toggleCropMode() {
       cropEditMode = !cropEditMode;
       cropModeBtn.classList.toggle('active', cropEditMode);
-      cropModeLabel.innerText = cropEditMode ? '範囲を調整中' : '';
+      if (cropModeLabel) cropModeLabel.innerText = '';
       cropEnabled = cropEditMode;
       ensureCropSelection();
+      if (perf.pauseWhenCropping && sourceMode === 'camera') {
+        if (cropEditMode) { poseBusy = true; } else { poseBusy = false; lastPoseRunAt = 0; }
+      }
       requestCropRedraw();
     }
 
@@ -1335,42 +1451,38 @@
     }
 
     function getCropHandleAtPoint(px, py) {
-      const r = cropRect, hit = 18 / Math.max(1, zoomFactor);
-      const handles = [['nw',r.x,r.y],['ne',r.x+r.w,r.y],['sw',r.x,r.y+r.h],['se',r.x+r.w,r.y+r.h]];
-      for (const [name,x,y] of handles) if (Math.hypot(px-x,py-y) <= hit) return name;
+      const r = cropRect;
+      const hit = Math.max(24 / Math.max(1, zoomFactor), Math.min(r.w, r.h) * 0.045);
+      const midX = r.x + r.w / 2, midY = r.y + r.h / 2;
+      const handles = [
+        ['nw', r.x, r.y], ['n', midX, r.y], ['ne', r.x+r.w, r.y],
+        ['w', r.x, midY], ['move', midX, midY], ['e', r.x+r.w, midY],
+        ['sw', r.x, r.y+r.h], ['s', midX, r.y+r.h], ['se', r.x+r.w, r.y+r.h]
+      ];
+      for (const [name,x,y] of handles) if (Math.hypot(px-x, py-y) <= hit) return name;
       if (px >= r.x && px <= r.x+r.w && py >= r.y && py <= r.y+r.h) return 'move';
       return null;
     }
 
     function clampCropRect() {
       const { w, h } = getSourceDimensions();
-      const minSize = Math.max(40, Math.min(w, h) * 0.08);
+      const minSize = Math.max(48, Math.min(w, h) * 0.08);
       cropRect.w = Math.max(minSize, Math.min(cropRect.w, w));
       cropRect.h = Math.max(minSize, Math.min(cropRect.h, h));
       cropRect.x = Math.max(0, Math.min(cropRect.x, w - cropRect.w));
       cropRect.y = Math.max(0, Math.min(cropRect.y, h - cropRect.h));
     }
 
-    canvasElement.addEventListener('pointermove', (e) => {
-      if (!cropEditMode || !cropEnabled || cropDrag) return;
-      const handle = getCropHandleAtPoint(...Object.values(canvasToSourcePoint(e.clientX,e.clientY)));
-      canvasElement.style.cursor = handle === 'move' ? 'move' : (handle ? 'nwse-resize' : 'crosshair');
-    });
+    function cropCursor(handle) {
+      return ({nw:'nwse-resize',se:'nwse-resize',ne:'nesw-resize',sw:'nesw-resize',n:'ns-resize',s:'ns-resize',e:'ew-resize',w:'ew-resize',move:'move'})[handle] || 'default';
+    }
 
-    canvasElement.addEventListener('pointerdown', (e) => {
+    canvasElement.addEventListener('pointermove', (e) => {
       if (!cropEditMode || !cropEnabled) return;
-      ensureCropSelection();
       const pt = canvasToSourcePoint(e.clientX, e.clientY);
       const handle = getCropHandleAtPoint(pt.x, pt.y);
-      if (!handle) return;
-      canvasElement.setPointerCapture(e.pointerId);
-      cropDrag = { handle, startX: pt.x, startY: pt.y, rect: { ...cropRect } };
-      e.preventDefault();
-    });
-
-    canvasElement.addEventListener('pointermove', (e) => {
+      canvasElement.style.cursor = cropCursor(handle);
       if (!cropDrag) return;
-      const pt = canvasToSourcePoint(e.clientX, e.clientY);
       const dx = pt.x - cropDrag.startX, dy = pt.y - cropDrag.startY, r = cropDrag.rect;
       cropRect = { ...r };
       if (cropDrag.handle === 'move') {
@@ -1381,13 +1493,28 @@
         if (cropDrag.handle.includes('n')) { cropRect.y = r.y + dy; cropRect.h = r.h - dy; }
         if (cropDrag.handle.includes('s')) cropRect.h = r.h + dy;
       }
-      clampCropRect();
-      requestCropRedraw();
-      e.preventDefault();
-    });
+      clampCropRect(); requestCropRedraw(); e.preventDefault();
+    }, {passive:false});
 
-    canvasElement.addEventListener('pointerup', () => { cropDrag = null; });
-    canvasElement.addEventListener('pointercancel', () => { cropDrag = null; });
+    canvasElement.addEventListener('pointerdown', (e) => {
+      if (!cropEditMode || !cropEnabled) return;
+      ensureCropSelection();
+      const pt = canvasToSourcePoint(e.clientX, e.clientY);
+      const handle = getCropHandleAtPoint(pt.x, pt.y);
+      if (!handle) return;
+      canvasElement.setPointerCapture?.(e.pointerId);
+      cropDrag = { handle, startX: pt.x, startY: pt.y, rect: { ...cropRect } };
+      canvasElement.style.cursor = cropCursor(handle);
+      e.preventDefault(); e.stopPropagation();
+    }, {passive:false});
+
+    const finishCropPointer = (e) => {
+      if (cropDrag && canvasElement.hasPointerCapture?.(e.pointerId)) canvasElement.releasePointerCapture(e.pointerId);
+      cropDrag = null;
+    };
+    canvasElement.addEventListener('pointerup', finishCropPointer);
+    canvasElement.addEventListener('pointercancel', finishCropPointer);
+    canvasElement.addEventListener('lostpointercapture', () => { cropDrag = null; });
 
     function drawCropOverlay() {
       if (!cropEnabled) return;
@@ -1409,10 +1536,11 @@
       canvasCtx.moveTo(tl.x,tl.y); canvasCtx.lineTo(tr.x,tr.y); canvasCtx.lineTo(br.x,br.y); canvasCtx.lineTo(bl.x,bl.y);
       canvasCtx.closePath(); canvasCtx.stroke();
       if (cropEditMode) {
-        const hs=7;
-        [tl,tr,br,bl].forEach(pt => { canvasCtx.fillStyle='#80d5ff'; canvasCtx.fillRect(pt.x-hs,pt.y-hs,hs*2,hs*2); });
-        canvasCtx.fillStyle='#fff'; canvasCtx.font='700 13px Roboto,sans-serif';
-        canvasCtx.fillText('ここだけ検出', Math.max(8, Math.min(tl.x + 8, canvasElement.width - 92)), Math.max(18, Math.min(tl.y - 8, canvasElement.height - 8)));
+        const mx=(tl.x+tr.x)/2, my=(tl.y+bl.y)/2, hs=8;
+        const pts=[tl,{x:mx,y:tl.y},tr,{x:tl.x,y:my},{x:tr.x,y:my},bl,{x:mx,y:bl.y},br];
+        pts.forEach(pt => { canvasCtx.fillStyle='#fff'; canvasCtx.strokeStyle='#111'; canvasCtx.lineWidth=2; canvasCtx.beginPath(); canvasCtx.arc(pt.x,pt.y,hs,0,Math.PI*2); canvasCtx.fill(); canvasCtx.stroke(); });
+        canvasCtx.strokeStyle='rgba(255,255,255,.65)'; canvasCtx.lineWidth=1;
+        [1/3,2/3].forEach(t=>{ const x=tl.x+(tr.x-tl.x)*t, y=tl.y+(bl.y-tl.y)*t; canvasCtx.beginPath(); canvasCtx.moveTo(x,tl.y); canvasCtx.lineTo(x,bl.y); canvasCtx.stroke(); canvasCtx.beginPath(); canvasCtx.moveTo(tl.x,y); canvasCtx.lineTo(tr.x,y); canvasCtx.stroke(); });
       }
       canvasCtx.restore();
     }
@@ -1429,6 +1557,18 @@
     overlayScaleSlider.addEventListener('input', (e) => {
       overlayScaleDisplay.innerText = parseFloat(e.target.value).toFixed(1) + 'x';
     });
+
+    document.getElementById('power-mode-select').addEventListener('change', e => applyPowerPreset(e.target.value));
+    ['perf-pose-fps','perf-detection-width','perf-chart-fps','perf-smoothing-window','perf-camera-width'].forEach(id => {
+      document.getElementById(id).addEventListener('input', e => {
+        const map = {'perf-pose-fps':'poseFps','perf-detection-width':'detectionWidth','perf-chart-fps':'chartFps','perf-smoothing-window':'smoothing','perf-camera-width':'cameraWidth'};
+        perf[map[id]] = parseInt(e.target.value, 10);
+        document.getElementById('power-mode-select').value = 'custom';
+        updatePerfLabels(); setPoseModelComplexity(); savePerfSettings();
+      });
+    });
+    document.getElementById('perf-pause-when-cropping').addEventListener('change', e => { perf.pauseWhenCropping = e.target.checked; savePerfSettings(); });
+    document.getElementById('perf-limit-chart-points').addEventListener('change', e => { perf.limitChartPoints = e.target.checked; savePerfSettings(); });
 
     flipHCheck.addEventListener('change', (e) => { flipH = e.target.checked; });
     flipVCheck.addEventListener('change', (e) => { flipV = e.target.checked; });
@@ -2235,7 +2375,7 @@
               if (turnTime >= 0.12 && turnTime <= 4.0) {
                 currentS = (60.0 / turnTime);
                 speedHistory.push(currentS);
-                if (speedHistory.length > 9) speedHistory.shift();
+                if (speedHistory.length > perf.smoothing) speedHistory.shift();
                 smoothedS = speedHistory.reduce((a, b) => a + b, 0) / speedHistory.length;
 
                 document.getElementById('speed-val').innerText = smoothedS.toFixed(1);
@@ -2279,6 +2419,16 @@
               canvasCtx.stroke();
             }
           });
+          const targetIndex = parseInt(detectLmSelect.value, 10);
+          const target = lm[targetIndex];
+          if (target) {
+            const tp = lmToCanvasPx(target);
+            canvasCtx.fillStyle = '#ffffff';
+            canvasCtx.strokeStyle = '#80d5ff';
+            canvasCtx.lineWidth = 3 / zoomFactor;
+            canvasCtx.beginPath(); canvasCtx.arc(tp.x, tp.y, 7 / zoomFactor, 0, Math.PI * 2);
+            canvasCtx.fill(); canvasCtx.stroke();
+          }
           canvasCtx.restore();
         }
 
@@ -2404,7 +2554,7 @@
       const analysisTimestamps = [];
       const analysisRecData = [];
 
-      const step = 1 / 30; // 30fpsコマ送り
+      const step = 1 / Math.max(5, perf.poseFps); // 設定したPose頻度でコマ送り
       let currentSeek = startTime;
 
       const processStartTime = performance.now();
@@ -2463,7 +2613,7 @@
                   if (turnTime >= 0.12 && turnTime <= 4.0) {
                     currentS = (60.0 / turnTime);
                     localSpeedHist.push(currentS);
-                    if (localSpeedHist.length > 9) localSpeedHist.shift();
+                    if (localSpeedHist.length > perf.smoothing) localSpeedHist.shift();
                     smoothedS = localSpeedHist.reduce((a, b) => a + b, 0) / localSpeedHist.length;
                   }
                 }
@@ -2549,7 +2699,7 @@
     async function updateFilePreviewPose() {
       if (sourceMode !== 'file' || filePreviewPoseBusy || videoElement.readyState < 2) return;
       const t = videoElement.currentTime;
-      if (Math.abs(t - lastFilePoseTime) < 0.03) return;
+      if (Math.abs(t - lastFilePoseTime) < 1 / Math.max(5, perf.poseFps)) return;
       filePreviewPoseBusy = true;
       lastFilePoseTime = t;
       try {
@@ -2775,11 +2925,16 @@
     }
 
     function toTimeSeriesData(arr) {
-      return arr.map((val, index) => ({ x: index, y: val }));
+      const src = perf.limitChartPoints ? arr.slice(-180) : arr;
+      const offset = arr.length - src.length;
+      return src.map((val, index) => ({ x: index + offset, y: val }));
     }
 
-    function updateChart() {
+    function updateChart(force = false) {
       if (currentGraph === 'none') return;
+      const now = performance.now();
+      if (!force && now - lastChartUpdateAt < 1000 / Math.max(1, perf.chartFps)) return;
+      lastChartUpdateAt = now;
 
       if (sourceMode === 'file') {
         if (currentGraph === 'axis' && fileAnalysisResult && fileAnalysisResult.frameTargetData) {
@@ -2818,22 +2973,26 @@
       chart.update();
     }
 
-    async function processVideoFrame() {
-      if (sourceMode === 'camera') {
-        if (videoElement.readyState >= 2 && !isProcessing && !videoElement.paused && !videoElement.ended) {
-          isProcessing = true;
-          await pose.send({ image: getDetectionImage(videoElement) });
-          isProcessing = false;
+    function processVideoFrame(now = performance.now()) {
+      if (sourceMode !== 'camera') return;
+      if (videoElement.readyState >= 2 && !videoElement.paused && !videoElement.ended) {
+        const interval = 1000 / Math.max(1, perf.poseFps);
+        if (!poseBusy && now - lastPoseRunAt >= interval && !(perf.pauseWhenCropping && cropEditMode)) {
+          lastPoseRunAt = now;
+          poseBusy = true;
+          pose.send({ image: getDetectionImage(videoElement) })
+            .catch(() => {})
+            .finally(() => { poseBusy = false; });
         }
-        animFrameId = requestAnimationFrame(processVideoFrame);
       }
+      animFrameId = requestAnimationFrame(processVideoFrame);
     }
 
     function switchSourceMode(mode) {
       sourceMode = mode;
       cropEditMode = false;
       cropModeBtn.classList.remove('active');
-      cropModeLabel.innerText = '';
+      if (cropModeLabel) cropModeLabel.innerText = '';
       resetCounter();
 
       document.getElementById('tab-camera').classList.toggle('active', mode === 'camera');
@@ -2908,8 +3067,9 @@
       currentStream = null;
 
       const baseVideo = {
-        width: { ideal: 1280 },
-        height: { ideal: 720 }
+        width: { ideal: perf.cameraWidth, max: perf.cameraWidth },
+        height: { ideal: Math.round(perf.cameraWidth * 9 / 16), max: Math.round(perf.cameraWidth * 9 / 16) },
+        frameRate: { ideal: Math.min(30, perf.poseFps), max: 30 }
       };
 
       try {
@@ -2963,8 +3123,9 @@
         if (!currentStream && startIfNeeded) {
           currentStream = await navigator.mediaDevices.getUserMedia({
             video: {
-              width: { ideal: 1280 },
-              height: { ideal: 720 }
+              width: { ideal: perf.cameraWidth, max: perf.cameraWidth },
+              height: { ideal: Math.round(perf.cameraWidth * 9 / 16), max: Math.round(perf.cameraWidth * 9 / 16) },
+              frameRate: { ideal: Math.min(30, perf.poseFps), max: 30 }
             },
             audio: false
           });
@@ -3110,6 +3271,11 @@
     }
     setupCameraList();
   </script>
+<script>
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(console.warn));
+}
+</script>
 </body>
 </html>
 <style>
